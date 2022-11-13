@@ -1,0 +1,642 @@
+[
+  {
+    "id": "KDA:FLUX",
+    "symbol": "FLUX:USD:KADDEX",
+    "token": {
+      "name": "FLUX",
+      "address": "runonflux.flux",
+      "img": "https://cdn2.kadefi.money/tokens/FLUX.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/FLUX",
+    "price": 0.4408325381367763,
+    "pricePercChange1h": -0.0022071365080033774,
+    "pricePercChange24h": -0.025749781971709237,
+    "pricePercChange7d": -0.39664359159596296,
+    "volume24h": 12401.105643980283,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KDX",
+    "symbol": "KDX:USD:KADDEX",
+    "token": {
+      "name": "KDX",
+      "address": "kaddex.kdx",
+      "img": "https://cdn2.kadefi.money/tokens/KDX.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/KDX",
+    "price": 0.028060135071564903,
+    "pricePercChange1h": -0.01589114259498469,
+    "pricePercChange24h": -0.019075646242173637,
+    "pricePercChange7d": -0.3948100678484264,
+    "volume24h": 6534.508903614754,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:USD2",
+    "symbol": "USD2:USD:KADDEX",
+    "token": {
+      "name": "USD2",
+      "address": "lago.USD2",
+      "img": "https://cdn2.kadefi.money/tokens/USD2.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/USD2",
+    "price": 0.987075576353259,
+    "pricePercChange1h": -0.004340346347918423,
+    "pricePercChange24h": -0.034823271688167935,
+    "pricePercChange7d": -0.046987810663798486,
+    "volume24h": 2570.527855924925,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KISHK",
+    "symbol": "KISHK:USD:KADDEX",
+    "token": {
+      "name": "KISHK",
+      "address": "free.kishu-ken",
+      "img": "https://cdn2.kadefi.money/tokens/KISHK.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/KISHK",
+    "price": 5.992988467130119e-10,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.007270542733763775,
+    "pricePercChange7d": -0.328931169950945,
+    "volume24h": 1957.7910560412768,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:HYPE",
+    "symbol": "HYPE:USD:KADDEX",
+    "token": {
+      "name": "HYPE",
+      "address": "hypercent.prod-hype-coin",
+      "img": "https://cdn2.kadefi.money/tokens/HYPE.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/HYPE",
+    "price": 0.10875946849264817,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.009228511564406234,
+    "pricePercChange7d": -0.4299964751097365,
+    "volume24h": 1937.3526121420732,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:kwUSDC",
+    "symbol": "kwUSDC:USD:KDSWAP",
+    "token": {
+      "name": "kwUSDC",
+      "address": "lago.kwUSDC",
+      "img": "https://cdn2.kadefi.money/tokens/kwUSDC.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/kwUSDC",
+    "price": 0.9776446914425767,
+    "pricePercChange1h": -0.008771101484424462,
+    "pricePercChange24h": -0.013512517361753667,
+    "pricePercChange7d": -0.02189558297285672,
+    "volume24h": 1268.6656757085711,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:ARKD",
+    "symbol": "ARKD:USD:KDSWAP",
+    "token": {
+      "name": "ARKD",
+      "address": "arkade.token",
+      "img": "https://cdn2.kadefi.money/tokens/ARKD.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/ARKD",
+    "price": 0.0003724915270294725,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.00009370351350671433,
+    "pricePercChange7d": -0.3514788857457762,
+    "volume24h": 775.6465566925739,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KDS",
+    "symbol": "KDS:USD:KDSWAP",
+    "token": {
+      "name": "KDS",
+      "address": "kdlaunch.kdswap-token",
+      "img": "https://cdn2.kadefi.money/tokens/KDS.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/KDS",
+    "price": 0.008445364985895785,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.017507383136060848,
+    "pricePercChange7d": -0.5266389291443743,
+    "volume24h": 711.5826336880821,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:MOK",
+    "symbol": "MOK:USD:KADDEX",
+    "token": {
+      "name": "MOK",
+      "address": "mok.token",
+      "img": "https://cdn2.kadefi.money/tokens/MOK.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/MOK",
+    "price": 0.007079149800466724,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.028343874260520673,
+    "pricePercChange7d": -0.35409163394441323,
+    "volume24h": 572.1568525308811,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KDS",
+    "symbol": "KDS:USD:KADDEX",
+    "token": {
+      "name": "KDS",
+      "address": "kdlaunch.kdswap-token",
+      "img": "https://cdn2.kadefi.money/tokens/KDS.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/KDS",
+    "price": 0.008648063869801548,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.023127079944697402,
+    "pricePercChange7d": -0.515568047930907,
+    "volume24h": 504.1318100613109,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KAYC",
+    "symbol": "KAYC:USD:KADDEX",
+    "token": {
+      "name": "KAYC",
+      "address": "free.KAYC",
+      "img": "https://cdn2.kadefi.money/tokens/KAYC.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/KAYC",
+    "price": 0.000030934471317436094,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.04693866104688978,
+    "pricePercChange7d": -0.41677447391646777,
+    "volume24h": 393.1124589392379,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KDL",
+    "symbol": "KDL:USD:KADDEX",
+    "token": {
+      "name": "KDL",
+      "address": "kdlaunch.token",
+      "img": "https://cdn2.kadefi.money/tokens/KDL.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/KDL",
+    "price": 0.013916527852964435,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.03258366572500942,
+    "pricePercChange7d": -0.4349387900388494,
+    "volume24h": 386.70123367786437,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:ARKD",
+    "symbol": "ARKD:USD:KADDEX",
+    "token": {
+      "name": "ARKD",
+      "address": "arkade.token",
+      "img": "https://cdn2.kadefi.money/tokens/ARKD.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/ARKD",
+    "price": 0.000370467216159655,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.008440409367362576,
+    "pricePercChange7d": -0.37257991781953337,
+    "volume24h": 356.28422611928124,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:FLUX",
+    "symbol": "FLUX:USD:KDSWAP",
+    "token": {
+      "name": "FLUX",
+      "address": "runonflux.flux",
+      "img": "https://cdn2.kadefi.money/tokens/FLUX.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/FLUX",
+    "price": 0.44237614814768933,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.015429603897367415,
+    "pricePercChange7d": -0.3946560242831326,
+    "volume24h": 196.15220975244458,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KDX",
+    "symbol": "KDX:USD:KDSWAP",
+    "token": {
+      "name": "KDX",
+      "address": "kaddex.kdx",
+      "img": "https://cdn2.kadefi.money/tokens/KDX.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/KDX",
+    "price": 0.02816551691275141,
+    "pricePercChange1h": -0.01214743463943802,
+    "pricePercChange24h": -0.016553978730466257,
+    "pricePercChange7d": -0.3984760093804682,
+    "volume24h": 189.20632962469486,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KDL",
+    "symbol": "KDL:USD:KDSWAP",
+    "token": {
+      "name": "KDL",
+      "address": "kdlaunch.token",
+      "img": "https://cdn2.kadefi.money/tokens/KDL.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/KDL",
+    "price": 0.013959764537631427,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.0013448811287912444,
+    "pricePercChange7d": -0.4332702244102027,
+    "volume24h": 171.82549102440285,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:kwUSDC",
+    "symbol": "kwUSDC:USD:KADDEX",
+    "token": {
+      "name": "kwUSDC",
+      "address": "lago.kwUSDC",
+      "img": "https://cdn2.kadefi.money/tokens/kwUSDC.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/kwUSDC",
+    "price": 1.000013446703756,
+    "pricePercChange1h": 0.008599299346093353,
+    "pricePercChange24h": 0.007869113559650616,
+    "pricePercChange7d": 0.05921615364360608,
+    "volume24h": 149.0550144539024,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:MOK",
+    "symbol": "MOK:USD:KDSWAP",
+    "token": {
+      "name": "MOK",
+      "address": "mok.token",
+      "img": "https://cdn2.kadefi.money/tokens/MOK.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/MOK",
+    "price": 0.007034583114591925,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.017658206860457056,
+    "pricePercChange7d": -0.3664322387567089,
+    "volume24h": 126.78303258965984,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:JDE",
+    "symbol": "JDE:USD:KADDEX",
+    "token": {
+      "name": "JDE",
+      "address": "free.jodie-token",
+      "img": "https://cdn2.kadefi.money/tokens/JDE.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/JDE",
+    "price": 0.000006212322792221769,
+    "pricePercChange1h": null,
+    "pricePercChange24h": 0.05344313261643611,
+    "pricePercChange7d": -0.42615855717506246,
+    "volume24h": 121.90117311555453,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:DOC",
+    "symbol": "DOC:USD:KADDEX",
+    "token": {
+      "name": "DOC",
+      "address": "free.docu",
+      "img": "https://cdn2.kadefi.money/tokens/DOC.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/DOC",
+    "price": 0.0004947579557669228,
+    "pricePercChange1h": null,
+    "pricePercChange24h": 0.037128603497266426,
+    "pricePercChange7d": -0.3750526656144749,
+    "volume24h": 120.22898420484086,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:DOC",
+    "symbol": "DOC:USD:KDSWAP",
+    "token": {
+      "name": "DOC",
+      "address": "free.docu",
+      "img": "https://cdn2.kadefi.money/tokens/DOC.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/DOC",
+    "price": 0.0004258169354195803,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.0028512162601647415,
+    "pricePercChange7d": -0.45098548466616745,
+    "volume24h": 44.27431658246643,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KISHK",
+    "symbol": "KISHK:USD:KDSWAP",
+    "token": {
+      "name": "KISHK",
+      "address": "free.kishu-ken",
+      "img": "https://cdn2.kadefi.money/tokens/KISHK.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/KISHK",
+    "price": 6.014813363967896e-10,
+    "pricePercChange1h": null,
+    "pricePercChange24h": 0.01802720342025475,
+    "pricePercChange7d": -0.3317916216907438,
+    "volume24h": 37.53324002745747,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KAPY",
+    "symbol": "KAPY:USD:KADDEX",
+    "token": {
+      "name": "KAPY",
+      "address": "free.kapybara-token",
+      "img": "https://cdn2.kadefi.money/tokens/KAPY.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/KAPY",
+    "price": 5.1972312892903e-8,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.11218399786627029,
+    "pricePercChange7d": -0.3242009855562328,
+    "volume24h": 9.6879,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:HYPE",
+    "symbol": "HYPE:USD:KDSWAP",
+    "token": {
+      "name": "HYPE",
+      "address": "hypercent.prod-hype-coin",
+      "img": "https://cdn2.kadefi.money/tokens/HYPE.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/HYPE",
+    "price": 0.10725530141066056,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.038115181829613834,
+    "pricePercChange7d": -0.4390703287339609,
+    "volume24h": 5.068235832282089,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:BKA",
+    "symbol": "BKA:USD:KADDEX",
+    "token": {
+      "name": "BKA",
+      "address": "free.backalley",
+      "img": "https://cdn2.kadefi.money/tokens/BKA.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/BKA",
+    "price": 0.00005522874071273602,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.25459219864952504,
+    "pricePercChange7d": -0.42106510815602943,
+    "volume24h": 2.892898169915153,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:JDE",
+    "symbol": "JDE:USD:KDSWAP",
+    "token": {
+      "name": "JDE",
+      "address": "free.jodie-token",
+      "img": "https://cdn2.kadefi.money/tokens/JDE.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/JDE",
+    "price": 0.0000060122302021664435,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.024173710671057034,
+    "pricePercChange7d": -0.40250640260259,
+    "volume24h": 2.3302757078260914,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:kwBTC",
+    "symbol": "kwBTC:USD:KADDEX",
+    "token": {
+      "name": "kwBTC",
+      "address": "lago.kwBTC",
+      "img": "https://cdn2.kadefi.money/tokens/kwBTC.png"
+    },
+    "exchange": {
+      "name": "KADDEX",
+      "img": "https://cdn2.kadefi.money/projects/kaddex.png"
+    },
+    "pair": "KDA/kwBTC",
+    "price": 16291.147304578968,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.00015368852459019252,
+    "pricePercChange7d": -0.17634382211839134,
+    "volume24h": 0,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:BABE",
+    "symbol": "BABE:USD:KDSWAP",
+    "token": {
+      "name": "BABE",
+      "address": "free.babena",
+      "img": "https://cdn2.kadefi.money/tokens/BABE.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/BABE",
+    "price": 0.04491144103639483,
+    "pricePercChange1h": null,
+    "pricePercChange24h": 0.00039960039960061194,
+    "pricePercChange7d": -0.29323860459137896,
+    "volume24h": 0,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:BKA",
+    "symbol": "BKA:USD:KDSWAP",
+    "token": {
+      "name": "BKA",
+      "address": "free.backalley",
+      "img": "https://cdn2.kadefi.money/tokens/BKA.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/BKA",
+    "price": 0.00006917000264050624,
+    "pricePercChange1h": null,
+    "pricePercChange24h": null,
+    "pricePercChange7d": -0.22646036554616822,
+    "volume24h": 0,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:KAPY",
+    "symbol": "KAPY:USD:KDSWAP",
+    "token": {
+      "name": "KAPY",
+      "address": "free.kapybara-token",
+      "img": "https://cdn2.kadefi.money/tokens/KAPY.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/KAPY",
+    "price": 6.149946628652909e-8,
+    "pricePercChange1h": null,
+    "pricePercChange24h": 0.006978391781792707,
+    "pricePercChange7d": -0.19847939100777467,
+    "volume24h": 0,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:kwBTC",
+    "symbol": "kwBTC:USD:KDSWAP",
+    "token": {
+      "name": "kwBTC",
+      "address": "lago.kwBTC",
+      "img": "https://cdn2.kadefi.money/tokens/kwBTC.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/kwBTC",
+    "price": 15556.219217945576,
+    "pricePercChange1h": null,
+    "pricePercChange24h": 0.0031351461038959787,
+    "pricePercChange7d": -0.20262337687134319,
+    "volume24h": 0,
+    "marketCap": null
+  },
+  {
+    "id": "KDA:USD2",
+    "symbol": "USD2:USD:KDSWAP",
+    "token": {
+      "name": "USD2",
+      "address": "lago.USD2",
+      "img": "https://cdn2.kadefi.money/tokens/USD2.png"
+    },
+    "exchange": {
+      "name": "KDSWAP",
+      "img": "https://cdn2.kadefi.money/projects/kdswap.png"
+    },
+    "pair": "KDA/USD2",
+    "price": 0.9305530067938507,
+    "pricePercChange1h": null,
+    "pricePercChange24h": -0.00015447991761069666,
+    "pricePercChange7d": -0.11919672726842545,
+    "volume24h": 0,
+    "marketCap": null
+  }
+]
