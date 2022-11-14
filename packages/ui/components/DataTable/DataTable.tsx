@@ -49,7 +49,10 @@ const DataTable = (props: Props) => {
                   return (
                     <tr
                       key={`row-${i}`}
-                      className="cursor-pointer cursor-pointer transition hover:bg-slate-800/20"
+                      className={clsx(
+                        "transition hover:bg-slate-800/20",
+                        row.onRowClick && "cursor-pointer"
+                      )}
                       onClick={() => row.onRowClick && row.onRowClick()}
                     >
                       {cells.map((cell, j) => {
