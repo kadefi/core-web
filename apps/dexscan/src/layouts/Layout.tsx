@@ -80,12 +80,8 @@ const Layout = (props: Props) => {
                   </button>
                 </div>
               </Transition.Child>
-              <div className="flex flex-shrink-0 items-center px-4">
-                <img
-                  className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                  alt="Your Company"
-                />
+              <div className="flex flex-shrink-0 items-center px-4 text-slate-50">
+                Kadefi.Money
               </div>
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="space-y-1 px-2">
@@ -136,12 +132,8 @@ const Layout = (props: Props) => {
   const desktopSideBar = (
     <div className="hidden md:fixed md:inset-y-0 md:flex md:w-52 md:flex-col">
       <div className="flex flex-grow flex-col overflow-y-auto border-r border-slate-800 bg-slate-900 pt-5">
-        <div className="flex flex-shrink-0 items-center px-4">
-          <img
-            className="h-8 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-          />
+        <div className="flex flex-shrink-0 items-center px-4 text-slate-50">
+          Kadefi.Money
         </div>
         <div className="mt-5 flex flex-grow flex-col">
           <nav className="flex-1 space-y-1 px-2 pb-4">

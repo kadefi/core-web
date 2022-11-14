@@ -1,4 +1,4 @@
-import { getPageLayout } from "../Layout";
+import { getPageLayout } from "../../layouts/Layout";
 
 const Donate = () => {
   return <>Donate</>;

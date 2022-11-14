@@ -14,7 +14,7 @@ function getLanguageFromURL() {
 const TVChartContainer = (props) => {
   const { symbol } = props;
 
-  let tvWidget = null;
+  const tvWidgetRef = useRef(null);
 
   const ref = useRef();
 
@@ -48,7 +48,9 @@ const TVChartContainer = (props) => {
       },
     };
 
-    tvWidget = new widget(widgetOptions);
+    const tvWidget = new widget(widgetOptions);
+
+    tvWidgetRef.current = tvWidget;
 
     tvWidget.onChartReady(() => {
       tvWidget.headerReady().then(() => {
@@ -71,12 +73,12 @@ const TVChartContainer = (props) => {
     });
 
     return () => {
-      if (tvWidget !== null) {
-        tvWidget.remove();
-        tvWidget = null;
+      if (tvWidgetRef.current !== null) {
+        tvWidgetRef.current.remove();
+        tvWidgetRef.current = null;
       }
     };
-  }, [tvWidget, symbol]);
+  }, [symbol]);
 
   return <div ref={ref} className="h-full" />;
 };

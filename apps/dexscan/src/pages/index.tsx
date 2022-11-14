@@ -2,8 +2,8 @@ import { useRouter } from "next/router";
 import { DataTable } from "ui/components/DataTable";
 
 import { useGetTradingPairs } from "../api/TradingPair.queries";
+import { getPageLayout } from "../layouts/Layout";
 import { TradingPairInfoUtil } from "../utils";
-import { getPageLayout } from "./Layout";
 
 const headers = [
   "Token",

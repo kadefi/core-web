@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 
 import { useGetTradingPairInfo } from "../../api/TradingPair.queries";
-import { getPageLayout } from "../Layout";
+import { getPageLayout } from "../../layouts/Layout";
 
 const TVChartContainer = dynamic(
   // @ts-ignore
