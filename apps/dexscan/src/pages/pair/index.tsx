@@ -48,8 +48,8 @@ const Pair = () => {
           </div>
         </ReflexElement>
         <ReflexSplitter className="border-2 border-slate-900" />
-        <ReflexElement className="right-pane text-sm text-slate-50">
-          <div className="pane-content">
+        <ReflexElement className="right-pane scrollbar-hide text-sm text-slate-50 ">
+          <div className="pane-content ">
             <DataTable
               headers={TRANSACTION_HEADERS}
               rows={TransactionInfoUtil.getTransactionRowComponents(
