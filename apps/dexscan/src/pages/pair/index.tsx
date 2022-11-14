@@ -1,9 +1,12 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
+import { DataTable } from "ui";
 
 import { useGetTradingPairInfo } from "../../api/TradingPair.queries";
+import { useGetTransactions } from "../../api/Transaction.queries";
 import { getPageLayout } from "../../layouts/Layout";
+import { TransactionInfoUtil } from "../../utils";
 
 const TVChartContainer = dynamic(
   // @ts-ignore
@@ -14,14 +17,25 @@ const TVChartContainer = dynamic(
   { ssr: false }
 );
 
+const TRANSACTION_HEADERS = [
+  "Transaction Date",
+  "Type",
+  "Price",
+  "From",
+  "To",
+  "Address",
+  "Explorer",
+];
+
 const Pair = () => {
   const router = useRouter();
 
   const { id, exchange } = router.query as { id: string; exchange: string };
 
   const { data: tradingPairInfo } = useGetTradingPairInfo(id, exchange);
+  const { data: transactions } = useGetTransactions(id, exchange, 1, 20);
 
-  if (!tradingPairInfo) {
+  if (!tradingPairInfo || !transactions) {
     return null;
   }
 
@@ -33,9 +47,16 @@ const Pair = () => {
             <TVChartContainer symbol={tradingPairInfo.symbol} />
           </div>
         </ReflexElement>
-        <ReflexSplitter />
-        <ReflexElement className="right-pane">
-          <div className="pane-content">Right Pane (resizeable)</div>
+        <ReflexSplitter className="border-2 border-slate-900" />
+        <ReflexElement className="right-pane text-sm text-slate-50">
+          <div className="pane-content">
+            <DataTable
+              headers={TRANSACTION_HEADERS}
+              rows={TransactionInfoUtil.getTransactionRowComponents(
+                transactions
+              )}
+            />
+          </div>
         </ReflexElement>
       </ReflexContainer>
     </div>

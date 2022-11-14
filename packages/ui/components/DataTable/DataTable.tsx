@@ -5,16 +5,20 @@ import { DataTableRows } from "./DataTable.type";
 type Props = {
   headers: string[];
   rows: DataTableRows;
+  size?: "sm" | "lg";
+  rounded?: boolean;
 };
 
 const DataTable = (props: Props) => {
-  const { headers, rows } = props;
+  const { headers, rows, size = "sm", rounded = false } = props;
+
+  const padding = size === "sm" ? "px-2 py-3" : "px-3 py-4";
 
   return (
-    <div className="mt-6 flex flex-col">
+    <div className="flex flex-col">
       <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-          <div className="overflow-hidden md:rounded-lg">
+          <div className={clsx("overflow-hidden", rounded && "md:rounded-lg")}>
             <table className="min-w-full">
               <thead className="bg-slate-800 text-slate-50">
                 <tr>
@@ -23,9 +27,13 @@ const DataTable = (props: Props) => {
                       key={`header-${index}`}
                       scope="col"
                       className={clsx(
-                        "px-3 py-4 text-left text-sm font-semibold",
-                        index === 0 && "rounded-l-lg sm:pl-6",
-                        index === headers.length - 1 && "rounded-r-lg sm:pr-6"
+                        "text-left text-sm font-semibold",
+                        padding,
+                        size === "sm" && "px-2 py-2",
+                        index === 0 &&
+                          clsx("sm:pl-6", rounded && "rounded-l-lg"),
+                        index === headers.length - 1 &&
+                          clsx("sm:pr-6", rounded && "rounded-r-lg")
                       )}
                     >
                       <div className="group inline-flex">
