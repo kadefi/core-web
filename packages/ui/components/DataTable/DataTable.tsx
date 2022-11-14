@@ -29,7 +29,6 @@ const DataTable = (props: Props) => {
                       className={clsx(
                         "text-left text-sm font-semibold",
                         padding,
-                        size === "sm" && "px-2 py-2",
                         index === 0 &&
                           clsx("sm:pl-6", rounded && "rounded-l-lg"),
                         index === headers.length - 1 &&
@@ -58,7 +57,8 @@ const DataTable = (props: Props) => {
                           <td
                             key={`row-cell-${i}-${j}`}
                             className={clsx(
-                              "whitespace-nowrap py-4 px-3 text-sm ",
+                              "whitespace-nowrap text-sm ",
+                              padding,
                               j === 0 && "pl-4 pr-3 sm:pl-6",
                               j === cells.length - 1 && "pl-3 pr-4 sm:pr-6"
                             )}
