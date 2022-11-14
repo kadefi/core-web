@@ -34,3 +34,11 @@ export const formatPrice = (num: number) => {
 
   return numeral(num.toPrecision(2)).format(`0,0.00[0000]`);
 };
+
+export const formatTokenAmount = (num: number) => {
+  if (num < 0.0000001) {
+    return numeral(num).format(`0.00e+0`);
+  }
+
+  return numeral(num.toPrecision(2)).format(`0,0.[000000]`);
+};

@@ -21,6 +21,8 @@ const TRANSACTION_HEADERS = [
   "Transaction Date",
   "Type",
   "Price",
+  "Amount",
+  "Value",
   "From",
   "To",
   "Address",

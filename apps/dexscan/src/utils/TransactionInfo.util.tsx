@@ -1,6 +1,9 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
+import round from "lodash/round";
+import numeral from "numeral";
 import { LogoImg, NumberUtil, StringUtil } from "ui";
+import { formatTokenAmount } from "ui/utils/Number.util";
 
 import { TransactionInfo } from "../types/TransactionsTable";
 
@@ -10,8 +13,16 @@ export const getTransactionRowComponents = (
   return dataResponse.map((data) => {
     const cells = [];
 
-    const { timestamp, type, price, fromToken, toToken, address, requestkey } =
-      data;
+    const {
+      timestamp,
+      type,
+      price,
+      fromToken,
+      toToken,
+      address,
+      requestkey,
+      amount,
+    } = data;
 
     const isBuyTxn = type === "BUY";
     const textColor = isBuyTxn ? "text-green-200" : "text-red-200";
@@ -31,7 +42,21 @@ export const getTransactionRowComponents = (
 
     // Price
     cells.push(
-      <div className={clsx(textColor)}>{NumberUtil.formatPrice(price)}</div>
+      <div className={clsx(textColor)}>${NumberUtil.formatPrice(price)}</div>
+    );
+
+    // Amount
+    cells.push(
+      <div className={clsx(textColor)}>
+        {NumberUtil.formatTokenAmount(amount)}
+      </div>
+    );
+
+    // Value
+    cells.push(
+      <div className={clsx(textColor)}>
+        ${NumberUtil.formatPrice(price * amount)}
+      </div>
     );
 
     // From
@@ -58,7 +83,7 @@ export const getTransactionRowComponents = (
         className={clsx(textColor, "flex items-center gap-1")}
         rel="noreferrer"
       >
-        {StringUtil.shortenAddress(address)}
+        {StringUtil.shortenAddress(address, 4, 2)}
         <ArrowTopRightOnSquareIcon className="h-4 w-4" />
       </a>
     );
