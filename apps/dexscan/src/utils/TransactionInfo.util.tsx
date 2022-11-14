@@ -1,9 +1,6 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import round from "lodash/round";
-import numeral from "numeral";
 import { LogoImg, NumberUtil, StringUtil } from "ui";
-import { formatTokenAmount } from "ui/utils/Number.util";
 
 import { TransactionInfo } from "../types/TransactionsTable";
 
