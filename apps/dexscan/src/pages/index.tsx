@@ -33,13 +33,14 @@ const Home = () => {
           Kadefi DEX Dashboard
         </h1>
       </div>
-      <div className="px-4 sm:px-6 md:px-8">
+      <div className="mt-6 px-4 sm:px-6 md:px-8">
         <DataTable
           headers={headers}
           rows={TradingPairInfoUtil.getTradingPairRowComponents(
             router,
             tradingPairs
           )}
+          rounded
         />
       </div>
     </div>
