@@ -90,26 +90,26 @@ const Layout = (props: Props) => {
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="space-y-1 px-2">
                   {navigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      className={clsx(
-                        router.pathname === item.href
-                          ? "bg-gray-100 text-gray-900"
-                          : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                        "group flex items-center rounded-md px-2 py-2 text-base font-medium"
-                      )}
-                    >
-                      <item.icon
+                    <Link key={item.name} href={item.href}>
+                      <div
                         className={clsx(
                           router.pathname === item.href
-                            ? "text-gray-500"
-                            : "text-gray-400 group-hover:text-gray-500",
-                          "mr-4 h-6 w-6 flex-shrink-0"
+                            ? "bg-gray-100 text-gray-900"
+                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                          "group flex cursor-pointer items-center rounded-md px-2 py-2 text-base font-medium"
                         )}
-                        aria-hidden="true"
-                      />
-                      {item.name}
+                      >
+                        <item.icon
+                          className={clsx(
+                            router.pathname === item.href
+                              ? "text-gray-500"
+                              : "text-gray-400 group-hover:text-gray-500",
+                            "mr-4 h-6 w-6 flex-shrink-0"
+                          )}
+                          aria-hidden="true"
+                        />
+                        {item.name}
+                      </div>
                     </Link>
                   ))}
                 </nav>
@@ -146,27 +146,27 @@ const Layout = (props: Props) => {
         <div className="mt-5 flex flex-grow flex-col">
           <nav className="flex-1 space-y-1 px-2 pb-4">
             {navigation.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className={clsx(
-                  router.pathname === item.href
-                    ? "bg-gray-100 text-gray-900"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                  "group mb-2 flex items-center rounded-md px-2 py-2 text-sm font-medium transition"
-                )}
-              >
-                <item.icon
+              <Link key={item.name} href={item.href}>
+                <div
                   className={clsx(
                     router.pathname === item.href
-                      ? "text-gray-500"
-                      : "text-gray-400 group-hover:text-gray-500",
-                    "mr-3 h-6 w-6 flex-shrink-0"
+                      ? "bg-gray-100 text-gray-900"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                    "group mb-2 flex cursor-pointer items-center rounded-md px-2 py-2 text-sm font-medium transition"
                   )}
-                  aria-hidden="true"
-                />
-                {item.name}
-              </a>
+                >
+                  <item.icon
+                    className={clsx(
+                      router.pathname === item.href
+                        ? "text-gray-500"
+                        : "text-gray-400 group-hover:text-gray-500",
+                      "mr-3 h-6 w-6 flex-shrink-0"
+                    )}
+                    aria-hidden="true"
+                  />
+                  {item.name}
+                </div>
+              </Link>
             ))}
           </nav>
         </div>
@@ -205,16 +205,14 @@ const Layout = (props: Props) => {
       {mobileSideBar}
       {desktopSideBar}
       <div>
-        <div className="flex flex-1 flex-col md:pl-52">
+        <div className="flex h-screen flex-1 flex-col md:pl-52">
           <div className="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-slate-900 shadow">
             {mobileSideBarToggle}
             <div className="flex flex-1 justify-between border-b border-slate-800 px-4">
               {searchBar}
             </div>
           </div>
-          <main className="flex-1">
-            <div className="py-6">{children}</div>
-          </main>
+          <main className="flex-1 overflow-y-auto">{children}</main>
         </div>
       </div>
     </>

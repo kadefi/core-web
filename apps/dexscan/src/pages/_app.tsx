@@ -1,4 +1,5 @@
 import "../../styles/global.css";
+import "react-reflex/styles.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { AppProps } from "next/app";
@@ -7,7 +8,9 @@ import { Page } from "ui";
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: {},
+    queries: {
+      refetchOnWindowFocus: false,
+    },
   },
 });
 
