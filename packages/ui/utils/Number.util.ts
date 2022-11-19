@@ -32,7 +32,13 @@ export const formatPrice = (num: number) => {
     return numeral(num).format(`0.00e+0`);
   }
 
-  return numeral(num.toPrecision(2)).format(`0,0.00[0000]`);
+  let precision = 2;
+
+  if (num < 1) {
+    precision = 4;
+  }
+
+  return numeral(num.toPrecision(precision)).format(`0,0.00[0000000]`);
 };
 
 export const formatTokenAmount = (num: number) => {
