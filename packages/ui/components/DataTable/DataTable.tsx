@@ -17,7 +17,7 @@ const DataTable = (props: Props) => {
   return (
     <div className="flex flex-col">
       <div className="scrollbar-hide overflow-x-auto">
-        <div className="inline-block min-w-full py-2 align-middle">
+        <div className="inline-block min-w-full align-middle">
           <div className={clsx("overflow-hidden", rounded && "md:rounded-lg")}>
             <table className="min-w-full">
               <thead className="bg-slate-800 text-slate-50">

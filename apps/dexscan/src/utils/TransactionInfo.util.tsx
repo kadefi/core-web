@@ -2,7 +2,99 @@ import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { LogoImg, NumberUtil, StringUtil } from "ui";
 
-import { TransactionInfo } from "../types/TransactionsTable";
+import {
+  TransactionInfo,
+  TransactionTokenInfo,
+} from "../types/TransactionsTable";
+
+const TxnDate = ({
+  color,
+  timestamp,
+}: {
+  color: string;
+  timestamp: string;
+}) => {
+  return (
+    <div className={clsx(color)}>{new Date(timestamp).toLocaleString()}</div>
+  );
+};
+
+const TxnType = ({ color, type }: { color: string; type: string }) => {
+  return <div className={clsx(color, "font-medium")}>{type}</div>;
+};
+
+const TxnPrice = ({ color, price }: { color: string; price: number }) => {
+  return <div className={clsx(color)}>${NumberUtil.formatPrice(price)}</div>;
+};
+
+const TxnToken = ({
+  color,
+  token,
+}: {
+  color: string;
+  token: TransactionTokenInfo;
+}) => {
+  return (
+    <div className={clsx("flex items-center gap-2", color)}>
+      <LogoImg src={token.img} size="sm" />
+      {NumberUtil.formatTokenAmount(token.amount)}
+    </div>
+  );
+};
+
+const TxnValue = ({
+  color,
+  price,
+  amount,
+}: {
+  color: string;
+  price: number;
+  amount: number;
+}) => {
+  return (
+    <div className={clsx(color)}>${NumberUtil.formatPrice(price * amount)}</div>
+  );
+};
+
+const TxnWalletLink = ({
+  color,
+  walletAddress,
+}: {
+  color: string;
+  walletAddress: string;
+}) => {
+  return (
+    <a
+      href={`https://kadefi.money/dashboard/${walletAddress}`}
+      target="_blank"
+      className={clsx(color, "flex items-center gap-1")}
+      rel="noreferrer"
+    >
+      {StringUtil.shortenAddress(walletAddress, 4, 2)}
+      <ArrowTopRightOnSquareIcon className="h-4 w-4" />
+    </a>
+  );
+};
+
+const TxnExplorerLink = ({
+  color,
+  requestkey,
+}: {
+  color: string;
+  requestkey: string;
+}) => {
+  return (
+    <a
+      href={`https://explorer.chainweb.com/mainnet/tx/${requestkey}`}
+      target="_blank"
+      className={clsx(color, "flex items-center gap-1")}
+      rel="noreferrer"
+    >
+      {StringUtil.shortenAddress(requestkey, 4, 2)}
+      <ArrowTopRightOnSquareIcon className="h-4 w-4" />
+    </a>
+  );
+};
 
 export const getTransactionRowComponents = (
   dataResponse: TransactionInfo[]
@@ -14,89 +106,25 @@ export const getTransactionRowComponents = (
       timestamp,
       type,
       price,
-      fromToken,
-      toToken,
+      token0,
+      token1,
       address,
       requestkey,
       amount,
     } = data;
 
     const isBuyTxn = type === "BUY";
-    const textColor = isBuyTxn ? "text-green-200" : "text-red-200";
-    const typeTextColor = isBuyTxn ? "text-green-500" : "text-red-500";
+    const color = isBuyTxn ? "text-green-200" : "text-red-300";
+    const typeColor = isBuyTxn ? "text-green-500" : "text-red-500";
 
-    // Date
-    cells.push(
-      <div className={clsx(textColor)}>
-        {new Date(timestamp).toLocaleString()}
-      </div>
-    );
-
-    // Type
-    cells.push(
-      <div className={clsx(typeTextColor, "font-medium")}>{type}</div>
-    );
-
-    // Price
-    cells.push(
-      <div className={clsx(textColor)}>${NumberUtil.formatPrice(price)}</div>
-    );
-
-    // Amount
-    cells.push(
-      <div className={clsx(textColor)}>
-        {NumberUtil.formatTokenAmount(amount)}
-      </div>
-    );
-
-    // Value
-    cells.push(
-      <div className={clsx(textColor)}>
-        ${NumberUtil.formatPrice(price * amount)}
-      </div>
-    );
-
-    // From
-    cells.push(
-      <div className={clsx("flex items-center gap-2", textColor)}>
-        <LogoImg src={fromToken.img} size="sm" />
-        {fromToken.ticker}
-      </div>
-    );
-
-    // To
-    cells.push(
-      <div className={clsx("flex items-center gap-2", textColor)}>
-        <LogoImg src={toToken.img} size="sm" />
-        {toToken.ticker}
-      </div>
-    );
-
-    // Address
-    cells.push(
-      <a
-        href={`https://kadefi.money/dashboard/${address}`}
-        target="_blank"
-        className={clsx(textColor, "flex items-center gap-1")}
-        rel="noreferrer"
-      >
-        {StringUtil.shortenAddress(address, 4, 2)}
-        <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-      </a>
-    );
-
-    // Txn
-    cells.push(
-      <a
-        href={`https://explorer.chainweb.com/mainnet/tx/${requestkey}`}
-        target="_blank"
-        className={clsx(textColor, "flex items-center gap-1")}
-        rel="noreferrer"
-      >
-        {StringUtil.shortenAddress(requestkey, 4, 2)}
-        <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-      </a>
-    );
+    cells.push(<TxnDate color={color} timestamp={timestamp} />);
+    cells.push(<TxnType color={typeColor} type={type} />);
+    cells.push(<TxnPrice color={color} price={price} />);
+    cells.push(<TxnToken color={color} token={token0} />);
+    cells.push(<TxnToken color={color} token={token1} />);
+    cells.push(<TxnValue color={color} price={price} amount={amount} />);
+    cells.push(<TxnWalletLink color={color} walletAddress={address} />);
+    cells.push(<TxnExplorerLink color={color} requestkey={requestkey} />);
 
     return {
       cells,

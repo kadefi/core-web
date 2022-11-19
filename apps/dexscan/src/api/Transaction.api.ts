@@ -5,15 +5,17 @@ import { TransactionInfo } from "../types/TransactionsTable";
 export const getTransactions = async (
   pairId: string,
   exchange: string,
-  page: number,
-  perPage: number
+  limit?: number,
+  fromTime?: number,
+  toTime?: number
 ) => {
   const response = await ApiClient.get(`/api/transactions`, {
     params: {
       id: pairId,
       exchange,
-      page,
-      perpage: perPage,
+      limit,
+      fromTime,
+      toTime,
     },
   });
 

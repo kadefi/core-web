@@ -2,19 +2,16 @@ export type TransactionInfo = {
   requestkey: string;
   timestamp: string;
   type: "BUY" | "SELL";
-  fromToken: {
-    ticker: string;
-    address: string;
-    img: string;
-    amount: number;
-  };
-  toToken: {
-    ticker: string;
-    address: string;
-    img: string;
-    amount: number;
-  };
+  token0: TransactionTokenInfo;
+  token1: TransactionTokenInfo;
   amount: number;
   address: string;
   price: number;
+};
+
+export type TransactionTokenInfo = {
+  ticker: string;
+  address: string;
+  img: string;
+  amount: number;
 };

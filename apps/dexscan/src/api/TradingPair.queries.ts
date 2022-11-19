@@ -12,14 +12,13 @@ export const useGetTradingPairs = (): UseQueryResult<TradingPairInfo[]> => {
 };
 
 export const useGetTradingPairInfo = (
-  pairId: string,
-  exchange: string
+  pairId?: string,
+  exchange?: string
 ): UseQueryResult<TradingPairInfo> => {
-  return useQuery(
-    ["TRADING_PAIR_INFO", pairId, exchange],
-    () => getTradingPairInfo(pairId, exchange),
-    {
-      refetchInterval: REFETCH_INTERVAL,
-    }
-  );
+  return useQuery({
+    queryKey: ["TRADING_PAIR_INFO", pairId, exchange],
+    queryFn: () => getTradingPairInfo(pairId, exchange),
+    refetchInterval: REFETCH_INTERVAL,
+    enabled: Boolean(pairId && exchange),
+  });
 };

@@ -25,7 +25,7 @@ const TVChartContainer = (props) => {
       datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
         process.env.NEXT_PUBLIC_API_URL
       ),
-      interval: "D",
+      interval: "1h",
       container: ref.current,
       library_path: "/static/charting_library/",
       locale: getLanguageFromURL() || "en",
