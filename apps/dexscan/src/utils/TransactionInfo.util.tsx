@@ -42,18 +42,8 @@ const TxnToken = ({
   );
 };
 
-const TxnValue = ({
-  color,
-  price,
-  amount,
-}: {
-  color: string;
-  price: number;
-  amount: number;
-}) => {
-  return (
-    <div className={clsx(color)}>${NumberUtil.formatPrice(price * amount)}</div>
-  );
+const TxnValue = ({ color, amount }: { color: string; amount: number }) => {
+  return <div className={clsx(color)}>${NumberUtil.formatPrice(amount)}</div>;
 };
 
 const TxnWalletLink = ({
@@ -122,7 +112,7 @@ export const getTransactionRowComponents = (
     cells.push(<TxnPrice color={color} price={price} />);
     cells.push(<TxnToken color={color} token={token0} />);
     cells.push(<TxnToken color={color} token={token1} />);
-    cells.push(<TxnValue color={color} price={price} amount={amount} />);
+    cells.push(<TxnValue color={color} amount={amount} />);
     cells.push(<TxnWalletLink color={color} walletAddress={address} />);
     cells.push(<TxnExplorerLink color={color} requestkey={requestkey} />);
 
