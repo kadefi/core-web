@@ -1,3 +1,4 @@
+import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 
 import { DataTableRows } from "./DataTable.type";
@@ -64,7 +65,15 @@ const DataTable = (props: Props) => {
                             j === cells.length - 1 && "pl-3 pr-4 sm:pr-6"
                           )}
                         >
-                          {cell}
+                          <Transition
+                            appear={true}
+                            show={true}
+                            enter="transition-opacity duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                          >
+                            {cell}
+                          </Transition>
                         </td>
                       );
                     })}

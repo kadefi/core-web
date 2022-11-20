@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
-import { DataTable } from "ui";
+import { DataTable, LoadingSpinner } from "ui";
 
 import { useGetTradingPairInfo } from "../../api/TradingPair.queries";
 import { useGetTransactions } from "../../api/Transaction.queries";
@@ -23,29 +24,35 @@ const Pair = () => {
   const { id, exchange } = router.query as { id: string; exchange: string };
 
   const { data: tradingPairInfo } = useGetTradingPairInfo(id, exchange);
-  const { data: transactions } = useGetTransactions(id, exchange, 50);
+  const {
+    data: transactions,
+    isLoading,
+    fetchNextPage,
+    fetchPreviousPage,
+    isFetchingNextPage,
+  } = useGetTransactions({ pairId: id, exchange, limit: 25 });
 
-  if (!tradingPairInfo || !transactions) {
-    return null;
-  }
+  useEffect(() => {
+    const interval = setInterval(() => fetchPreviousPage(), 10000);
 
-  const TRANSACTION_HEADERS = [
-    "Date",
-    "Type",
-    "Price",
-    transactions.length > 0 ? transactions[0].token0.ticker : "Token 1",
-    transactions.length > 0 ? transactions[0].token1.ticker : "Token 2",
-    "Value",
-    "Address",
-    "Explorer",
-  ];
+    return () => {
+      clearInterval(interval);
+    };
+  }, [fetchPreviousPage]);
 
   return (
     <div className="h-full">
       <ReflexContainer orientation="horizontal" className="text-slate-50">
         <ReflexElement className="left-pane" flex={0.65}>
           <div className="pane-content h-full">
-            <TVChartContainer symbol={tradingPairInfo.symbol} />
+            {tradingPairInfo ? (
+              <TVChartContainer symbol={tradingPairInfo.symbol} />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-sm text-slate-500">
+                <LoadingSpinner />
+                Loading chart data
+              </div>
+            )}
           </div>
         </ReflexElement>
         <ReflexSplitter className="border-2 border-slate-700" />
@@ -53,13 +60,50 @@ const Pair = () => {
           className="right-pane scrollbar-hide text-sm text-slate-50"
           flex={0.35}
         >
-          <div className="pane-content ">
-            <DataTable
-              headers={TRANSACTION_HEADERS}
-              rows={TransactionInfoUtil.getTransactionRowComponents(
-                transactions
-              )}
-            />
+          <div className="pane-content h-full">
+            {isLoading ? (
+              <div className="flex h-full w-full items-center justify-center text-slate-500">
+                <LoadingSpinner />
+                Loading transactions
+              </div>
+            ) : (
+              <div>
+                <div
+                  className="flex h-10 w-full cursor-pointer items-center justify-center bg-slate-800/50 transition hover:bg-slate-800"
+                  onClick={() => fetchPreviousPage()}
+                >
+                  {isFetchingNextPage ? (
+                    <div className="flex items-center">
+                      <LoadingSpinner size="sm" />
+                      <div className="text-slate-500">Fetching...</div>
+                    </div>
+                  ) : (
+                    <div className="text-slate-400">Load new transactions</div>
+                  )}
+                </div>
+                <DataTable
+                  headers={TransactionInfoUtil.getTransactionHeaders(
+                    transactions.pages
+                  )}
+                  rows={TransactionInfoUtil.getTransactionRowComponents(
+                    transactions.pages
+                  )}
+                />
+                <div
+                  className="flex h-10 w-full cursor-pointer items-center justify-center bg-slate-800/50 transition hover:bg-slate-800"
+                  onClick={() => fetchNextPage()}
+                >
+                  {isFetchingNextPage ? (
+                    <div className="flex items-center">
+                      <LoadingSpinner size="sm" />
+                      <div className="text-slate-500">Fetching...</div>
+                    </div>
+                  ) : (
+                    <div className="text-slate-400">Load more transactions</div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </ReflexElement>
       </ReflexContainer>

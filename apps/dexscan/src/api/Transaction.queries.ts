@@ -1,18 +1,40 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  UseInfiniteQueryResult,
+} from "@tanstack/react-query";
+import { DateTime } from "luxon";
 
-import { TransactionInfo } from "../types/TransactionsTable";
+import { TransactionInfo, TransactionParams } from "../types/TransactionsTable";
 import { getTransactions } from "./Transaction.api";
 
 export const useGetTransactions = (
-  pairId?: string,
-  exchange?: string,
-  limit?: number,
-  fromTime?: number,
-  toTime?: number
-): UseQueryResult<TransactionInfo[]> => {
-  return useQuery({
-    queryKey: ["TRANSACTIONS", pairId, exchange, limit, fromTime, toTime],
-    queryFn: () => getTransactions(pairId, exchange, limit, fromTime, toTime),
-    enabled: Boolean(pairId && exchange),
+  params: TransactionParams
+): UseInfiniteQueryResult<TransactionInfo[]> => {
+  return useInfiniteQuery({
+    queryKey: ["TRANSACTIONS", params],
+    queryFn: ({ pageParam }) => getTransactions({ ...params, ...pageParam }),
+    enabled: Boolean(params.pairId && params.exchange),
+    getNextPageParam: (lastPage) => {
+      const lastTxnTime = DateTime.fromISO(
+        lastPage[lastPage.length - 1].timestamp
+      ).toSeconds();
+
+      return {
+        id: params.pairId,
+        exchange: params.exchange,
+        limit: params.limit,
+        toTime: lastTxnTime,
+      };
+    },
+    getPreviousPageParam: (firstPage) => {
+      const firstTxnTime = DateTime.fromISO(firstPage[0].timestamp).toSeconds();
+
+      return {
+        id: params.pairId,
+        exchange: params.exchange,
+        limit: 100,
+        fromTime: firstTxnTime,
+      };
+    },
   });
 };

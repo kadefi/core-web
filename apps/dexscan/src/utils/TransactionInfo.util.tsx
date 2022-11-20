@@ -86,38 +86,69 @@ const TxnExplorerLink = ({
   );
 };
 
+export const getTransactionHeaders = (pagesResponse: TransactionInfo[][]) => {
+  if (
+    !pagesResponse ||
+    pagesResponse.length === 0 ||
+    pagesResponse[0].length === 0
+  ) {
+    return [];
+  }
+
+  const ticker1 = pagesResponse[0][0].token0.ticker;
+  const ticker2 = pagesResponse[0][0].token0.ticker;
+
+  return [
+    "Date",
+    "Type",
+    "Price",
+    ticker1,
+    ticker2,
+    "Value",
+    "Address",
+    "Explorer",
+  ];
+};
+
 export const getTransactionRowComponents = (
-  dataResponse: TransactionInfo[]
+  pagesResponse: TransactionInfo[][]
 ) => {
-  return dataResponse.map((data) => {
-    const cells = [];
+  const rows = [];
 
-    const {
-      timestamp,
-      type,
-      price,
-      token0,
-      token1,
-      address,
-      requestkey,
-      amount,
-    } = data;
+  console.log(pagesResponse);
 
-    const isBuyTxn = type === "BUY";
-    const color = isBuyTxn ? "text-green-200" : "text-red-300";
-    const typeColor = isBuyTxn ? "text-green-500" : "text-red-500";
+  pagesResponse.forEach((pageResponse) => {
+    pageResponse.forEach((pageData) => {
+      const cells = [];
+      const {
+        timestamp,
+        type,
+        price,
+        token0,
+        token1,
+        address,
+        requestkey,
+        amount,
+      } = pageData;
 
-    cells.push(<TxnDate color={color} timestamp={timestamp} />);
-    cells.push(<TxnType color={typeColor} type={type} />);
-    cells.push(<TxnPrice color={color} price={price} />);
-    cells.push(<TxnToken color={color} token={token0} />);
-    cells.push(<TxnToken color={color} token={token1} />);
-    cells.push(<TxnValue color={color} amount={amount} />);
-    cells.push(<TxnWalletLink color={color} walletAddress={address} />);
-    cells.push(<TxnExplorerLink color={color} requestkey={requestkey} />);
+      const isBuyTxn = type === "BUY";
+      const color = isBuyTxn ? "text-green-200" : "text-red-300";
+      const typeColor = isBuyTxn ? "text-green-500" : "text-red-500";
 
-    return {
-      cells,
-    };
+      cells.push(<TxnDate color={color} timestamp={timestamp} />);
+      cells.push(<TxnType color={typeColor} type={type} />);
+      cells.push(<TxnPrice color={color} price={price} />);
+      cells.push(<TxnToken color={color} token={token0} />);
+      cells.push(<TxnToken color={color} token={token1} />);
+      cells.push(<TxnValue color={color} amount={amount} />);
+      cells.push(<TxnWalletLink color={color} walletAddress={address} />);
+      cells.push(<TxnExplorerLink color={color} requestkey={requestkey} />);
+
+      rows.push({
+        cells,
+      });
+    });
   });
+
+  return rows;
 };
