@@ -20,8 +20,6 @@ const Home = () => {
 
   const { data: tradingPairs } = useGetTradingPairs();
 
-  console.log("Home");
-
   if (!tradingPairs) {
     return null;
   }

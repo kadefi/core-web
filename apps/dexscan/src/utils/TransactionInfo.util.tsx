@@ -1,11 +1,12 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { LogoImg, NumberUtil, StringUtil } from "ui";
+import { DataTableRows } from "ui/components/DataTable/DataTable.type";
 
 import {
   TransactionInfo,
   TransactionTokenInfo,
-} from "../types/TransactionsTable";
+} from "../types/TransactionsTable.type";
 
 const TxnDate = ({
   color,
@@ -112,10 +113,8 @@ export const getTransactionHeaders = (pagesResponse: TransactionInfo[][]) => {
 
 export const getTransactionRowComponents = (
   pagesResponse: TransactionInfo[][]
-) => {
-  const rows = [];
-
-  console.log(pagesResponse);
+): DataTableRows => {
+  const rows: DataTableRows = [];
 
   pagesResponse.forEach((pageResponse) => {
     pageResponse.forEach((pageData) => {
@@ -146,6 +145,7 @@ export const getTransactionRowComponents = (
 
       rows.push({
         cells,
+        rowKey: requestkey,
       });
     });
   });

@@ -8,7 +8,7 @@ import { NextRouter } from "next/router";
 import numeral from "numeral";
 import { LogoImg, NumberUtil } from "ui";
 
-import { TradingPairInfo } from "../types/TradingPairTable";
+import { TradingPairInfo } from "../types/TradingPairTable.type";
 
 export const getTradingPairRowComponents = (
   router: NextRouter,
@@ -79,6 +79,7 @@ export const getTradingPairRowComponents = (
 
     return {
       cells,
+      rowKey: `${id}-${exchange.name}`,
       onRowClick,
     };
   });

@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
-import { TradingPairInfo } from "../types/TradingPairTable";
+import { TradingPairInfo } from "../types/TradingPairTable.type";
 import { getTradingPairInfo, getTradingPairs } from "./TradingPair.api";
 
 const REFETCH_INTERVAL = 60000;

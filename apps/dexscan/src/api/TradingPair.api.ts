@@ -1,9 +1,8 @@
 import { ApiClient } from "ui";
 
-import { TradingPairInfo } from "../types/TradingPairTable";
+import { TradingPairInfo } from "../types/TradingPairTable.type";
 
 export const getTradingPairs = async () => {
-  console.log("getTradingPairs");
   const response = await ApiClient.get(`/api/pairs`);
 
   return response.data as TradingPairInfo[];

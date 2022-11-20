@@ -33,7 +33,7 @@ const Pair = () => {
   } = useGetTransactions({ pairId: id, exchange, limit: 25 });
 
   useEffect(() => {
-    const interval = setInterval(() => fetchPreviousPage(), 10000);
+    const interval = setInterval(() => fetchPreviousPage(), 60000);
 
     return () => {
       clearInterval(interval);
@@ -68,19 +68,6 @@ const Pair = () => {
               </div>
             ) : (
               <div>
-                <div
-                  className="flex h-10 w-full cursor-pointer items-center justify-center bg-slate-800/50 transition hover:bg-slate-800"
-                  onClick={() => fetchPreviousPage()}
-                >
-                  {isFetchingNextPage ? (
-                    <div className="flex items-center">
-                      <LoadingSpinner size="sm" />
-                      <div className="text-slate-500">Fetching...</div>
-                    </div>
-                  ) : (
-                    <div className="text-slate-400">Load new transactions</div>
-                  )}
-                </div>
                 <DataTable
                   headers={TransactionInfoUtil.getTransactionHeaders(
                     transactions.pages

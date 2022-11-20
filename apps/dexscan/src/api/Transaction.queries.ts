@@ -4,7 +4,10 @@ import {
 } from "@tanstack/react-query";
 import { DateTime } from "luxon";
 
-import { TransactionInfo, TransactionParams } from "../types/TransactionsTable";
+import {
+  TransactionInfo,
+  TransactionParams,
+} from "../types/TransactionsTable.type";
 import { getTransactions } from "./Transaction.api";
 
 export const useGetTransactions = (
