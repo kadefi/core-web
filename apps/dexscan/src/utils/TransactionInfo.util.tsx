@@ -128,6 +128,7 @@ export const getTransactionRowComponents = (
         address,
         requestkey,
         amount,
+        eventId,
       } = pageData;
 
       const isBuyTxn = type === "BUY";
@@ -145,7 +146,7 @@ export const getTransactionRowComponents = (
 
       rows.push({
         cells,
-        rowKey: requestkey,
+        rowKey: `${requestkey}-${eventId}`,
       });
     });
   });

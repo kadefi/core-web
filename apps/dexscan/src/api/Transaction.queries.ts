@@ -29,8 +29,15 @@ export const useGetTransactions = (
         toTime: lastTxnTime,
       };
     },
-    getPreviousPageParam: (firstPage) => {
-      const firstTxnTime = DateTime.fromISO(firstPage[0].timestamp).toSeconds();
+    getPreviousPageParam: (_firstPage, allPages) => {
+      let firstTxnTime = DateTime.now().toSeconds();
+
+      for (let i = 0; i < allPages.length; i++) {
+        if (allPages[i].length > 0) {
+          firstTxnTime = DateTime.fromISO(allPages[i][0].timestamp).toSeconds();
+          break;
+        }
+      }
 
       return {
         id: params.pairId,

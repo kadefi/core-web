@@ -10,15 +10,6 @@ type Props = {
   rounded?: boolean;
 };
 
-function sleep(milliseconds: number) {
-  const date = Date.now();
-  let currentDate = null;
-
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}
-
 const DataTable = (props: Props) => {
   const { headers, rows, size = "sm", rounded = false } = props;
 

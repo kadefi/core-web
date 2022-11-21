@@ -6,7 +6,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Page } from "ui";
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,

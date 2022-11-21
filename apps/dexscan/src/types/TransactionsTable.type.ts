@@ -7,6 +7,7 @@ export type TransactionInfo = {
   amount: number;
   address: string;
   price: number;
+  eventId: number;
 };
 
 export type TransactionTokenInfo = {

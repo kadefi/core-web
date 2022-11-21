@@ -33,7 +33,7 @@ const Pair = () => {
   } = useGetTransactions({ pairId: id, exchange, limit: 25 });
 
   useEffect(() => {
-    const interval = setInterval(() => fetchPreviousPage(), 60000);
+    const interval = setInterval(() => fetchPreviousPage(), 10000);
 
     return () => {
       clearInterval(interval);
