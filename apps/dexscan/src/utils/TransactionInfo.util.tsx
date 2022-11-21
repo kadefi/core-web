@@ -88,16 +88,24 @@ const TxnExplorerLink = ({
 };
 
 export const getTransactionHeaders = (pagesResponse: TransactionInfo[][]) => {
-  if (
-    !pagesResponse ||
-    pagesResponse.length === 0 ||
-    pagesResponse[0].length === 0
-  ) {
+  if (!pagesResponse || pagesResponse.length === 0) {
     return [];
   }
 
-  const ticker1 = pagesResponse[0][0].token0.ticker;
-  const ticker2 = pagesResponse[0][0].token0.ticker;
+  let sampleTxn;
+
+  for (let i = 0; i < pagesResponse.length; i++) {
+    if (pagesResponse[i].length > 0) {
+      sampleTxn = pagesResponse[i][0];
+    }
+  }
+
+  if (!sampleTxn) {
+    return [];
+  }
+
+  const ticker1 = sampleTxn.token0.ticker;
+  const ticker2 = sampleTxn.token1.ticker;
 
   return [
     "Date",
