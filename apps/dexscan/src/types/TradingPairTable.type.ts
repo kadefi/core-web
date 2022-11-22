@@ -12,7 +12,6 @@ export type TradingPairInfo = {
   };
   pair: string;
   price: number;
-  pricePercChange1h: number;
   pricePercChange24h: number;
   pricePercChange7d: number;
   volume24h: number;

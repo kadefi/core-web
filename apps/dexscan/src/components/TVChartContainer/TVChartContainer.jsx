@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { LoadingSpinner } from "ui";
 
 import { widget } from "../../../public/static/charting_library";
 
@@ -13,12 +14,26 @@ function getLanguageFromURL() {
 
 const TVChartContainer = (props) => {
   const { symbol } = props;
+  const [isLoading, setIsLoading] = useState(true);
 
   const tvWidgetRef = useRef(null);
 
   const ref = useRef();
 
+  const loadingIndicator = (
+    <div className="absolute top-0 bottom-0 right-0 left-0 bg-slate-900">
+      <div className="flex h-full w-full items-center justify-center text-sm text-slate-500">
+        <LoadingSpinner />
+        Loading chart data
+      </div>
+    </div>
+  );
+
   useEffect(() => {
+    if (!symbol) {
+      return;
+    }
+
     const widgetOptions = {
       theme: "Dark",
       symbol: symbol,
@@ -53,6 +68,7 @@ const TVChartContainer = (props) => {
     tvWidgetRef.current = tvWidget;
 
     tvWidget.onChartReady(() => {
+      setIsLoading(false);
       tvWidget.headerReady().then(() => {
         const button = tvWidget.createButton();
 
@@ -80,7 +96,16 @@ const TVChartContainer = (props) => {
     };
   }, [symbol]);
 
-  return <div ref={ref} className="h-full" />;
+  if (!symbol) {
+    return loadingIndicator;
+  }
+
+  return (
+    <>
+      {isLoading && loadingIndicator}
+      <div ref={ref} className="h-full" />
+    </>
+  );
 };
 
 export default TVChartContainer;
