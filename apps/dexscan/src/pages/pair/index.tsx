@@ -51,7 +51,12 @@ const Pair = () => {
   return (
     <div className="h-full">
       <ReflexContainer orientation="horizontal" className="text-slate-50">
-        <ReflexElement className="left-pane" size={64}>
+        <ReflexElement
+          className="left-pane"
+          minSize={64}
+          maxSize={64}
+          size={64}
+        >
           <div className="pane-content flex h-full items-center justify-between border-b border-slate-800 p-3">
             <div className="flex items-center gap-2">
               <LogoImg src={token.img} size="md" />
