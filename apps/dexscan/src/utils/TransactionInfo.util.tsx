@@ -37,7 +37,7 @@ const TxnToken = ({
 }) => {
   return (
     <div className={clsx("flex items-center gap-2", color)}>
-      <LogoImg src={token.img} size="sm" />
+      <LogoImg src={token.img} size={"xs"} />
       {NumberUtil.formatTokenAmount(token.amount)}
     </div>
   );
