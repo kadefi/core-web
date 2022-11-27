@@ -3,13 +3,11 @@ import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { TradingPairInfo } from "../types/TradingPairTable.type";
 import { getTradingPairInfo, getTradingPairs } from "./TradingPair.api";
 
-const REFETCH_INTERVAL = 60000;
+const REFETCH_INTERVAL = 20000;
 
-export const useGetTradingPairs = (
-  shouldRefetch: boolean = false
-): UseQueryResult<TradingPairInfo[]> => {
+export const useGetTradingPairs = (): UseQueryResult<TradingPairInfo[]> => {
   return useQuery(["TRADING_PAIRS"], () => getTradingPairs(), {
-    ...(shouldRefetch && { refetchInterval: REFETCH_INTERVAL }),
+    refetchInterval: REFETCH_INTERVAL,
   });
 };
 

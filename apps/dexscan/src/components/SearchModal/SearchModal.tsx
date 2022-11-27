@@ -22,6 +22,13 @@ import { LogoImg, NumberUtil } from "ui";
 import { useGetTradingPairs } from "../../api/TradingPair.queries";
 import { TradingPairInfo } from "../../types/TradingPairTable.type";
 
+const cleanStr = (s: string) => s.replace(" ", "").toLowerCase();
+
+const getSelectionIndex = {
+  ArrowUp: (idx: number, _maxIdx?: number) => Math.max(idx - 1, 0),
+  ArrowDown: (idx: number, maxIdx: number) => Math.min(idx + 1, maxIdx),
+};
+
 type Props = {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -30,28 +37,27 @@ type Props = {
 const SearchModal = (props: Props) => {
   const { isOpen, setIsOpen } = props;
   const router = useRouter();
-  const [searchValue, setSearchValue] = useState("");
-  const selectionRefs = useRef([]);
+
+  const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<HTMLInputElement>();
-  const [currentSelection, setCurrentSelection] = useState(0);
+
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const selectionRefs = useRef([]);
 
   const { data: tradingPairs } = useGetTradingPairs();
 
   useEffect(() => {
-    setCurrentSelection(0);
+    setCurrentIdx(0);
   }, [isOpen]);
 
   useEffect(() => {
     function handleShortcut(e: KeyboardEvent) {
-      if (
-        e.ctrlKey &&
-        e.key.toLowerCase() == "k" &&
-        inputRef &&
-        inputRef.current
-      ) {
+      const isCtrlK = e.ctrlKey && e.key.toLowerCase() == "k";
+
+      if (isCtrlK && inputRef && inputRef.current) {
         e.preventDefault();
         inputRef.current.focus();
-        setCurrentSelection(0);
+        setCurrentIdx(0);
       }
     }
 
@@ -66,20 +72,21 @@ const SearchModal = (props: Props) => {
     () =>
       tradingPairs
         ? tradingPairs.filter((pair) => {
-            return (
+            const searchTarget = cleanStr(
               `${pair.id}/${pair.token0.name}/${pair.token1.name}`
-                .replace(" ", "")
-                .search(new RegExp(searchValue.replace(" ", ""), "i")) >= 0
             );
+            const searchTerm = cleanStr(inputValue);
+
+            return searchTarget.search(new RegExp(searchTerm, "i")) >= 0;
           })
         : [],
-    [tradingPairs, searchValue]
+    [tradingPairs, inputValue]
   );
 
-  const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
+  const resultsRef = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
-    itemsRef.current = itemsRef.current.slice(0, filteredPairs.length);
+    resultsRef.current = resultsRef.current.slice(0, filteredPairs.length);
   }, [filteredPairs]);
 
   const navigate = (pair: TradingPairInfo) => {
@@ -95,41 +102,40 @@ const SearchModal = (props: Props) => {
     pair: TradingPairInfo,
     index: number
   ) => {
-    setCurrentSelection(index);
+    setCurrentIdx(index);
     navigate(pair);
   };
 
   const handleKeyDown = (
     e: ReactKeyboardEvent<HTMLDivElement | HTMLButtonElement>
   ) => {
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      const newSelection = Math.max(currentSelection - 1, 0);
+    if (!(filteredPairs.length > 0)) {
+      return;
+    }
 
-      selectionRefs.current[newSelection].focus();
-      setCurrentSelection(newSelection);
-    } else if (e.key === "ArrowDown") {
+    if (e.key === "Enter") {
       e.preventDefault();
-      const newSelection = Math.min(
-        currentSelection + 1,
+      const selectedIndex = Math.max(currentIdx, 0);
+      const selectedPair = filteredPairs[selectedIndex];
+
+      navigate(selectedPair);
+    }
+
+    if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+      e.preventDefault();
+      const newSelection = getSelectionIndex[e.key](
+        currentIdx,
         filteredPairs.length - 1
       );
 
       selectionRefs.current[newSelection].focus();
-      setCurrentSelection(newSelection);
-    } else if (e.key === "Enter") {
-      if (filteredPairs.length > 0) {
-        const selectedIndex = Math.max(currentSelection, 0);
-        const selectedPair = filteredPairs[selectedIndex];
-
-        navigate(selectedPair);
-      }
+      setCurrentIdx(newSelection);
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-    setCurrentSelection(0);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    setCurrentIdx(0);
   };
 
   const searchBar = (
@@ -141,8 +147,8 @@ const SearchModal = (props: Props) => {
         name="search"
         id="search"
         className="block w-full rounded-md border-gray-300 bg-slate-900 pr-12 pl-8 text-slate-50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        value={searchValue}
-        onChange={handleChange}
+        value={inputValue}
+        onChange={handleInputChange}
         ref={inputRef}
       />
       <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
@@ -153,34 +159,45 @@ const SearchModal = (props: Props) => {
     </div>
   );
 
-  const results = tradingPairs ? (
-    <div className="flex w-full flex-col items-center overflow-y-auto text-sm text-slate-300">
-      {filteredPairs.map((pair, i) => (
-        <button
-          key={`${pair.id}-${pair.exchange.name}`}
-          className={clsx(
-            "my-1 flex w-full items-center justify-between rounded-md bg-slate-800 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500",
-            i === 0 &&
-              currentSelection === 0 &&
-              "outline-none ring-2 ring-inset ring-indigo-500"
-          )}
-          ref={(el) => (selectionRefs.current[i] = el)}
-          onKeyDown={handleKeyDown}
-          onClick={() => handleSearchResultMouseClick(pair, i)}
-        >
-          <div className="flex items-center">
-            <LogoImg src={pair.token0.img} size="xs" />
-            <div className="ml-2 font-bold">{pair.token0.name}</div>
-            <div className="text-slate-500">/{pair.token1.name}</div>
-            <div className="ml-1 text-slate-500"> - {pair.exchange.name}</div>
-          </div>
-          <div className="flex items-center">
-            <div>{NumberUtil.formatPrice(pair.price)}</div>
-          </div>
-        </button>
-      ))}
-    </div>
-  ) : null;
+  const searchResults = () => {
+    if (!tradingPairs) {
+      return null;
+    }
+
+    return (
+      <div className="flex w-full flex-col items-center overflow-y-auto text-sm text-slate-300">
+        {filteredPairs.map((pair, i) => {
+          const isFirstIdx = i === 0 && currentIdx === 0;
+          const { id, token0, token1, exchange, price } = pair;
+
+          const setButtonRef = (el: HTMLButtonElement) => {
+            selectionRefs.current[i] = el;
+          };
+
+          return (
+            <button
+              key={`${id}-${exchange.name}`}
+              className={clsx(
+                "my-1 flex w-full items-center justify-between rounded-md bg-slate-800 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500",
+                isFirstIdx && "outline-none ring-2 ring-inset ring-indigo-500"
+              )}
+              ref={(el) => setButtonRef(el)}
+              onKeyDown={handleKeyDown}
+              onClick={() => handleSearchResultMouseClick(pair, i)}
+            >
+              <div className="flex items-center">
+                <LogoImg src={token0.img} size="xs" />
+                <div className="ml-2 font-bold">{token0.name}</div>
+                <div className="text-slate-500">/{token1.name}</div>
+                <div className="ml-1 text-slate-500"> - {exchange.name}</div>
+              </div>
+              <div>{NumberUtil.formatPrice(price)}</div>
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
 
   const keyboardShortcutsHelper = (
     <div className="hidden items-center justify-end text-xs text-slate-400 md:flex">
@@ -233,7 +250,7 @@ const SearchModal = (props: Props) => {
                     {keyboardShortcutsHelper}
                   </div>
                   <div className="grow-1 my-2 w-full max-w-2xl overflow-y-auto">
-                    {results}
+                    {searchResults()}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

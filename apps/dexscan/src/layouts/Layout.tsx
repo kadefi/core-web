@@ -31,17 +31,17 @@ const Layout = (props: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    function handleKeyDown(e: KeyboardEvent) {
+    function handleShortcut(e: KeyboardEvent) {
       if (e.ctrlKey && e.key.toLowerCase() == "k") {
         e.preventDefault();
         setIsSearchModalOpen(true);
       }
     }
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleShortcut);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleShortcut);
     };
   }, []);
 
