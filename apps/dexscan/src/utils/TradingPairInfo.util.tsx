@@ -39,7 +39,7 @@ export const getTradingPairRowComponents = (
 
     const {
       id,
-      token,
+      token0,
       exchange,
       pair,
       price,
@@ -50,11 +50,11 @@ export const getTradingPairRowComponents = (
 
     cells.push(
       <div className="flex items-center gap-2">
-        <LogoImg src={token.img} size="sm" />
-        {token.name}
+        <LogoImg src={token0.img} size="sm" />
+        {token0.name}
       </div>
     );
-    cells.push(<div>${NumberUtil.formatPrice(price)}</div>);
+    cells.push(<div>{NumberUtil.formatPrice(price)}</div>);
     cells.push(getPercChangeDisplay(pricePercChange24h));
     cells.push(getPercChangeDisplay(pricePercChange7d));
     cells.push(

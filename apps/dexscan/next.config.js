@@ -2,6 +2,7 @@ const withTM = require("next-transpile-modules")(["ui"]);
 
 module.exports = withTM({
   reactStrictMode: true,
+  swcMinify: true,
   images: {
     domains: [
       "gateway.pinata.cloud",
@@ -9,5 +10,14 @@ module.exports = withTM({
       "ipfs.io",
       "firebasestorage.googleapis.com",
     ],
+  },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      issuer: /\.[jt]sx?$/,
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
   },
 });

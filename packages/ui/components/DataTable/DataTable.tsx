@@ -1,5 +1,6 @@
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
+import { Fragment } from "react";
 
 import { DataTableRows } from "./DataTable.type";
 
@@ -13,7 +14,7 @@ type Props = {
 const DataTable = (props: Props) => {
   const { headers, rows, size = "sm", rounded = false } = props;
 
-  const padding = size === "sm" ? "px-2 py-3" : "px-3 py-4";
+  const padding = size === "sm" ? "px-1 py-2" : "px-3 py-4";
 
   return (
     <div className="flex flex-col">
@@ -69,8 +70,8 @@ const DataTable = (props: Props) => {
                           >
                             <Transition.Child
                               enter="transition ease duration-500 transform"
-                              enterFrom="opacity-0 translate-y-6"
-                              enterTo="opacity-100 translate-y-0"
+                              enterFrom="opacity-0"
+                              enterTo="opacity-100"
                             >
                               {cell}
                             </Transition.Child>

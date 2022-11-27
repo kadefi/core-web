@@ -25,7 +25,7 @@ const TxnType = ({ color, type }: { color: string; type: string }) => {
 };
 
 const TxnPrice = ({ color, price }: { color: string; price: number }) => {
-  return <div className={clsx(color)}>${NumberUtil.formatPrice(price)}</div>;
+  return <div className={clsx(color)}>{NumberUtil.formatPrice(price)}</div>;
 };
 
 const TxnToken = ({
@@ -44,7 +44,7 @@ const TxnToken = ({
 };
 
 const TxnValue = ({ color, amount }: { color: string; amount: number }) => {
-  return <div className={clsx(color)}>${NumberUtil.formatPrice(amount)}</div>;
+  return <div className={clsx(color)}>{NumberUtil.formatPrice(amount)}</div>;
 };
 
 const TxnWalletLink = ({
