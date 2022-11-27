@@ -30,6 +30,10 @@ export const useGetTransactions = (
       };
     },
     getPreviousPageParam: (_firstPage, allPages) => {
+      if (allPages.length > 500) {
+        window.location.reload();
+      }
+
       let firstTxnTime = DateTime.now().toSeconds();
 
       for (let i = 0; i < allPages.length; i++) {
