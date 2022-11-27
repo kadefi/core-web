@@ -267,7 +267,7 @@ const Pair = () => {
           <ReflexElement className="left-pane overflow-hidden" flex={0.6}>
             <div className="h-full">{tokenChart}</div>
           </ReflexElement>
-          <ReflexSplitter className="border-2 border-slate-700" />
+          <ReflexSplitter className="z-0 border-2 border-slate-700" />
           <ReflexElement
             className="right-pane scrollbar-hide text-sm text-slate-50"
             flex={0.4}

@@ -10,7 +10,7 @@ const headers = ["Token", "Price", "24h %", "7d %", "DEX Pair", "24h Vol"];
 const Home = () => {
   const router = useRouter();
 
-  const { data: tradingPairs } = useGetTradingPairs();
+  const { data: tradingPairs } = useGetTradingPairs(true);
 
   if (!tradingPairs) {
     return null;

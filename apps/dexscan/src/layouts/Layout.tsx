@@ -9,7 +9,9 @@ import {
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Fragment, ReactElement, ReactNode, useState } from "react";
+import { Fragment, ReactElement, ReactNode, useEffect, useState } from "react";
+
+import { SearchModal } from "../components/SearchModal";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
@@ -24,8 +26,24 @@ const Layout = (props: Props) => {
   const { children } = props;
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.ctrlKey && e.key.toLowerCase() == "k") {
+        e.preventDefault();
+        setIsSearchModalOpen(true);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const mobileSideBar = (
     <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -88,6 +106,7 @@ const Layout = (props: Props) => {
                   {navigation.map((item) => (
                     <Link key={item.name} href={item.href}>
                       <div
+                        onClick={() => setSidebarOpen(false)}
                         className={clsx(
                           router.pathname === item.href
                             ? "bg-gray-100 text-gray-900"
@@ -167,38 +186,27 @@ const Layout = (props: Props) => {
   );
 
   const searchBar = (
-    <div className="flex flex-1">
-      <form
-        className="flex w-full md:ml-0"
-        action="src/pages/index#"
-        method="GET"
-      >
-        <label htmlFor="search-field" className="sr-only">
-          Search
-        </label>
-        <div className="relative w-full text-gray-400 focus-within:text-gray-600">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center">
-            <MagnifyingGlassIcon className="h-5 w-5" aria-hidden="true" />
-          </div>
-          <input
-            id="search-field"
-            className="block h-full w-full border-transparent bg-slate-900 py-2 pl-8 pr-3 text-slate-50 placeholder-gray-500 focus:border-transparent focus:placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
-            placeholder="Search"
-            type="search"
-            name="search"
-          />
-        </div>
-      </form>
+    <div
+      className="flex flex-1 cursor-text items-center justify-between text-slate-500"
+      onClick={() => setIsSearchModalOpen(true)}
+    >
+      <div className="flex items-center">
+        <MagnifyingGlassIcon className="mr-2 h-6 w-6" />
+        <div>Search pair by symbol, name, token</div>
+      </div>
+      <kbd className="inline-flex items-center rounded border border-slate-500 px-2 font-sans text-sm font-medium text-slate-500">
+        CTRL + K
+      </kbd>
     </div>
   );
 
   return (
-    <>
+    <div>
       {mobileSideBar}
       {desktopSideBar}
       <div>
         <div className="flex h-screen flex-1 flex-col md:pl-52">
-          <div className="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-slate-900 shadow">
+          <div className="sticky top-0 z-10 flex h-14 flex-shrink-0 bg-slate-900 shadow">
             {mobileSideBarToggle}
             <div className="flex flex-1 justify-between border-b border-slate-800 px-4">
               {searchBar}
@@ -209,7 +217,11 @@ const Layout = (props: Props) => {
           </main>
         </div>
       </div>
-    </>
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        setIsOpen={setIsSearchModalOpen}
+      />
+    </div>
   );
 };
 

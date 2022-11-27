@@ -5,9 +5,11 @@ import { getTradingPairInfo, getTradingPairs } from "./TradingPair.api";
 
 const REFETCH_INTERVAL = 60000;
 
-export const useGetTradingPairs = (): UseQueryResult<TradingPairInfo[]> => {
+export const useGetTradingPairs = (
+  shouldRefetch: boolean = false
+): UseQueryResult<TradingPairInfo[]> => {
   return useQuery(["TRADING_PAIRS"], () => getTradingPairs(), {
-    refetchInterval: REFETCH_INTERVAL,
+    ...(shouldRefetch && { refetchInterval: REFETCH_INTERVAL }),
   });
 };
 

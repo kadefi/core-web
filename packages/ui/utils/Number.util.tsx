@@ -47,9 +47,6 @@ export const formatPrice = (num: number, subscriptSize?: number): ReactNode => {
         break;
       }
     }
-    console.log("-");
-    console.log(roundedNum);
-    console.log(`${firstHalf},${numZeros},${secondHalf}`);
 
     return (
       <span>
