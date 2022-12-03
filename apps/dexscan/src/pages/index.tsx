@@ -17,13 +17,13 @@ const Home = () => {
   }
 
   return (
-    <div className="py-6">
-      <div className="px-4 sm:px-6 md:px-8">
+    <div className="py-4">
+      <div className="px-4 sm:px-6">
         <h1 className="text-2xl font-semibold text-slate-300">
           Kadefi DEX Dashboard
         </h1>
       </div>
-      <div className="mt-6 px-4 sm:px-6 md:px-8">
+      <div className="mt-6 overflow-auto px-4 sm:px-6">
         <DataTable
           headers={headers}
           rows={TradingPairInfoUtil.getTradingPairRowComponents(

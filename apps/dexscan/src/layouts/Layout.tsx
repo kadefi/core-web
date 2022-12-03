@@ -11,6 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, ReactElement, ReactNode, useEffect, useState } from "react";
 
+import DexScanLogo from "../assets/svgs/dexscan-logo.svg";
 import { SearchModal } from "../components/SearchModal";
 
 const navigation = [
@@ -98,8 +99,8 @@ const Layout = (props: Props) => {
                   </button>
                 </div>
               </Transition.Child>
-              <div className="flex flex-shrink-0 items-center px-4 text-slate-50">
-                Kadefi.Money
+              <div className="flex w-52 flex-shrink-0 items-center px-4 text-slate-50">
+                <DexScanLogo />
               </div>
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="space-y-1 px-2">
@@ -149,12 +150,12 @@ const Layout = (props: Props) => {
   );
 
   const desktopSideBar = (
-    <div className="hidden md:fixed md:inset-y-0 md:flex md:w-52 md:flex-col">
-      <div className="flex flex-grow flex-col overflow-y-auto border-r border-slate-800 bg-slate-900 pt-5">
-        <div className="flex flex-shrink-0 items-center px-4 text-slate-50">
-          Kadefi.Money
+    <div className="z-20 hidden transition-all md:fixed md:absolute md:inset-y-0 md:flex md:w-14 md:flex-col hover:md:w-52">
+      <div className="flex flex-grow flex-col overflow-y-auto border-r border-slate-800 bg-slate-900 pt-3 md:overflow-x-hidden">
+        <div className="flex w-40 flex-shrink-0 items-center px-2 text-slate-50">
+          <DexScanLogo className="h-full w-full" />
         </div>
-        <div className="mt-5 flex flex-grow flex-col">
+        <div className="mt-4 flex flex-grow flex-col">
           <nav className="flex-1 space-y-1 px-2 pb-4">
             {navigation.map((item) => (
               <Link key={item.name} href={item.href}>
@@ -171,7 +172,7 @@ const Layout = (props: Props) => {
                       router.pathname === item.href
                         ? "text-gray-500"
                         : "text-gray-400 group-hover:text-gray-500",
-                      "mr-3 h-6 w-6 flex-shrink-0"
+                      "mr-4 h-6 w-6 flex-shrink-0"
                     )}
                     aria-hidden="true"
                   />
@@ -192,9 +193,9 @@ const Layout = (props: Props) => {
     >
       <div className="flex items-center">
         <MagnifyingGlassIcon className="mr-2 h-6 w-6" />
-        <div>Search pair by symbol, name, token</div>
+        <div>Search pair by symbol, token</div>
       </div>
-      <kbd className="inline-flex items-center rounded border border-slate-500 px-2 font-sans text-sm font-medium text-slate-500">
+      <kbd className="hidden items-center rounded border border-slate-500 px-2 font-sans text-sm font-medium text-slate-500 md:inline-flex">
         CTRL + K
       </kbd>
     </div>
@@ -205,10 +206,10 @@ const Layout = (props: Props) => {
       {mobileSideBar}
       {desktopSideBar}
       <div>
-        <div className="flex h-screen flex-1 flex-col md:pl-52">
+        <div className="flex h-screen flex-1 flex-col md:pl-14">
           <div className="sticky top-0 z-10 flex h-14 flex-shrink-0 bg-slate-900 shadow">
             {mobileSideBarToggle}
-            <div className="flex flex-1 justify-between border-b border-slate-800 px-4">
+            <div className="flex flex-1 justify-between border-b border-slate-800 px-6">
               {searchBar}
             </div>
           </div>

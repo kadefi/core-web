@@ -4,7 +4,7 @@ import round from "lodash/round";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import numeral from "numeral";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import { DataTable, LoadingSpinner, LogoImg, NumberUtil } from "ui";
 
@@ -42,13 +42,15 @@ const Pair = () => {
 
   const { data: tradingPairInfo } = useGetTradingPairInfo(id, exchange);
 
+  const tableBottomRef = useRef<HTMLDivElement>();
+
   const {
     data: transactions,
     isLoading,
     fetchNextPage,
     fetchPreviousPage,
     isFetchingNextPage,
-  } = useGetTransactions({ pairId: id, exchange, limit: 25 });
+  } = useGetTransactions({ pairId: id, exchange, limit: 20 });
 
   useEffect(() => {
     const interval = setInterval(() => fetchPreviousPage(), 20000);
@@ -57,6 +59,16 @@ const Pair = () => {
       clearInterval(interval);
     };
   }, [fetchPreviousPage]);
+
+  const handleFetchNextTransactionsPage = () => {
+    fetchNextPage().then(() => {
+      window.setTimeout(() => {
+        if (tableBottomRef.current) {
+          tableBottomRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 300);
+    });
+  };
 
   if (!tradingPairInfo) {
     return null;
@@ -133,7 +145,7 @@ const Pair = () => {
   );
 
   const tokenInformation = (
-    <div className="flex h-full w-full items-center justify-between p-3 lg:flex-col lg:items-start lg:justify-start lg:gap-2 lg:overflow-auto lg:p-4">
+    <div className="flex h-full w-full items-center justify-between p-3 lg:flex-col lg:items-start lg:justify-start lg:gap-2 lg:overflow-auto lg:px-6 lg:py-4">
       <div className="flex items-center gap-2">
         <LogoImg src={token0.img} size="md" />
         <div className="flex flex-col items-start">
@@ -227,27 +239,32 @@ const Pair = () => {
           Loading transactions
         </div>
       ) : (
-        <div className="h-full w-full">
-          <DataTable
-            headers={TransactionInfoUtil.getTransactionHeaders(
-              transactions.pages
-            )}
-            rows={TransactionInfoUtil.getTransactionRowComponents(
-              transactions.pages
-            )}
-          />
+        <div className="relative">
+          <div className="w-full">
+            <DataTable
+              headers={TransactionInfoUtil.getTransactionHeaders(
+                transactions.pages
+              )}
+              rows={TransactionInfoUtil.getTransactionRowComponents(
+                transactions.pages
+              )}
+            />
+            <div ref={tableBottomRef} />
+          </div>
           <div
-            className="flex h-10 w-full cursor-pointer items-center justify-center bg-slate-800/50 transition hover:bg-slate-800"
-            onClick={() => fetchNextPage()}
+            className="fixed bottom-0 right-0 left-0 h-10 cursor-pointer border-t border-slate-800 bg-slate-900 transition hover:bg-slate-800 md:absolute"
+            onClick={handleFetchNextTransactionsPage}
           >
-            {isFetchingNextPage ? (
-              <div className="flex items-center">
-                <LoadingSpinner size="sm" />
-                <div className="text-slate-500">Fetching...</div>
-              </div>
-            ) : (
-              <div className="text-slate-400">Load more transactions</div>
-            )}
+            <div className="flex h-full items-center justify-center">
+              {isFetchingNextPage ? (
+                <div className="flex items-center">
+                  <LoadingSpinner size="sm" />
+                  <div className="text-slate-500">Fetching...</div>
+                </div>
+              ) : (
+                <div className="text-slate-400">Load more transactions</div>
+              )}
+            </div>
           </div>
         </div>
       )}
@@ -257,7 +274,7 @@ const Pair = () => {
   return (
     <div className="h-full">
       <div className="flex h-full w-full flex-col lg:flex-row">
-        <div className="grow-0 border-b border-slate-800 lg:h-full lg:w-80 lg:border-r lg:border-b-0">
+        <div className="grow-0 border-b border-slate-800 lg:h-full lg:w-96 lg:border-r lg:border-b-0">
           {tokenInformation}
         </div>
         <ReflexContainer

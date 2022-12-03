@@ -142,7 +142,7 @@ const SearchModal = (props: Props) => {
     <div className="relative flex w-full max-w-2xl items-center justify-center">
       <MagnifyingGlassIcon className="absolute left-2 h-4 w-4 text-slate-500" />
       <input
-        placeholder="Search pair by symbol, name, token"
+        placeholder="Search pair by symbol, token"
         type="text"
         name="search"
         id="search"
@@ -151,7 +151,7 @@ const SearchModal = (props: Props) => {
         onChange={handleInputChange}
         ref={inputRef}
       />
-      <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+      <div className="absolute inset-y-0 right-0 flex hidden py-1.5 pr-1.5 md:block">
         <kbd className="inline-flex items-center rounded border border-slate-500 px-2 font-sans text-sm font-medium text-slate-500">
           CTRL + K
         </kbd>
@@ -216,7 +216,7 @@ const SearchModal = (props: Props) => {
       <Transition.Root show={isOpen} as={Fragment}>
         <Dialog
           as="div"
-          className="relative z-10"
+          className="relative z-30"
           onClose={setIsOpen}
           onKeyDown={handleKeyDown}
         >
@@ -231,7 +231,7 @@ const SearchModal = (props: Props) => {
           >
             <div className="fixed inset-0 bg-slate-800 bg-opacity-75 transition-opacity" />
           </Transition.Child>
-          <div className="fixed inset-0 z-10 overflow-y-auto">
+          <div className="fixed inset-0 z-30 overflow-y-auto">
             <div className="flex h-full min-h-full items-start">
               <Transition.Child
                 as={Fragment}

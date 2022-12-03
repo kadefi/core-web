@@ -1,6 +1,5 @@
 import { Transition } from "@headlessui/react";
 import clsx from "clsx";
-import { Fragment } from "react";
 
 import { DataTableRows } from "./DataTable.type";
 
@@ -32,9 +31,9 @@ const DataTable = (props: Props) => {
                         "sticky top-0 z-10 bg-slate-800 text-left text-sm font-semibold text-slate-50 ",
                         padding,
                         index === 0 &&
-                          clsx("sm:pl-6", rounded && "rounded-l-lg"),
+                          clsx("pl-4 pr-3 sm:pl-6", rounded && "rounded-l-lg"),
                         index === headers.length - 1 &&
-                          clsx("sm:pr-6", rounded && "rounded-r-lg")
+                          clsx("pl-3 pr-4 sm:pr-6", rounded && "rounded-r-lg")
                       )}
                     >
                       <div className="group inline-flex">
@@ -62,7 +61,7 @@ const DataTable = (props: Props) => {
                           <td
                             key={`row-cell-${j}-${rowKey}`}
                             className={clsx(
-                              "whitespace-nowrap text-sm ",
+                              "whitespace-nowrap pr-4 text-sm",
                               padding,
                               j === 0 && "pl-4 pr-3 sm:pl-6",
                               j === cells.length - 1 && "pl-3 pr-4 sm:pr-6"
