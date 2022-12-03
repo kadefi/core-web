@@ -4,7 +4,8 @@ import round from "lodash/round";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import numeral from "numeral";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import { DataTable, LoadingSpinner, LogoImg, NumberUtil } from "ui";
 
@@ -42,15 +43,14 @@ const Pair = () => {
 
   const { data: tradingPairInfo } = useGetTradingPairInfo(id, exchange);
 
-  const tableBottomRef = useRef<HTMLDivElement>();
+  const { ref: tableBottomRef, inView } = useInView({});
 
   const {
     data: transactions,
     isLoading,
     fetchNextPage,
     fetchPreviousPage,
-    isFetchingNextPage,
-  } = useGetTransactions({ pairId: id, exchange, limit: 20 });
+  } = useGetTransactions({ pairId: id, exchange, limit: 50 });
 
   useEffect(() => {
     const interval = setInterval(() => fetchPreviousPage(), 20000);
@@ -60,15 +60,13 @@ const Pair = () => {
     };
   }, [fetchPreviousPage]);
 
-  const handleFetchNextTransactionsPage = () => {
-    fetchNextPage().then(() => {
-      window.setTimeout(() => {
-        if (tableBottomRef.current) {
-          tableBottomRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 300);
-    });
-  };
+  useEffect(() => {
+    console.log(inView);
+    if (inView) {
+      console.log("fetch next page");
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView]);
 
   if (!tradingPairInfo) {
     return null;
@@ -239,34 +237,23 @@ const Pair = () => {
           Loading transactions
         </div>
       ) : (
-        <div className="relative">
-          <div className="w-full">
-            <DataTable
-              headers={TransactionInfoUtil.getTransactionHeaders(
-                transactions.pages
-              )}
-              rows={TransactionInfoUtil.getTransactionRowComponents(
-                transactions.pages
-              )}
-            />
-            <div ref={tableBottomRef} />
-          </div>
-          <div
-            className="fixed bottom-0 right-0 left-0 h-10 cursor-pointer border-t border-slate-800 bg-slate-900 transition hover:bg-slate-800 md:absolute"
-            onClick={handleFetchNextTransactionsPage}
-          >
-            <div className="flex h-full items-center justify-center">
-              {isFetchingNextPage ? (
-                <div className="flex items-center">
-                  <LoadingSpinner size="sm" />
-                  <div className="text-slate-500">Fetching...</div>
-                </div>
-              ) : (
-                <div className="text-slate-400">Load more transactions</div>
-              )}
+        <>
+          <DataTable
+            headers={TransactionInfoUtil.getTransactionHeaders(
+              transactions.pages
+            )}
+            rows={TransactionInfoUtil.getTransactionRowComponents(
+              transactions.pages
+            )}
+            tableBottomRef={tableBottomRef}
+          />
+          {inView && (
+            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-slate-800 px-4 py-2 text-center text-slate-50">
+              <LoadingSpinner />
+              Loading more transactions...
             </div>
-          </div>
-        </div>
+          )}
+        </>
       )}
     </>
   );
@@ -289,7 +276,9 @@ const Pair = () => {
             className="right-pane scrollbar-hide text-sm text-slate-50"
             flex={0.4}
           >
-            <div className="pane-content h-full">{tokenTransactions}</div>
+            <div className="pane-content relative h-full overflow-hidden">
+              {tokenTransactions}
+            </div>
           </ReflexElement>
         </ReflexContainer>
       </div>

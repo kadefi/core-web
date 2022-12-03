@@ -213,9 +213,7 @@ const Layout = (props: Props) => {
               {searchBar}
             </div>
           </div>
-          <main className="scrollbar-hide flex-1 overflow-y-auto ">
-            {children}
-          </main>
+          <main className="flex-1 overflow-hidden">{children}</main>
         </div>
       </div>
       <SearchModal

@@ -8,15 +8,22 @@ type Props = {
   rows: DataTableRows;
   size?: "sm" | "lg";
   rounded?: boolean;
+  tableBottomRef?: (_node?: Element | null) => void | null;
 };
 
 const DataTable = (props: Props) => {
-  const { headers, rows, size = "sm", rounded = false } = props;
+  const {
+    headers,
+    rows,
+    size = "sm",
+    rounded = false,
+    tableBottomRef = null,
+  } = props;
 
   const padding = size === "sm" ? "px-1 py-2" : "px-3 py-4";
 
   return (
-    <div className="flex flex-col">
+    <div className="flex h-full flex-col overflow-auto">
       <div className="inline-block min-w-full align-middle">
         <div className="shadow-sm ring-1 ring-black ring-opacity-5">
           <Transition show={true} appear={true}>
@@ -44,8 +51,11 @@ const DataTable = (props: Props) => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800 text-slate-50">
-                {rows.map((row) => {
+                {rows.map((row, rowIndex) => {
                   const { cells, rowKey, onRowClick } = row;
+
+                  const ref =
+                    rowIndex === rows.length - 3 ? tableBottomRef : null;
 
                   return (
                     <tr
@@ -55,6 +65,7 @@ const DataTable = (props: Props) => {
                         onRowClick && "cursor-pointer"
                       )}
                       onClick={() => onRowClick && onRowClick()}
+                      ref={ref}
                     >
                       {cells.map((cell, j) => {
                         return (
