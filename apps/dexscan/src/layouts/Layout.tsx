@@ -202,19 +202,17 @@ const Layout = (props: Props) => {
   );
 
   return (
-    <div>
+    <div className="fixed-body">
       {mobileSideBar}
       {desktopSideBar}
-      <div>
-        <div className="flex h-screen flex-1 flex-col md:pl-14">
-          <div className="sticky top-0 z-10 flex h-14 flex-shrink-0 bg-slate-900 shadow">
-            {mobileSideBarToggle}
-            <div className="flex flex-1 justify-between border-b border-slate-800 px-6">
-              {searchBar}
-            </div>
+      <div className="flex h-full flex-1 flex-col md:pl-14">
+        <div className="sticky top-0 z-10 flex h-14 flex-shrink-0 bg-slate-900 shadow">
+          {mobileSideBarToggle}
+          <div className="flex flex-1 justify-between border-b border-slate-800 px-6">
+            {searchBar}
           </div>
-          <main className="flex-1 overflow-hidden">{children}</main>
         </div>
+        <main className="flex-1 overflow-hidden">{children}</main>
       </div>
       <SearchModal
         isOpen={isSearchModalOpen}

@@ -17,7 +17,7 @@ export default class MyDocument extends Document {
           {/*  href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"*/}
           {/*/>*/}
         </Head>
-        <body className="h-full">
+        <body className="fixed-body">
           <Main />
           <NextScript />
         </body>
