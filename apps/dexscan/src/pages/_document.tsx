@@ -7,7 +7,7 @@ export default class MyDocument extends Document {
       <Html lang="en" className="h-full bg-slate-900">
         <Head>
           {/* PWA primary color */}
-          <meta name="theme-color" content="#3c0336" />
+          <meta name="theme-color" content="#0f172a" />
           <link rel="shortcut icon" href="/favicon.ico" />
           <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
           {/* eslint-disable-next-line @next/next/no-sync-scripts */}
