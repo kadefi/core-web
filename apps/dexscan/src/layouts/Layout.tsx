@@ -208,7 +208,7 @@ const Layout = (props: Props) => {
       <div className="flex h-full flex-1 flex-col md:pl-14">
         <div className="sticky top-0 z-10 flex h-14 flex-shrink-0 bg-slate-900 shadow">
           {mobileSideBarToggle}
-          <div className="flex flex-1 justify-between border-b border-slate-800 px-6">
+          <div className="flex flex-1 justify-between border-y border-slate-800 px-6">
             {searchBar}
           </div>
         </div>
