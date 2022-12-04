@@ -5,7 +5,7 @@ import { useGetTradingPairs } from "../api/TradingPair.queries";
 import { getPageLayout } from "../layouts/Layout";
 import { TradingPairInfoUtil } from "../utils";
 
-const headers = ["Token", "Price", "24h %", "7d %", "DEX Pair", "24h Vol"];
+const headers = ["Token Pair", "Price", "24H", "7D", "24H Vol"];
 
 const Home = () => {
   const router = useRouter();

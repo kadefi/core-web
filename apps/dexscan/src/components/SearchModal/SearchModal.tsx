@@ -187,9 +187,9 @@ const SearchModal = (props: Props) => {
             >
               <div className="flex items-center">
                 <LogoImg src={token0.img} size="xs" />
-                <div className="ml-2 font-bold">{token0.name}</div>
-                <div className="text-slate-500">/{token1.name}</div>
-                <div className="ml-1 text-slate-500"> - {exchange.name}</div>
+                <span className="ml-2 font-bold">{token0.name}</span>
+                <span className="ml-1 text-slate-500">{`/ ${token1.name}`}</span>
+                <span className="ml-1 text-slate-500"> - {exchange.name}</span>
               </div>
               <div>{NumberUtil.formatPrice(price)}</div>
             </button>

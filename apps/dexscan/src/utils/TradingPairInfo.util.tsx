@@ -40,8 +40,8 @@ export const getTradingPairRowComponents = (
     const {
       id,
       token0,
+      token1,
       exchange,
-      pair,
       price,
       pricePercChange24h,
       pricePercChange7d,
@@ -51,21 +51,20 @@ export const getTradingPairRowComponents = (
     cells.push(
       <div className="flex items-center gap-2">
         <LogoImg src={token0.img} size="sm" />
-        {token0.name}
+        <div className="flex items-center gap-2">
+          <div className="items-left flex flex-col">
+            <div>
+              <span>{token0.name}</span>
+              <span className="text-slate-500">{` / ${token1.name}`}</span>
+            </div>
+            <div className="text-xs text-slate-500">{exchange.name}</div>
+          </div>
+        </div>
       </div>
     );
     cells.push(<div>{NumberUtil.formatPrice(price)}</div>);
     cells.push(getPercChangeDisplay(pricePercChange24h));
     cells.push(getPercChangeDisplay(pricePercChange7d));
-    cells.push(
-      <div className="flex items-center gap-2">
-        <LogoImg src={exchange.img} size="sm" />
-        <div className="items-left flex flex-col">
-          <div>{pair}</div>
-          <div className="text-xs text-slate-500">{exchange.name}</div>
-        </div>
-      </div>
-    );
     cells.push(<div>${numeral(round(volume24h, 0)).format("0,0")}</div>);
 
     const onRowClick = () => {
