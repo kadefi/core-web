@@ -106,7 +106,11 @@ const Pair = () => {
         <div className="mb-1 flex items-center gap-[2px] text-slate-500">
           {title}
           {tooltipText && (
-            <Tooltip content={tooltipText}>
+            <Tooltip
+              content={tooltipText}
+              tooltipClassname="m-[6px]"
+              placement={"top"}
+            >
               <InformationCircleIcon className="h-4 w-4" />
             </Tooltip>
           )}

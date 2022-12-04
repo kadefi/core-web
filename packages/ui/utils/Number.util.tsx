@@ -1,7 +1,8 @@
-import Tooltip from "@mui/material/Tooltip";
 import round from "lodash/round";
 import numeral from "numeral";
 import { ReactNode } from "react";
+
+import { Tooltip } from "../components";
 
 export const roundToDecimalStr = (num: number, decimalDigits: number) => {
   const minValue = Number(Math.pow(10, -decimalDigits).toPrecision(1));
@@ -49,10 +50,7 @@ export const formatPrice = (num: number, subscriptSize?: number): ReactNode => {
     }
 
     return (
-      <Tooltip
-        title={`$0.${Array(numZeros).fill(0).join("")}${secondHalf}`}
-        arrow
-      >
+      <Tooltip content={`$0.${Array(numZeros).fill(0).join("")}${secondHalf}`}>
         <span>
           ${firstHalf}
           <sub
