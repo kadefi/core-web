@@ -1,8 +1,8 @@
 import "../../styles/global.css";
 import "react-reflex/styles.css";
 
+import { StyledEngineProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Flowbite } from "flowbite-react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { Page } from "ui";
@@ -43,7 +43,9 @@ function MyApp({ Component, pageProps }: MyAppProps) {
         <meta property="twitter:description" content={DESCRIPTION} />
         <meta property="twitter:image" content={IMAGE_URL} />
       </Head>
-      <Flowbite>{getLayout(<Component {...pageProps} />)}</Flowbite>
+      <StyledEngineProvider injectFirst>
+        {getLayout(<Component {...pageProps} />)}
+      </StyledEngineProvider>
     </QueryClientProvider>
   );
 }

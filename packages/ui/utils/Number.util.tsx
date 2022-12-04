@@ -1,4 +1,4 @@
-import { Tooltip } from "flowbite-react";
+import Tooltip from "@mui/material/Tooltip";
 import round from "lodash/round";
 import numeral from "numeral";
 import { ReactNode } from "react";
@@ -49,13 +49,11 @@ export const formatPrice = (num: number, subscriptSize?: number): ReactNode => {
     }
 
     return (
-      <span>
-        <Tooltip
-          style="light"
-          content={`$0.${Array(numZeros).fill(0).join("")}${secondHalf}`}
-          placement="bottom"
-          className="text-xs"
-        >
+      <Tooltip
+        title={`$0.${Array(numZeros).fill(0).join("")}${secondHalf}`}
+        arrow
+      >
+        <span>
           ${firstHalf}
           <sub
             className="relative -bottom-[6px]"
@@ -64,8 +62,8 @@ export const formatPrice = (num: number, subscriptSize?: number): ReactNode => {
             {numZeros}
           </sub>
           {secondHalf}
-        </Tooltip>
-      </span>
+        </span>
+      </Tooltip>
     );
   }
 

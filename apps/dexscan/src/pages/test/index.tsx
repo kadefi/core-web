@@ -1,9 +1,7 @@
-import { Alert } from "flowbite-react";
-
 import { getPageLayout } from "../../layouts/Layout";
 
 const Test = () => {
-  return <Alert color="info">Alert!</Alert>;
+  return <div>test</div>;
 };
 
 Test.getLayout = getPageLayout;

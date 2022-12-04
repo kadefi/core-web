@@ -12,10 +12,6 @@ export default class MyDocument extends Document {
           <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
           {/* eslint-disable-next-line @next/next/no-sync-scripts */}
           <script src="/static/datafeeds/udf/dist/bundle.js" />
-          {/*<link*/}
-          {/*  rel="stylesheet"*/}
-          {/*  href="https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"*/}
-          {/*/>*/}
         </Head>
         <body className="fixed-body">
           <Main />

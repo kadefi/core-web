@@ -1,6 +1,6 @@
 import { InformationCircleIcon } from "@heroicons/react/20/solid";
+import Tooltip from "@mui/material/Tooltip";
 import clsx from "clsx";
-import { Tooltip } from "flowbite-react";
 import round from "lodash/round";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -107,11 +107,7 @@ const Pair = () => {
         <div className="mb-1 flex items-center gap-[2px] text-slate-500">
           {title}
           {tooltipText && (
-            <Tooltip
-              style="light"
-              content={tooltipText}
-              className="text-sm lg:text-xs"
-            >
+            <Tooltip title={tooltipText} arrow>
               <InformationCircleIcon className="h-4 w-4" />
             </Tooltip>
           )}
@@ -133,10 +129,9 @@ const Pair = () => {
               rel="noreferrer"
             >
               <Tooltip
-                style="light"
-                content={social}
-                placement="bottom"
-                className="text-xs capitalize"
+                title={social}
+                arrow
+                slotProps={{ tooltip: { className: "capitalize" } }}
               >
                 <div className="h-5 w-5 cursor-pointer lg:h-6 lg:w-6">
                   {SocialLogos[social]}
