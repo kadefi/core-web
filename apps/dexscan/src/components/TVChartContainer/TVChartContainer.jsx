@@ -22,7 +22,7 @@ const TVChartContainer = (props) => {
 
   const ref = useRef();
 
-  const matches = useMinWidth(Breakpoint.sm);
+  const smAndAbove = useMinWidth(Breakpoint.sm);
 
   const loadingIndicator = (
     <div className="absolute top-0 bottom-0 right-0 left-0 bg-slate-900">
@@ -40,7 +40,7 @@ const TVChartContainer = (props) => {
 
     const enabledFeatures = [];
 
-    if (!matches) {
+    if (!smAndAbove) {
       enabledFeatures.push("hide_left_toolbar_by_default");
     }
 
@@ -93,7 +93,7 @@ const TVChartContainer = (props) => {
         tvWidgetRef.current = null;
       }
     };
-  }, [matches, symbol]);
+  }, [smAndAbove, symbol]);
 
   if (!symbol) {
     return loadingIndicator;

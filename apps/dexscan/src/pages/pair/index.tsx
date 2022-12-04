@@ -1,5 +1,4 @@
 import { InformationCircleIcon } from "@heroicons/react/20/solid";
-import Tooltip from "@mui/material/Tooltip";
 import clsx from "clsx";
 import round from "lodash/round";
 import dynamic from "next/dynamic";
@@ -8,7 +7,7 @@ import numeral from "numeral";
 import { ReactNode, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
-import { DataTable, LoadingSpinner, LogoImg, NumberUtil } from "ui";
+import { DataTable, LoadingSpinner, LogoImg, NumberUtil, Tooltip } from "ui";
 import { Breakpoint } from "ui/constants";
 import { useMinWidth } from "ui/hooks";
 
@@ -48,7 +47,7 @@ const Pair = () => {
 
   const { ref: tableBottomRef, inView } = useInView({});
 
-  const isMinWidthLg = useMinWidth(Breakpoint.lg);
+  const lgAndAbove = useMinWidth(Breakpoint.lg);
 
   const {
     data: transactions,
@@ -107,7 +106,7 @@ const Pair = () => {
         <div className="mb-1 flex items-center gap-[2px] text-slate-500">
           {title}
           {tooltipText && (
-            <Tooltip title={tooltipText} arrow>
+            <Tooltip content={tooltipText}>
               <InformationCircleIcon className="h-4 w-4" />
             </Tooltip>
           )}
@@ -128,11 +127,7 @@ const Pair = () => {
               target="_blank"
               rel="noreferrer"
             >
-              <Tooltip
-                title={social}
-                arrow
-                slotProps={{ tooltip: { className: "capitalize" } }}
-              >
+              <Tooltip content={social} tooltipClassname="capitalize">
                 <div className="h-5 w-5 cursor-pointer lg:h-6 lg:w-6">
                   {SocialLogos[social]}
                 </div>
@@ -339,7 +334,7 @@ const Pair = () => {
         <div className="grow-0 border-b border-slate-800 lg:h-full lg:w-96 lg:border-r lg:border-b-0">
           {tokenInformation}
         </div>
-        {isMinWidthLg ? desktopDisplay : mobileDisplay}
+        {lgAndAbove ? desktopDisplay : mobileDisplay}
       </div>
     </div>
   );
