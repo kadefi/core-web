@@ -57,7 +57,9 @@ export const getTradingPairRowComponents = (
               <span>{token0.name}</span>
               <span className="text-slate-500">{` / ${token1.name}`}</span>
             </div>
-            <div className="text-xs text-slate-500">{exchange.name}</div>
+            <div className="text-xs text-[10px] text-slate-500">
+              {exchange.name}
+            </div>
           </div>
         </div>
       </div>
