@@ -1,13 +1,16 @@
 import { InformationCircleIcon } from "@heroicons/react/20/solid";
+import clsx from "clsx";
 import { Tooltip } from "flowbite-react";
 import round from "lodash/round";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import numeral from "numeral";
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import { DataTable, LoadingSpinner, LogoImg, NumberUtil } from "ui";
+import { Breakpoint } from "ui/constants";
+import { useMinWidth } from "ui/hooks";
 
 import { useGetTradingPairInfo } from "../../api/TradingPair.queries";
 import { useGetTransactions } from "../../api/Transaction.queries";
@@ -45,6 +48,8 @@ const Pair = () => {
 
   const { ref: tableBottomRef, inView } = useInView({});
 
+  const isMinWidthLg = useMinWidth(Breakpoint.lg);
+
   const {
     data: transactions,
     isLoading,
@@ -61,12 +66,12 @@ const Pair = () => {
   }, [fetchPreviousPage]);
 
   useEffect(() => {
-    console.log(inView);
     if (inView) {
-      console.log("fetch next page");
       fetchNextPage();
     }
   }, [fetchNextPage, inView]);
+
+  const [currentTab, setCurrentTab] = useState("Chart");
 
   if (!tradingPairInfo) {
     return null;
@@ -92,17 +97,21 @@ const Pair = () => {
     socialUrls.set(social.type, social.url);
   });
 
-  const getAdditionalInfo = (
+  const formatStatsInfo = (
     title: string,
     value: ReactNode,
     tooltipText?: string
   ) => {
     return (
-      <div className="text-xs">
+      <div className="text-sm lg:text-xs">
         <div className="mb-1 flex items-center gap-[2px] text-slate-500">
           {title}
           {tooltipText && (
-            <Tooltip style="light" content={tooltipText} className="text-xs">
+            <Tooltip
+              style="light"
+              content={tooltipText}
+              className="text-sm lg:text-xs"
+            >
               <InformationCircleIcon className="h-4 w-4" />
             </Tooltip>
           )}
@@ -129,7 +138,7 @@ const Pair = () => {
                 placement="bottom"
                 className="text-xs capitalize"
               >
-                <div className=" h-5 w-5 cursor-pointer lg:h-6 lg:w-6">
+                <div className="h-5 w-5 cursor-pointer lg:h-6 lg:w-6">
                   {SocialLogos[social]}
                 </div>
               </Tooltip>
@@ -139,6 +148,56 @@ const Pair = () => {
           return null;
         }
       })}
+    </div>
+  );
+
+  const tokenStats = (
+    <div className="mx-4 flex flex-col gap-3 overflow-auto rounded-md bg-slate-800/70 p-4 shadow lg:mx-0 lg:w-full">
+      {formatStatsInfo(
+        "24h Volume",
+        <div>${numeral(round(volume24h, 0)).format("0,0")}</div>
+      )}
+      {formatStatsInfo(
+        "Market Cap",
+        <div>
+          {circulatingSupply && price
+            ? numeral(round(circulatingSupply * price, 0)).format("0,0")
+            : "-"}
+        </div>,
+        "Current Price * Circulating Supply"
+      )}
+      {formatStatsInfo(
+        "Fully Diluted Market Cap",
+        <div>
+          $
+          {totalSupply && price
+            ? numeral(round(totalSupply * price, 0)).format("0,0")
+            : "-"}
+        </div>,
+        "Current Price * Total Supply"
+      )}
+      {formatStatsInfo(
+        "Circulating Supply",
+        <div>
+          {circulatingSupply
+            ? numeral(round(circulatingSupply, 0)).format("0,0")
+            : "-"}
+        </div>
+      )}
+      {formatStatsInfo(
+        "Total Supply",
+        <div>
+          {totalSupply ? numeral(round(totalSupply, 0)).format("0,0") : "-"}
+        </div>
+      )}
+      {formatStatsInfo(
+        "All-Time Low",
+        <div>{allTimeLow ? NumberUtil.formatPrice(allTimeLow) : "-"}</div>
+      )}
+      {formatStatsInfo(
+        "All-Time High",
+        <div>{allTimeHigh ? NumberUtil.formatPrice(allTimeHigh) : "-"}</div>
+      )}
     </div>
   );
 
@@ -173,53 +232,7 @@ const Pair = () => {
         </div>
       </div>
       <div className="hidden lg:block">{socialInfo}</div>
-      <div className="hidden w-full flex-col gap-3 rounded-md bg-slate-800/70 p-4 shadow lg:flex lg:overflow-auto">
-        {getAdditionalInfo(
-          "24h Volume",
-          <div>${numeral(round(volume24h, 0)).format("0,0")}</div>
-        )}
-        {getAdditionalInfo(
-          "Market Cap",
-          <div>
-            {circulatingSupply && price
-              ? numeral(round(circulatingSupply * price, 0)).format("0,0")
-              : "-"}
-          </div>,
-          "Current Price * Circulating Supply"
-        )}
-        {getAdditionalInfo(
-          "Fully Diluted Market Cap",
-          <div>
-            $
-            {totalSupply && price
-              ? numeral(round(totalSupply * price, 0)).format("0,0")
-              : "-"}
-          </div>,
-          "Current Price * Total Supply"
-        )}
-        {getAdditionalInfo(
-          "Circulating Supply",
-          <div>
-            {circulatingSupply
-              ? numeral(round(circulatingSupply, 0)).format("0,0")
-              : "-"}
-          </div>
-        )}
-        {getAdditionalInfo(
-          "Total Supply",
-          <div>
-            {totalSupply ? numeral(round(totalSupply, 0)).format("0,0") : "-"}
-          </div>
-        )}
-        {getAdditionalInfo(
-          "All-Time Low",
-          <div>{allTimeLow ? NumberUtil.formatPrice(allTimeLow) : "-"}</div>
-        )}
-        {getAdditionalInfo(
-          "All-Time High",
-          <div>{allTimeHigh ? NumberUtil.formatPrice(allTimeHigh) : "-"}</div>
-        )}
-      </div>
+      <div className="hidden lg:block lg:w-full">{tokenStats}</div>
     </div>
   );
 
@@ -237,7 +250,7 @@ const Pair = () => {
           Loading transactions
         </div>
       ) : (
-        <>
+        <div className="relative h-full overflow-hidden">
           <DataTable
             headers={TransactionInfoUtil.getTransactionHeaders(
               transactions.pages
@@ -253,9 +266,75 @@ const Pair = () => {
               Loading more transactions...
             </div>
           )}
-        </>
+        </div>
       )}
     </>
+  );
+
+  const desktopDisplay = (
+    <ReflexContainer
+      orientation="horizontal"
+      className="hidden md:flex md:grow md:text-slate-50"
+    >
+      <ReflexElement className="left-pane overflow-hidden" flex={0.6}>
+        <div className="h-full">{tokenChart}</div>
+      </ReflexElement>
+      <ReflexSplitter className="z-0 border-2 border-slate-700" />
+      <ReflexElement
+        className="right-pane scrollbar-hide text-sm text-slate-50"
+        flex={0.4}
+      >
+        <div className="pane-content relative h-full overflow-hidden">
+          {tokenTransactions}
+        </div>
+      </ReflexElement>
+    </ReflexContainer>
+  );
+
+  const tabs = [
+    { name: "Chart", component: tokenChart },
+    { name: "Transactions", component: tokenTransactions },
+    { name: "Statistics", component: tokenStats },
+  ];
+
+  const getCurrentTabComponent = () => {
+    for (const tab of tabs) {
+      if (tab.name === currentTab) {
+        return tab.component;
+      }
+    }
+
+    return null;
+  };
+
+  const mobileDisplay = (
+    <div className="flex h-full flex-col">
+      <nav
+        className="my-2 flex w-full flex-initial justify-center px-4"
+        aria-label="Tabs"
+      >
+        <div className="flex w-full gap-1 rounded-md border border-slate-800">
+          {tabs.map((tab) => (
+            <div
+              key={tab.name}
+              className={clsx(
+                currentTab === tab.name
+                  ? "bg-slate-700 text-slate-200"
+                  : "text-slate-500 hover:text-slate-200",
+                "flex-1 cursor-pointer rounded-md py-2 text-center text-sm font-medium"
+              )}
+              aria-current={currentTab === tab.name ? "page" : undefined}
+              onClick={() => setCurrentTab(tab.name)}
+            >
+              {tab.name}
+            </div>
+          ))}
+        </div>
+      </nav>
+      <div className="flex-1 basis-0 overflow-hidden">
+        {getCurrentTabComponent()}
+      </div>
+    </div>
   );
 
   return (
@@ -264,23 +343,7 @@ const Pair = () => {
         <div className="grow-0 border-b border-slate-800 lg:h-full lg:w-96 lg:border-r lg:border-b-0">
           {tokenInformation}
         </div>
-        <ReflexContainer
-          orientation="horizontal"
-          className="grow text-slate-50"
-        >
-          <ReflexElement className="left-pane overflow-hidden" flex={0.6}>
-            <div className="h-full">{tokenChart}</div>
-          </ReflexElement>
-          <ReflexSplitter className="z-0 border-2 border-slate-700" />
-          <ReflexElement
-            className="right-pane scrollbar-hide text-sm text-slate-50"
-            flex={0.4}
-          >
-            <div className="pane-content relative h-full overflow-hidden">
-              {tokenTransactions}
-            </div>
-          </ReflexElement>
-        </ReflexContainer>
+        {isMinWidthLg ? desktopDisplay : mobileDisplay}
       </div>
     </div>
   );

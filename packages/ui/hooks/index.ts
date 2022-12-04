@@ -1,1 +1,1 @@
-export * from "./useIsInViewport";
+export { default as useMinWidth } from "./useMinWidth";
