@@ -188,7 +188,8 @@ const Pair = () => {
         "Total Supply",
         <div>
           {totalSupply ? numeral(round(totalSupply, 0)).format("0,0") : "-"}
-        </div>
+        </div>,
+        "Max Supply - Burned Tokens"
       )}
       {formatStatsInfo(
         "All-Time Low",
