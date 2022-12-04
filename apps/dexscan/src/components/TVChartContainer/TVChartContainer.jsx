@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { LoadingSpinner } from "ui";
+import Breakpoint from "ui/constants/Breakpoint.constant";
+import { useMinWidth } from "ui/hooks";
 
 import { widget } from "../../../public/static/charting_library";
 
@@ -20,6 +22,8 @@ const TVChartContainer = (props) => {
 
   const ref = useRef();
 
+  const matches = useMinWidth(Breakpoint.sm);
+
   const loadingIndicator = (
     <div className="absolute top-0 bottom-0 right-0 left-0 bg-slate-900">
       <div className="flex h-full w-full items-center justify-center text-sm text-slate-500">
@@ -32,6 +36,12 @@ const TVChartContainer = (props) => {
   useEffect(() => {
     if (!symbol) {
       return;
+    }
+
+    const enabledFeatures = [];
+
+    if (!matches) {
+      enabledFeatures.push("hide_left_toolbar_by_default");
     }
 
     const widgetOptions = {
@@ -54,6 +64,7 @@ const TVChartContainer = (props) => {
         "control_bar",
         "popup_hints",
       ],
+      enabled_features: enabledFeatures,
       charts_storage_url: "https://saveload.tradingview.com",
       charts_storage_api_version: "1.1",
       client_id: "tradingview.com",
@@ -74,23 +85,6 @@ const TVChartContainer = (props) => {
 
     tvWidget.onChartReady(() => {
       setIsLoading(false);
-      tvWidget.headerReady().then(() => {
-        const button = tvWidget.createButton();
-
-        button.setAttribute("title", "Click to show a notification popup");
-        button.classList.add("apply-common-tooltip");
-        button.addEventListener("click", () =>
-          tvWidget.showNoticeDialog({
-            title: "Notification",
-            body: "TradingView Charting Library API works correctly",
-            callback: () => {
-              console.log("Noticed!");
-            },
-          })
-        );
-
-        button.innerHTML = "Check API";
-      });
     });
 
     return () => {
@@ -99,7 +93,7 @@ const TVChartContainer = (props) => {
         tvWidgetRef.current = null;
       }
     };
-  }, [symbol]);
+  }, [matches, symbol]);
 
   if (!symbol) {
     return loadingIndicator;
