@@ -87,22 +87,12 @@ const TxnExplorerLink = ({
   );
 };
 
-export const getTransactionHeaders = (pagesResponse: TransactionInfo[][]) => {
-  if (!pagesResponse || pagesResponse.length === 0) {
+export const getTransactionHeaders = (transactions: TransactionInfo[]) => {
+  if (!transactions || transactions.length === 0) {
     return [];
   }
 
-  let sampleTxn;
-
-  for (let i = 0; i < pagesResponse.length; i++) {
-    if (pagesResponse[i].length > 0) {
-      sampleTxn = pagesResponse[i][0];
-    }
-  }
-
-  if (!sampleTxn) {
-    return [];
-  }
+  const sampleTxn = transactions[0];
 
   const ticker1 = sampleTxn.token0.ticker;
   const ticker2 = sampleTxn.token1.ticker;
@@ -120,42 +110,40 @@ export const getTransactionHeaders = (pagesResponse: TransactionInfo[][]) => {
 };
 
 export const getTransactionRowComponents = (
-  pagesResponse: TransactionInfo[][]
+  transactions: TransactionInfo[]
 ): DataTableRows => {
   const rows: DataTableRows = [];
 
-  pagesResponse.forEach((pageResponse) => {
-    pageResponse.forEach((pageData) => {
-      const cells = [];
-      const {
-        timestamp,
-        type,
-        price,
-        token0,
-        token1,
-        address,
-        requestkey,
-        amount,
-        eventId,
-      } = pageData;
+  transactions.forEach((transaction) => {
+    const cells = [];
+    const {
+      timestamp,
+      type,
+      price,
+      token0,
+      token1,
+      address,
+      requestkey,
+      amount,
+      eventId,
+    } = transaction;
 
-      const isBuyTxn = type === "BUY";
-      const color = isBuyTxn ? "text-green-200" : "text-red-300";
-      const typeColor = isBuyTxn ? "text-green-500" : "text-red-500";
+    const isBuyTxn = type === "BUY";
+    const color = isBuyTxn ? "text-green-200" : "text-red-300";
+    const typeColor = isBuyTxn ? "text-green-500" : "text-red-500";
 
-      cells.push(<TxnDate color={color} timestamp={timestamp} />);
-      cells.push(<TxnType color={typeColor} type={type} />);
-      cells.push(<TxnPrice color={color} price={price} />);
-      cells.push(<TxnToken color={color} token={token0} />);
-      cells.push(<TxnToken color={color} token={token1} />);
-      cells.push(<TxnValue color={color} amount={amount} />);
-      cells.push(<TxnWalletLink color={color} walletAddress={address} />);
-      cells.push(<TxnExplorerLink color={color} requestkey={requestkey} />);
+    cells.push(<TxnDate color={color} timestamp={timestamp} />);
+    cells.push(<TxnType color={typeColor} type={type} />);
+    cells.push(<TxnPrice color={color} price={price} />);
+    cells.push(<TxnToken color={color} token={token0} />);
+    cells.push(<TxnToken color={color} token={token1} />);
+    cells.push(<TxnValue color={color} amount={amount} />);
+    cells.push(<TxnWalletLink color={color} walletAddress={address} />);
+    cells.push(<TxnExplorerLink color={color} requestkey={requestkey} />);
 
-      rows.push({
-        cells,
-        rowKey: `${requestkey}-${eventId}`,
-      });
+    rows.push({
+      cells,
+      rowKey: `${requestkey}-${eventId}`,
     });
   });
 

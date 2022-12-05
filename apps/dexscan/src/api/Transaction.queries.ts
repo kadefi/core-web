@@ -4,6 +4,7 @@ import {
 } from "@tanstack/react-query";
 import { DateTime } from "luxon";
 
+import { TRANSACTIONS_QUERY_KEY } from "../constants";
 import {
   TransactionInfo,
   TransactionParams,
@@ -14,9 +15,9 @@ export const useGetTransactions = (
   params: TransactionParams
 ): UseInfiniteQueryResult<TransactionInfo[]> => {
   return useInfiniteQuery({
-    queryKey: ["TRANSACTIONS", params],
+    queryKey: [TRANSACTIONS_QUERY_KEY, params],
     queryFn: ({ pageParam }) => getTransactions({ ...params, ...pageParam }),
-    enabled: Boolean(params.pairId && params.exchange),
+    enabled: Boolean(params.pairId && params.exchangeId),
     getNextPageParam: (lastPage) => {
       const lastTxnTime = DateTime.fromISO(
         lastPage[lastPage.length - 1].timestamp
@@ -24,30 +25,9 @@ export const useGetTransactions = (
 
       return {
         id: params.pairId,
-        exchange: params.exchange,
+        exchange: params.exchangeId,
         limit: params.limit,
         toTime: lastTxnTime,
-      };
-    },
-    getPreviousPageParam: (_firstPage, allPages) => {
-      if (allPages.length > 500) {
-        window.location.reload();
-      }
-
-      let firstTxnTime = DateTime.now().toSeconds();
-
-      for (let i = 0; i < allPages.length; i++) {
-        if (allPages[i].length > 0) {
-          firstTxnTime = DateTime.fromISO(allPages[i][0].timestamp).toSeconds();
-          break;
-        }
-      }
-
-      return {
-        id: params.pairId,
-        exchange: params.exchange,
-        limit: 100,
-        fromTime: firstTxnTime,
       };
     },
   });

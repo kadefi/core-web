@@ -1,24 +1,29 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
+import {
+  REFETCH_INTERVAL_IN_MS,
+  TRADING_PAIR_INFO_QUERY_KEY,
+  TRADING_PAIR_QUERY_KEY,
+} from "../constants";
 import { TradingPairInfo } from "../types/TradingPairTable.type";
 import { getTradingPairInfo, getTradingPairs } from "./TradingPair.api";
 
-const REFETCH_INTERVAL = 20000;
-
 export const useGetTradingPairs = (): UseQueryResult<TradingPairInfo[]> => {
-  return useQuery(["TRADING_PAIRS"], () => getTradingPairs(), {
-    refetchInterval: REFETCH_INTERVAL,
+  return useQuery({
+    queryKey: [TRADING_PAIR_QUERY_KEY],
+    queryFn: () => getTradingPairs(),
+    refetchInterval: REFETCH_INTERVAL_IN_MS,
   });
 };
 
 export const useGetTradingPairInfo = (
   pairId?: string,
-  exchange?: string
+  exchangeId?: string
 ): UseQueryResult<TradingPairInfo> => {
   return useQuery({
-    queryKey: ["TRADING_PAIR_INFO", pairId, exchange],
-    queryFn: () => getTradingPairInfo(pairId, exchange),
-    refetchInterval: REFETCH_INTERVAL,
-    enabled: Boolean(pairId && exchange),
+    queryKey: [TRADING_PAIR_INFO_QUERY_KEY, pairId, exchangeId],
+    queryFn: () => getTradingPairInfo(pairId, exchangeId),
+    refetchInterval: REFETCH_INTERVAL_IN_MS,
+    enabled: Boolean(pairId && exchangeId),
   });
 };

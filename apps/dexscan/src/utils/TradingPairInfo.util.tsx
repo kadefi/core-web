@@ -71,8 +71,7 @@ export const getTradingPairRowComponents = (
 
     const onRowClick = () => {
       router.push({
-        pathname: "/pair",
-        query: { id, exchange: exchange.name },
+        pathname: `/pair/${id}/${exchange.name}`,
       });
     };
 

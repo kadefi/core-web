@@ -8,11 +8,14 @@ export const getTradingPairs = async () => {
   return response.data as TradingPairInfo[];
 };
 
-export const getTradingPairInfo = async (pairId: string, exchange: string) => {
+export const getTradingPairInfo = async (
+  pairId: string,
+  exchangeId: string
+) => {
   const response = await ApiClient.get(`/api/pairs`, {
     params: {
       id: pairId,
-      exchange,
+      exchange: exchangeId,
     },
   });
 

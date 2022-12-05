@@ -2,18 +2,16 @@ import "../../styles/global.css";
 import "react-reflex/styles.css";
 
 import { StyledEngineProvider } from "@mui/material";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  DehydratedState,
+  Hydrate,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { Page } from "ui";
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+import { useState } from "react";
+import { LayoutFn } from "ui";
 
 const TITLE = "Kadefi Money DexScan | DeFi Dashboard for Kadena";
 const DESCRIPTION =
@@ -21,15 +19,26 @@ const DESCRIPTION =
 const IMAGE_URL = "https://kadefi.money/assets/logo.png";
 const TWITTER_USERNAME = "@kadefi_money";
 
-interface MyAppProps extends AppProps {
-  Component: Page;
+interface MyAppProps extends AppProps<{ dehydratedState: DehydratedState }> {
+  Component: LayoutFn;
 }
 
 function MyApp({ Component, pageProps }: MyAppProps) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false,
+          },
+        },
+      })
+  );
+
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <div>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <title>{TITLE}</title>
@@ -44,9 +53,14 @@ function MyApp({ Component, pageProps }: MyAppProps) {
         <meta property="twitter:image" content={IMAGE_URL} />
       </Head>
       <StyledEngineProvider injectFirst>
-        {getLayout(<Component {...pageProps} />)}
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            {/* @ts-ignore */}
+            {getLayout(<Component {...pageProps} />)}
+          </Hydrate>
+        </QueryClientProvider>
       </StyledEngineProvider>
-    </QueryClientProvider>
+    </div>
   );
 }
 

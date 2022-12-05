@@ -10,7 +10,6 @@ ApiClient.interceptors.request.use((config) => {
 });
 
 function interceptErrorResponse(error: AxiosError) {
-  console.log("Network Error: ", error);
   throw error;
 }
 

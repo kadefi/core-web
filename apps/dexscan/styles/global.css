@@ -22,3 +22,18 @@
   right: 0;
   bottom: 0;
 }
+
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input {
+  margin: 0;
+  border-radius: 0;
+}

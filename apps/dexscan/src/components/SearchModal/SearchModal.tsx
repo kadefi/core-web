@@ -93,8 +93,7 @@ const SearchModal = (props: Props) => {
     setIsOpen(false);
 
     router.push({
-      pathname: "/pair",
-      query: { id: pair.id, exchange: pair.exchange.name },
+      pathname: `/pair/${pair.id}/${pair.exchange.name}`,
     });
   };
 

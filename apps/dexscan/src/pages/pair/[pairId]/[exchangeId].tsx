@@ -1,30 +1,55 @@
 import { InformationCircleIcon } from "@heroicons/react/20/solid";
+import { dehydrate, QueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import round from "lodash/round";
+import { DateTime } from "luxon";
+import { GetStaticPaths, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import numeral from "numeral";
-import { ReactNode, useEffect, useState } from "react";
+import { ParsedUrlQuery } from "querystring";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
-import { DataTable, LoadingSpinner, LogoImg, NumberUtil, Tooltip } from "ui";
+import {
+  DataTable,
+  DehydratedStateProps,
+  LoadingSpinner,
+  LogoImg,
+  NextPageWithLayout,
+  NumberUtil,
+  Tooltip,
+} from "ui";
 import { Breakpoint } from "ui/constants";
 import { useMinWidth } from "ui/hooks";
 
-import { useGetTradingPairInfo } from "../../api/TradingPair.queries";
-import { useGetTransactions } from "../../api/Transaction.queries";
-import DiscordLogo from "../../assets/svgs/discord.svg";
-import GithubLogo from "../../assets/svgs/github.svg";
-import TelegramLogo from "../../assets/svgs/telegram.svg";
-import TwitterLogo from "../../assets/svgs/twitter.svg";
-import WebsiteLogo from "../../assets/svgs/website.svg";
-import { getPageLayout } from "../../layouts/Layout";
-import { TradingPairInfoUtil, TransactionInfoUtil } from "../../utils";
+import {
+  getTradingPairInfo,
+  getTradingPairs,
+} from "../../../api/TradingPair.api";
+import { useGetTradingPairInfo } from "../../../api/TradingPair.queries";
+import { getTransactions } from "../../../api/Transaction.api";
+import { useGetTransactions } from "../../../api/Transaction.queries";
+import DiscordLogo from "../../../assets/svgs/discord.svg";
+import GithubLogo from "../../../assets/svgs/github.svg";
+import TelegramLogo from "../../../assets/svgs/telegram.svg";
+import TwitterLogo from "../../../assets/svgs/twitter.svg";
+import WebsiteLogo from "../../../assets/svgs/website.svg";
+import {
+  REFETCH_INTERVAL_IN_MS,
+  REVALIDATE_DURATION_IN_S,
+  TRADING_PAIR_INFO_QUERY_KEY,
+  TRANSACTIONS_FETCH_LIMIT,
+} from "../../../constants";
+import { getPageLayout } from "../../../layouts/Layout";
+import { TradingPairInfo } from "../../../types/TradingPairTable.type";
+import { TransactionInfo } from "../../../types/TransactionsTable.type";
+import { TradingPairInfoUtil, TransactionInfoUtil } from "../../../utils";
 
 const TVChartContainer = dynamic(
   // @ts-ignore
   () =>
-    import("../../components/TVChartContainer").then(
+    import("../../../components/TVChartContainer").then(
       (mod) => mod.TVChartContainer
     ),
   { ssr: false }
@@ -38,31 +63,52 @@ const SocialLogos = {
   github: <GithubLogo className="text-slate-200" />,
 };
 
-const Pair = () => {
+interface IParams extends ParsedUrlQuery {
+  pairId: string;
+  exchangeId: string;
+}
+
+type Props = {
+  initTransactions: TransactionInfo[];
+} & DehydratedStateProps;
+
+const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
+  const { initTransactions } = props;
+
+  // Router info
   const router = useRouter();
+  const { pairId, exchangeId } = router.query as IParams;
 
-  const { id, exchange } = router.query as { id: string; exchange: string };
+  // Trading Pair Info
+  const { data: tradingPairInfo } = useGetTradingPairInfo(pairId, exchangeId);
 
-  const { data: tradingPairInfo } = useGetTradingPairInfo(id, exchange);
-
-  const { ref: tableBottomRef, inView } = useInView({});
-
-  const lgAndAbove = useMinWidth(Breakpoint.lg);
+  // Transactions Info
+  const [transactions, setTransactions] = useState(initTransactions);
 
   const {
-    data: transactions,
-    isLoading,
+    data: newTransactions,
+    isFetching: isTransactionsFetching,
     fetchNextPage,
-    fetchPreviousPage,
-  } = useGetTransactions({ pairId: id, exchange, limit: 50 });
+  } = useGetTransactions({
+    pairId,
+    exchangeId,
+    limit: TRANSACTIONS_FETCH_LIMIT,
+  });
 
   useEffect(() => {
-    const interval = setInterval(() => fetchPreviousPage(), 20000);
+    // Update transactions info whenever re-fetch occurs
+    if (!isTransactionsFetching && newTransactions) {
+      const flattenedTransactionsList = newTransactions.pages.reduce(
+        (accumulator, currentValue) => [...accumulator, ...currentValue],
+        []
+      );
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, [fetchPreviousPage]);
+      setTransactions(flattenedTransactionsList);
+    }
+  }, [isTransactionsFetching, newTransactions]);
+
+  // Fetch next page transactions when bottom of transaction table is reached
+  const { ref: tableBottomRef, inView } = useInView({});
 
   useEffect(() => {
     if (inView) {
@@ -70,12 +116,48 @@ const Pair = () => {
     }
   }, [fetchNextPage, inView]);
 
+  // Fetch the latest transactions periodically
+  const latestTransactionTime =
+    transactions?.length > 0
+      ? DateTime.fromISO(transactions[0].timestamp).toSeconds()
+      : DateTime.now().toSeconds();
+
+  const intervalRef = useRef<NodeJS.Timer>();
+
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(async () => {
+      const latestTransactions = await getTransactions({
+        pairId,
+        exchangeId,
+        limit: TRANSACTIONS_FETCH_LIMIT,
+        fromTime: latestTransactionTime,
+      });
+
+      setTransactions((prevTransactions) => [
+        ...latestTransactions,
+        ...prevTransactions,
+      ]);
+    }, REFETCH_INTERVAL_IN_MS);
+
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }, [exchangeId, latestTransactionTime, pairId]);
+
+  // Mobile UI Responsiveness Config
+  const lgAndAbove = useMinWidth(Breakpoint.lg);
+
   const [currentTab, setCurrentTab] = useState("Chart");
 
   if (!tradingPairInfo) {
     return null;
   }
 
+  // Data Render
   const {
     token0,
     token1,
@@ -238,32 +320,19 @@ const Pair = () => {
   );
 
   const tokenTransactions = (
-    <>
-      {isLoading || !transactions ? (
-        <div className="flex h-full w-full items-center justify-center text-slate-500">
+    <div className="relative h-full overflow-hidden">
+      <DataTable
+        headers={TransactionInfoUtil.getTransactionHeaders(transactions)}
+        rows={TransactionInfoUtil.getTransactionRowComponents(transactions)}
+        tableBottomRef={tableBottomRef}
+      />
+      {inView && (
+        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-slate-800 px-4 py-2 text-center text-slate-50">
           <LoadingSpinner />
-          Loading transactions
-        </div>
-      ) : (
-        <div className="relative h-full overflow-hidden">
-          <DataTable
-            headers={TransactionInfoUtil.getTransactionHeaders(
-              transactions.pages
-            )}
-            rows={TransactionInfoUtil.getTransactionRowComponents(
-              transactions.pages
-            )}
-            tableBottomRef={tableBottomRef}
-          />
-          {inView && (
-            <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-slate-800 px-4 py-2 text-center text-slate-50">
-              <LoadingSpinner />
-              Loading more transactions...
-            </div>
-          )}
+          Loading more transactions...
         </div>
       )}
-    </>
+    </div>
   );
 
   const desktopDisplay = (
@@ -344,6 +413,47 @@ const Pair = () => {
   );
 };
 
-Pair.getLayout = getPageLayout;
+export const getStaticPaths: GetStaticPaths<IParams> = async () => {
+  const tradingPairs: TradingPairInfo[] = await getTradingPairs();
 
-export default Pair;
+  const paths = tradingPairs.map((pair) => ({
+    params: {
+      pairId: pair.id,
+      exchangeId: pair.exchange.name,
+    },
+  }));
+
+  return {
+    paths,
+    fallback: true,
+  };
+};
+
+export const getStaticProps: GetStaticProps<Props> = async (context) => {
+  const { pairId, exchangeId } = context.params as IParams;
+
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: [TRADING_PAIR_INFO_QUERY_KEY, pairId, exchangeId],
+    queryFn: () => getTradingPairInfo(pairId, exchangeId),
+  });
+
+  const transactions = await getTransactions({
+    pairId,
+    exchangeId: exchangeId,
+    limit: TRANSACTIONS_FETCH_LIMIT,
+  });
+
+  return {
+    props: {
+      initTransactions: transactions,
+      dehydratedState: dehydrate(queryClient),
+    },
+    revalidate: REVALIDATE_DURATION_IN_S,
+  };
+};
+
+TradingPairPage.getLayout = getPageLayout;
+
+export default TradingPairPage;

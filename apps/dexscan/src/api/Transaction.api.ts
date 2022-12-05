@@ -9,7 +9,7 @@ export const getTransactions = async (params: TransactionParams) => {
   const response = await ApiClient.get(`/api/transactions`, {
     params: {
       id: params.pairId,
-      exchange: params.exchange,
+      exchange: params.exchangeId,
       limit: params.limit,
       fromTime: params.fromTime,
       toTime: params.toTime,

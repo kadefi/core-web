@@ -19,7 +19,7 @@ export type TransactionTokenInfo = {
 
 export type TransactionParams = {
   pairId?: string;
-  exchange?: string;
+  exchangeId?: string;
   limit?: number;
   fromTime?: number;
   toTime?: number;
