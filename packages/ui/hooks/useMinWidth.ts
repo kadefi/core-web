@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const useMinWidth = (width?: string) => {
-  const [matches, setMatches] = useState(false);
+  const [matches, setMatches] = useState(null);
 
   useEffect(() => {
     const minWidthQuery = `(min-width: ${width ?? ""})`;
