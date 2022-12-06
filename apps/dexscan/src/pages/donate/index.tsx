@@ -1,9 +1,14 @@
+import { DocumentDuplicateIcon } from "@heroicons/react/20/solid";
 import { GetStaticProps } from "next";
 import { NextPageWithLayout } from "ui";
 
 import { getIntegrationInfo } from "../../api/Integration.api";
 import { getPageLayout } from "../../layouts/Layout";
 import { IntegrationInfo } from "../../types/Integration.type";
+import { BrowserUtil } from "../../utils";
+
+const DONATION_WALLET =
+  "k:9d46e06675aaaea9803c8baadf0d26b9f933ed85f58f086d2bb700266bad6a65";
 
 type Props = {
   integrations: IntegrationInfo;
@@ -20,6 +25,16 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
       </div>
     );
   };
+
+  const wallet = (
+    <div
+      className="flex w-full cursor-pointer items-center justify-between rounded-md bg-pink-700 py-2 px-4 transition transition duration-300 hover:shadow-lg hover:shadow-pink-600/50"
+      onClick={() => BrowserUtil.copyToClipboard(DONATION_WALLET)}
+    >
+      <div className="truncate">{DONATION_WALLET}</div>
+      <DocumentDuplicateIcon className="h-6 w-6" />
+    </div>
+  );
 
   const { projects, nfts, tokens } = integrations;
 
@@ -59,9 +74,7 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
           a big virtual hug 🤗 (not the real one though, we are not that kind of
           platform 😉) You can find our wallet address here:
         </div>
-        <div className="w-full cursor-pointer truncate rounded-md bg-pink-700 py-2 px-4">
-          k:9d46e06675aaaea9803c8baadf0d26b9f933ed85f58f086d2bb700266bad6a65
-        </div>
+        {wallet}
         <div>
           From the bottom of our hearts, we truly appreciate your support and we
           look forward to continuing serving you and the Kadena community in the

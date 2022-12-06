@@ -1,3 +1,4 @@
+export * as BrowserUtil from "./Browser.util";
 export * as DateUtil from "./Date.util";
 export * from "./LocalStorage.util";
 export * as TradingPairInfoUtil from "./TradingPairInfo.util";
