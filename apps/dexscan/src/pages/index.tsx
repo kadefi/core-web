@@ -24,9 +24,12 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
   return (
     <div className="flex h-full flex-1 flex-col">
       <div className="flex-initial sm:px-6">
-        <h1 className="p-4 text-2xl font-semibold text-slate-300">
-          Kadefi DEX Dashboard
-        </h1>
+        <div className="p-4">
+          <h1 className="text-2xl font-semibold text-sky-400">
+            DEXScan Dashboard
+          </h1>
+          <div className="text-slate-200">by Kadefi.Money</div>
+        </div>
       </div>
       <div className="flex-auto overflow-hidden px-2 sm:px-6">
         <DataTable
