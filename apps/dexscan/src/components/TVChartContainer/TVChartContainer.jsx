@@ -59,6 +59,7 @@ const TVChartContainer = (props) => {
       disabled_features: [
         "use_localstorage_for_settings",
         "header_symbol_search",
+        "symbol_search_hot_key",
         "header_compare",
         "timeframes_toolbar",
         "header_undo_redo",
