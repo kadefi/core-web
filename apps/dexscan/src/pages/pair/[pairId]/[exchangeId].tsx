@@ -36,6 +36,7 @@ import TelegramLogo from "../../../assets/svgs/telegram.svg";
 import TwitterLogo from "../../../assets/svgs/twitter.svg";
 import WebsiteLogo from "../../../assets/svgs/website.svg";
 import {
+  PATH_FALLBACK,
   REFETCH_INTERVAL_IN_MS,
   REVALIDATE_DURATION_IN_S,
   TRADING_PAIR_INFO_QUERY_KEY,
@@ -425,7 +426,7 @@ export const getStaticPaths: GetStaticPaths<IParams> = async () => {
 
   return {
     paths,
-    fallback: true,
+    fallback: PATH_FALLBACK,
   };
 };
 
