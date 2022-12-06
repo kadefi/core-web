@@ -4,6 +4,8 @@ import Breakpoint from "ui/constants/Breakpoint.constant";
 import { useMinWidth } from "ui/hooks";
 
 import { widget } from "../../../public/static/charting_library";
+import { CHART_STATE_LS_KEY } from "../../constants";
+import { LocalStorage } from "../../utils";
 
 function getLanguageFromURL() {
   const regex = new RegExp("[\\?&]lang=([^&#]*)");
@@ -85,6 +87,19 @@ const TVChartContainer = (props) => {
 
     tvWidget.onChartReady(() => {
       setIsLoading(false);
+
+      tvWidget.subscribe("drawing_event", function () {
+        tvWidget.save(function (state) {
+          LocalStorage.set(CHART_STATE_LS_KEY, { [symbol]: state });
+        });
+      });
+
+      const state = LocalStorage.get(CHART_STATE_LS_KEY);
+
+      // restore the chart to its saved state
+      if (state && symbol in state) {
+        tvWidget.load(state[symbol]);
+      }
     });
 
     return () => {

@@ -71,8 +71,6 @@ scrollbar-thumb:hover {
 }
 
 /* Add support for Microsoft Edge */
--ms-overflow-style: none;
-
 scrollbar {
   width: 4px;
   height: 4px;
