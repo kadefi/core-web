@@ -1,5 +1,7 @@
 import { DocumentDuplicateIcon } from "@heroicons/react/20/solid";
+import { Alert, Snackbar } from "@mui/material";
 import { GetStaticProps } from "next";
+import { useState } from "react";
 import { NextPageWithLayout } from "ui";
 
 import { getIntegrationInfo } from "../../api/Integration.api";
@@ -17,6 +19,8 @@ type Props = {
 const Donate: NextPageWithLayout<Props> = (props: Props) => {
   const { integrations } = props;
 
+  const [open, setOpen] = useState(false);
+
   const getStatDisplay = (value: number, title: string) => {
     return (
       <div className="flex items-center gap-2">
@@ -26,10 +30,15 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
     );
   };
 
+  const handleWalletClick = () => {
+    BrowserUtil.copyToClipboard(DONATION_WALLET);
+    setOpen(true);
+  };
+
   const wallet = (
     <div
-      className="flex w-full cursor-pointer items-center justify-between rounded-md bg-pink-700 py-2 px-4 transition transition duration-300 hover:shadow-lg hover:shadow-pink-600/50"
-      onClick={() => BrowserUtil.copyToClipboard(DONATION_WALLET)}
+      className="hover:ring-inset-2 flex w-full cursor-pointer items-center justify-between rounded-md bg-pink-700 py-2 px-4 transition transition duration-300 hover:ring-2 hover:ring-pink-200 hover:ring-offset-4 hover:ring-offset-slate-900"
+      onClick={handleWalletClick}
     >
       <div className="truncate">{DONATION_WALLET}</div>
       <DocumentDuplicateIcon className="h-6 w-6" />
@@ -83,6 +92,19 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
         <div>Sincerely,</div>
         <div>Kadefi.Money Founders</div>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={() => setOpen(false)}
+      >
+        <Alert
+          onClose={() => setOpen(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Copied address to Clipboard
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

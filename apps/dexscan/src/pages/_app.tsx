@@ -1,7 +1,11 @@
 import "../../styles/global.css";
 import "react-reflex/styles.css";
 
-import { StyledEngineProvider } from "@mui/material";
+import {
+  createTheme,
+  StyledEngineProvider,
+  ThemeProvider,
+} from "@mui/material";
 import {
   DehydratedState,
   Hydrate,
@@ -22,6 +26,12 @@ const TWITTER_USERNAME = "@kadefi_money";
 interface MyAppProps extends AppProps<{ dehydratedState: DehydratedState }> {
   Component: LayoutFn;
 }
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 function MyApp({ Component, pageProps }: MyAppProps) {
   const [queryClient] = useState(
@@ -52,14 +62,16 @@ function MyApp({ Component, pageProps }: MyAppProps) {
         <meta property="twitter:description" content={DESCRIPTION} />
         <meta property="twitter:image" content={IMAGE_URL} />
       </Head>
-      <StyledEngineProvider injectFirst>
-        <QueryClientProvider client={queryClient}>
-          <Hydrate state={pageProps.dehydratedState}>
-            {/* @ts-ignore */}
-            {getLayout(<Component {...pageProps} />)}
-          </Hydrate>
-        </QueryClientProvider>
-      </StyledEngineProvider>
+      <ThemeProvider theme={darkTheme}>
+        <StyledEngineProvider injectFirst>
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              {/* @ts-ignore */}
+              {getLayout(<Component {...pageProps} />)}
+            </Hydrate>
+          </QueryClientProvider>
+        </StyledEngineProvider>
+      </ThemeProvider>
     </div>
   );
 }
