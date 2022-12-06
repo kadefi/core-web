@@ -2,7 +2,6 @@ import { InformationCircleIcon } from "@heroicons/react/20/solid";
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 import round from "lodash/round";
-import { DateTime } from "luxon";
 import { GetStaticPaths, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
@@ -45,7 +44,11 @@ import {
 import { getPageLayout } from "../../../layouts/Layout";
 import { TradingPairInfo } from "../../../types/TradingPairTable.type";
 import { TransactionInfo } from "../../../types/TransactionsTable.type";
-import { TradingPairInfoUtil, TransactionInfoUtil } from "../../../utils";
+import {
+  DateUtil,
+  TradingPairInfoUtil,
+  TransactionInfoUtil,
+} from "../../../utils";
 
 const TVChartContainer = dynamic(
   // @ts-ignore
@@ -120,8 +123,8 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
   // Fetch the latest transactions periodically
   const latestTransactionTime =
     transactions?.length > 0
-      ? DateTime.fromISO(transactions[0].timestamp).toSeconds()
-      : DateTime.now().toSeconds();
+      ? DateUtil.convertUTCToSecond(transactions[0].timestamp)
+      : DateUtil.getCurrentTimeInSecond();
 
   const intervalRef = useRef<NodeJS.Timer>();
 
