@@ -82,3 +82,19 @@ export const getTradingPairRowComponents = (
     };
   });
 };
+
+export const getLinkToExchange = (
+  exchange: "KADDEX" | "KDSWAP",
+  token0: string,
+  token1: string
+): string => {
+  if (exchange === "KADDEX") {
+    return `https://swap.kaddex.com/?token0=${token1}&token1=${token0}`;
+  }
+
+  if (exchange === "KDSWAP") {
+    return `https://www.kdswap.exchange/swap/${token1}/${token0}`;
+  }
+
+  return "";
+};
