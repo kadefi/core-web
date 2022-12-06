@@ -53,7 +53,10 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
         A Message From Kadefi.Money Founders
       </div>
       <div className="mt-4 flex w-full max-w-2xl flex-col items-start gap-4 text-sm">
-        <div>👋 Hey there,</div>
+        <div className="flex items-center gap-2">
+          <span className="text-lg">👋</span>
+          <span>Hey there,</span>
+        </div>
         <div>
           We want to take a quick moment to say thank you for your love and
           support of our little app. Thanks to your encouragement, we&apos;re
