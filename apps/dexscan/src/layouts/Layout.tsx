@@ -16,7 +16,7 @@ import { SearchModal } from "../components/SearchModal";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
-  { name: "Donate", href: "/donate", icon: HeartIcon },
+  { name: "Support Us", href: "/donate", icon: HeartIcon },
 ];
 
 type Props = {
@@ -176,7 +176,7 @@ const Layout = (props: Props) => {
                     )}
                     aria-hidden="true"
                   />
-                  {item.name}
+                  <div className="truncate">{item.name}</div>
                 </div>
               </Link>
             ))}
