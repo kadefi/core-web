@@ -37,3 +37,52 @@ input {
   margin: 0;
   border-radius: 0;
 }
+
+/* Style the scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* Style the thumb */
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+/* Style the thumb when hovered over */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Add support for Firefox */
+scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Add support for Microsoft Edge */
+-ms-overflow-style: none;
+
+scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+scrollbar-thumb {
+  background: #334155;
+  border-radius: 10px;
+}
+
+scrollbar-thumb:hover {
+  background: #555;
+}
