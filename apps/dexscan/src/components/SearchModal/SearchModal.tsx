@@ -21,6 +21,7 @@ import { LogoImg, NumberUtil } from "ui";
 
 import { useGetTradingPairs } from "../../api/TradingPair.queries";
 import { TradingPairInfo } from "../../types/TradingPairTable.type";
+import { RouteUtil } from "../../utils";
 
 const cleanStr = (s: string) => s.replace(" ", "").toLowerCase();
 
@@ -45,6 +46,16 @@ const SearchModal = (props: Props) => {
   const selectionRefs = useRef([]);
 
   const { data: tradingPairs } = useGetTradingPairs();
+
+  useEffect(() => {
+    if (tradingPairs) {
+      tradingPairs.forEach((pair) => {
+        router.prefetch(
+          RouteUtil.getTradingPairPath(pair.id, pair.exchange.name)
+        );
+      });
+    }
+  }, [router, tradingPairs]);
 
   useEffect(() => {
     setCurrentIdx(0);

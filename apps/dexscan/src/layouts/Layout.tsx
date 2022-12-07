@@ -158,7 +158,7 @@ const Layout = (props: Props) => {
         <div className="mt-4 flex flex-grow flex-col">
           <nav className="flex-1 space-y-1 px-2 pb-4">
             {navigation.map((item) => (
-              <Link key={item.name} href={item.href}>
+              <Link key={item.name} href={item.href} prefetch={true}>
                 <div
                   className={clsx(
                     router.pathname === item.href
