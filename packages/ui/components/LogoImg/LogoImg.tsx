@@ -2,12 +2,13 @@ import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
 
 type Props = {
-  src: string;
-  size?: "xs" | "sm" | "md" | "lg";
+  src: ImageProps["src"];
+  size?: "xxs" | "xs" | "sm" | "md" | "lg";
   isCircular?: boolean;
 };
 
 const sizeStyle = {
+  xxs: "h-3 w-3",
   xs: "h-4 w-4",
   sm: "h-8 w-6",
   md: "h-8 w-8",

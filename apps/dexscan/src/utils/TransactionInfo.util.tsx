@@ -3,6 +3,8 @@ import clsx from "clsx";
 import { LogoImg, NumberUtil, StringUtil } from "ui";
 import { DataTableRows } from "ui/components/DataTable/DataTable.type";
 
+import KadenaExplorerLogo from "../assets/pngs/kadena-block-explorer.png";
+import UnmarshalLogo from "../assets/svgs/unmarshal.svg";
 import {
   TransactionInfo,
   TransactionTokenInfo,
@@ -61,29 +63,48 @@ const TxnWalletLink = ({
       className={clsx(color, "flex items-center gap-1")}
       rel="noreferrer"
     >
+      <ArrowTopRightOnSquareIcon className="h-4 w-4 text-slate-100" />
       {StringUtil.shortenAddress(walletAddress, 4, 2)}
-      <ArrowTopRightOnSquareIcon className="h-4 w-4" />
     </a>
   );
 };
 
 const TxnExplorerLink = ({
   color,
+  walletAddress,
   requestkey,
 }: {
   color: string;
+  walletAddress: string;
   requestkey: string;
 }) => {
-  return (
+  const unmarshalLink = (
+    <a
+      href={`https://xscan.io/transactions/${requestkey}?chain=kadena`}
+      target="_blank"
+      className={clsx(color, "flex items-center gap-1")}
+      rel="noreferrer"
+    >
+      <UnmarshalLogo className="h-5 w-5" />
+    </a>
+  );
+
+  const kadenaExplorerLink = (
     <a
       href={`https://explorer.chainweb.com/mainnet/tx/${requestkey}`}
       target="_blank"
       className={clsx(color, "flex items-center gap-1")}
       rel="noreferrer"
     >
-      {StringUtil.shortenAddress(requestkey, 4, 2)}
-      <ArrowTopRightOnSquareIcon className="h-4 w-4" />
+      <LogoImg src={KadenaExplorerLogo} size={"xs"} />
     </a>
+  );
+
+  return (
+    <div className="flex cursor-pointer items-center gap-2">
+      {kadenaExplorerLink}
+      {walletAddress.startsWith("k:") && unmarshalLink}
+    </div>
   );
 };
 
@@ -139,7 +160,13 @@ export const getTransactionRowComponents = (
     cells.push(<TxnToken color={color} token={token1} />);
     cells.push(<TxnValue color={color} amount={amount} />);
     cells.push(<TxnWalletLink color={color} walletAddress={address} />);
-    cells.push(<TxnExplorerLink color={color} requestkey={requestkey} />);
+    cells.push(
+      <TxnExplorerLink
+        color={color}
+        walletAddress={address}
+        requestkey={requestkey}
+      />
+    );
 
     rows.push({
       cells,
