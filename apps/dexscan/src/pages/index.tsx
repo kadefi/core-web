@@ -1,6 +1,7 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { DehydratedStateProps, NextPageWithLayout } from "ui";
 import { DataTable } from "ui/components/DataTable";
 
@@ -8,7 +9,7 @@ import { getTradingPairs } from "../api/TradingPair.api";
 import { useGetTradingPairs } from "../api/TradingPair.queries";
 import { REVALIDATE_DURATION_IN_S, TRADING_PAIR_QUERY_KEY } from "../constants";
 import { getPageLayout } from "../layouts/Layout";
-import { TradingPairInfoUtil } from "../utils";
+import { RouteUtil, TradingPairInfoUtil } from "../utils";
 
 const headers = ["Token Pair", "Price", "24H", "7D", "24H Vol"];
 
@@ -17,6 +18,16 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
 
   const { data: tradingPairs } = useGetTradingPairs();
 
+  useEffect(() => {
+    if (tradingPairs) {
+      tradingPairs.forEach((pair) => {
+        router.prefetch(
+          RouteUtil.getTradingPairPath(pair.id, pair.exchange.name)
+        );
+      });
+    }
+  }, [router, tradingPairs]);
+
   if (!tradingPairs) {
     return null;
   }
@@ -24,11 +35,10 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
   return (
     <div className="flex h-full flex-1 flex-col">
       <div className="flex-initial sm:px-6">
-        <div className="p-4">
+        <div className="py-4 px-2 sm:px-0">
           <h1 className="text-2xl font-semibold text-sky-400">
             DEXScan Dashboard
           </h1>
-          <div className="text-slate-200">by Kadefi.Money</div>
         </div>
       </div>
       <div className="flex-auto overflow-hidden px-2 sm:px-6">

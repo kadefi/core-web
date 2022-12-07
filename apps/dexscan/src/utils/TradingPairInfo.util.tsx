@@ -9,6 +9,7 @@ import numeral from "numeral";
 import { LogoImg, NumberUtil } from "ui";
 
 import { TradingPairInfo } from "../types/TradingPairTable.type";
+import { RouteUtil } from ".";
 
 export const getPercChangeDisplay = (percent: number) => {
   let icon = null;
@@ -71,7 +72,7 @@ export const getTradingPairRowComponents = (
 
     const onRowClick = () => {
       router.push({
-        pathname: `/pair/${id}/${exchange.name}`,
+        pathname: RouteUtil.getTradingPairPath(id, exchange.name),
       });
     };
 
