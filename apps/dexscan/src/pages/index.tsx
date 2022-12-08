@@ -82,7 +82,7 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
           dataSource={tradingPairs}
           columnDefs={tradingPairColumnDefs}
           rowDef={tradingPairRowDef}
-          defaultSortedColumn={ColumnKey.Price7d}
+          defaultSortedColumn={ColumnKey.Vol24h}
           defaultSortedDirection={SortDirection.Desc}
           rounded
         />
