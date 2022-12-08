@@ -103,6 +103,8 @@ const TVChartContainer = (props) => {
       if (state && symbol in state) {
         tvWidget.load(state[symbol]);
       }
+
+      tvWidget.chart().getTimezoneApi().setTimezone(timezone);
     });
 
     return () => {
