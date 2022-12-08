@@ -50,7 +50,10 @@ function MyApp({ Component, pageProps }: MyAppProps) {
   return (
     <div>
       <Head>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+        />
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
         <meta property="og:title" content={TITLE} />

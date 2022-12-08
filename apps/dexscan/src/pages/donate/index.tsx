@@ -40,8 +40,8 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
       className="hover:ring-inset-2 flex w-full cursor-pointer items-center justify-between rounded-md bg-teal-600 py-2 px-4 font-semibold text-teal-50 transition transition duration-300 hover:ring-2 hover:ring-teal-400 hover:ring-offset-4 hover:ring-offset-slate-900"
       onClick={handleWalletClick}
     >
-      <div className="truncate">{DONATION_WALLET}</div>
-      <DocumentDuplicateIcon className="h-6 w-6" />
+      <div className="flex-1 truncate">{DONATION_WALLET}</div>
+      <DocumentDuplicateIcon className="h-6 w-6 flex-initial" />
     </div>
   );
 
@@ -49,10 +49,10 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-start overflow-auto p-8 text-slate-300">
-      <div className="w-full max-w-2xl text-3xl font-bold text-teal-400">
+      <div className="w-full max-w-3xl text-3xl font-bold text-teal-400 lg:text-4xl">
         A Message From Kadefi.Money Founders
       </div>
-      <div className="mt-4 flex w-full max-w-2xl flex-col items-start gap-4 text-sm">
+      <div className="text mt-4 flex w-full max-w-3xl flex-col items-start gap-4">
         <div className="flex items-center gap-2">
           <span className="text-lg">👋</span>
           <span>Hey there,</span>
@@ -72,12 +72,12 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
           "Trading pairs with real-time price chart on DexScan"
         )}
         <div>
-          We are extremely happy whenever someone shares about our platform, and
-          we want to continue providing the best possible experience. We have
-          many ideas and we would want to continue building in Kadena ecosystem
-          as long as we can. However, as the usage of the platform increases and
-          the server cost begins to mount up, we need your help to keep the
-          platform running.
+          We are extremely proud and happy hearing people talk about our
+          platform, and we want to continue providing the best experience
+          possible. We have many ideas and we would want to continue building in
+          Kadena ecosystem as long as we can. However, as the usage of the
+          platform increases and the server cost begins to mount up, we need
+          your help to keep the platform running.
         </div>
         <div>
           If you are feeling generous, a donation (no matter the amount) would
