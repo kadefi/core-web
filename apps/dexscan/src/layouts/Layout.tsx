@@ -36,9 +36,10 @@ const Layout = (props: Props) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>();
 
   const router = useRouter();
+
+  const inputRef = useRef<HTMLInputElement>();
 
   useEffect(() => {
     function handleShortcut(e: KeyboardEvent) {
@@ -211,6 +212,22 @@ const Layout = (props: Props) => {
 
   const handleSearchBarClick = () => {
     setIsSearchModalOpen(true);
+
+    const fakeInput = document.createElement("input");
+
+    fakeInput.setAttribute("type", "text");
+    fakeInput.style.position = "absolute";
+    fakeInput.style.opacity = "0";
+    fakeInput.style.height = "0";
+    fakeInput.style.fontSize = "16px"; // disable auto zoom
+    document.body.prepend(fakeInput);
+
+    fakeInput.focus();
+
+    setTimeout(() => {
+      inputRef.current?.focus();
+      fakeInput.remove();
+    }, 1000);
   };
 
   const searchBar = (
@@ -248,6 +265,7 @@ const Layout = (props: Props) => {
       <SearchModal
         isOpen={isSearchModalOpen}
         setIsOpen={setIsSearchModalOpen}
+        inputRef={inputRef}
       />
     </div>
   );
