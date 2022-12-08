@@ -59,10 +59,9 @@ const SearchModal = (props: Props) => {
   }, [router, tradingPairs]);
 
   useEffect(() => {
-    setCurrentIdx(0);
-    setInputValue("");
-
-    if (inputRef && inputRef.current) {
+    if (isOpen) {
+      setCurrentIdx(0);
+      setInputValue("");
       inputRef.current.focus();
     }
   }, [isOpen]);
