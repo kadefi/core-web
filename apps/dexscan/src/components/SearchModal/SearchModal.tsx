@@ -151,7 +151,7 @@ const SearchModal = (props: Props) => {
     <div className="relative flex w-full max-w-2xl items-center justify-center">
       <MagnifyingGlassIcon className="absolute left-2 h-4 w-4 text-slate-500" />
       <input
-        placeholder="Search pair by symbol, token"
+        placeholder="Search trading pair"
         type="text"
         name="search"
         id="search"
@@ -159,6 +159,7 @@ const SearchModal = (props: Props) => {
         value={inputValue}
         onChange={handleInputChange}
         ref={inputRef}
+        autoFocus={true}
       />
       <div className="absolute inset-y-0 right-0 flex hidden py-1.5 pr-2 md:block">
         <div className="hidden items-center font-sans text-sm font-medium text-slate-500 md:inline-flex">

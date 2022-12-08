@@ -312,7 +312,7 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
         "Market Cap",
         <div>
           {circulatingSupply && price
-            ? numeral(round(circulatingSupply * price, 0)).format("0,0")
+            ? `$${numeral(round(circulatingSupply * price, 0)).format("0,0")}`
             : "-"}
         </div>,
         "Current Price * Circulating Supply"
@@ -320,9 +320,8 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
       {formatStatsInfo(
         "Fully Diluted Market Cap",
         <div>
-          $
           {totalSupply && price
-            ? numeral(round(totalSupply * price, 0)).format("0,0")
+            ? `$${numeral(round(totalSupply * price, 0)).format("0,0")}`
             : "-"}
         </div>,
         "Current Price * Total Supply"
@@ -331,14 +330,18 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
         "Circulating Supply",
         <div>
           {circulatingSupply
-            ? numeral(round(circulatingSupply, 0)).format("0,0")
+            ? `${numeral(round(circulatingSupply, 0)).format("0,0")} ${
+                token0.name
+              }`
             : "-"}
         </div>
       )}
       {formatStatsInfo(
         "Total Supply",
         <div>
-          {totalSupply ? numeral(round(totalSupply, 0)).format("0,0") : "-"}
+          {totalSupply
+            ? `${numeral(round(totalSupply, 0)).format("0,0")} ${token0.name}`
+            : "-"}
         </div>,
         "Max Supply - Burned Tokens"
       )}
@@ -356,17 +359,24 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
   const tokenInformation = (
     <div className="flex h-full w-full items-center justify-between px-3 py-2 lg:flex-col lg:items-start lg:justify-start lg:gap-2 lg:overflow-auto lg:px-6 lg:py-4">
       <div className="flex items-center gap-2">
-        <LogoImg src={token0.img} size="md" />
         <div className="flex flex-col items-start">
-          <div className="flex flex-col items-start lg:flex-row lg:items-center lg:gap-2">
-            <div className="flex items-center gap-1 text-xl lg:text-2xl">
-              <span className="text-slate-200">{token0.name}</span>
-              <span className="text-slate-500">/</span>
-              <span className="text-slate-500">{token1.name}</span>
+          <div className="flex items-center gap-1 text-lg sm:text-xl lg:gap-2 lg:text-2xl">
+            <LogoImg src={token0.img} size="md" />
+            <div className="flex flex-col items-start">
+              <div className="leading-4 lg:leading-6">
+                <span className="text-slate-200">{token0.name}</span>
+                <span className="text-slate-500">/</span>
+                <span className="text-slate-500">{token1.name}</span>
+              </div>
+              <div className="text-[10px] leading-4 text-slate-500 sm:hidden lg:block lg:text-xs lg:leading-5">
+                {exchange.name}
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-500">{exchange.name}</span>
+            <div className="hidden text-xs text-slate-500 sm:inline lg:hidden">
+              {exchange.name}
+            </div>
             <div className="block lg:hidden">{socialInfo}</div>
           </div>
         </div>

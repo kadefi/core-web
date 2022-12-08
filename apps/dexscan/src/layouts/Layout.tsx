@@ -208,7 +208,10 @@ const Layout = (props: Props) => {
     >
       <div className="flex items-center">
         <MagnifyingGlassIcon className="mr-2 h-6 w-6" />
-        <div>Search pair by symbol, token</div>
+        <div>
+          Search trading pair{" "}
+          <span className="hidden sm:inline">by symbol, token</span>
+        </div>
       </div>
       <div className="hidden items-center font-sans text-sm font-medium text-slate-500 md:inline-flex">
         Press
