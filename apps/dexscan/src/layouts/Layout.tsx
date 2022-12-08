@@ -48,13 +48,13 @@ const Layout = (props: Props) => {
   }, []);
 
   const logo = (
-    <div className="flex w-full items-center justify-between">
+    <div className="flex w-full items-center justify-between md:justify-start">
       <LogoImg src={DexScanLogo} size="xl" className="md:ml-1 md:h-9 md:w-9" />
-      <div className="flex flex-col items-start md:mr-1">
+      <div className="flex flex-col items-start md:ml-2">
         <div className="text-3xl font-bold text-teal-400 md:text-2xl">
           DEXSCAN
         </div>
-        <div className="self-end whitespace-nowrap text-sm md:text-xs">
+        <div className="self-end whitespace-nowrap text-sm md:self-start md:text-xs">
           by Kadefi.Money
         </div>
       </div>
