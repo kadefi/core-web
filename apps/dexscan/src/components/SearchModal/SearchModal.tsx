@@ -3,6 +3,7 @@ import {
   ArrowSmallDownIcon,
   ArrowSmallUpIcon,
   MagnifyingGlassIcon,
+  XMarkIcon,
 } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useRouter } from "next/router";
@@ -63,9 +64,7 @@ const SearchModal = (props: Props) => {
 
   useEffect(() => {
     function handleShortcut(e: KeyboardEvent) {
-      const isCtrlK = e.ctrlKey && e.key.toLowerCase() == "k";
-
-      if (isCtrlK && inputRef && inputRef.current) {
+      if (e.key == "/" && inputRef && inputRef.current) {
         e.preventDefault();
         inputRef.current.focus();
         setCurrentIdx(0);
@@ -156,15 +155,15 @@ const SearchModal = (props: Props) => {
         type="text"
         name="search"
         id="search"
-        className="block w-full rounded-md border-gray-300 bg-slate-900 pr-12 pl-8 text-slate-50 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="block w-full rounded-md border-slate-700 bg-slate-900 pr-12 pl-8 text-slate-50 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
         value={inputValue}
         onChange={handleInputChange}
         ref={inputRef}
       />
-      <div className="absolute inset-y-0 right-0 flex hidden py-1.5 pr-1.5 md:block">
-        <kbd className="inline-flex items-center rounded border border-slate-500 px-2 font-sans text-sm font-medium text-slate-500">
-          CTRL + K
-        </kbd>
+      <div className="absolute inset-y-0 right-0 flex hidden py-1.5 pr-2 md:block">
+        <div className="hidden items-center font-sans text-sm font-medium text-slate-500 md:inline-flex">
+          <kbd className="ml-1 rounded bg-slate-800 px-2 text-slate-400">/</kbd>
+        </div>
       </div>
     </div>
   );
@@ -188,8 +187,8 @@ const SearchModal = (props: Props) => {
             <button
               key={`${id}-${exchange.name}`}
               className={clsx(
-                "my-1 flex w-full items-center justify-between rounded-md bg-slate-800 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500",
-                isFirstIdx && "outline-none ring-2 ring-inset ring-indigo-500"
+                "my-1 flex w-full items-center justify-between rounded-md bg-slate-800 py-2 px-4 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500",
+                isFirstIdx && "outline-none ring-2 ring-inset ring-teal-500"
               )}
               ref={(el) => setButtonRef(el)}
               onKeyDown={handleKeyDown}
@@ -253,8 +252,12 @@ const SearchModal = (props: Props) => {
                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
                 <Dialog.Panel className="relative flex h-full w-full transform flex-col items-center overflow-hidden rounded-lg bg-slate-900 px-4 pt-5 pb-4 text-left shadow-xl transition-all lg:h-[75%]">
-                  <div className="mx-2 w-full max-w-2xl grow-0">
+                  <div className="relative mx-2 w-full max-w-2xl grow-0">
                     {searchBar}
+                    <XMarkIcon
+                      onClick={() => setIsOpen(false)}
+                      className="absolute right-2 top-1.5 h-7 w-7 cursor-pointer rounded-full bg-slate-700 p-1 text-slate-400 md:hidden"
+                    />
                   </div>
                   <div className="mt-2 w-full max-w-2xl grow-0">
                     {keyboardShortcutsHelper}
@@ -262,6 +265,10 @@ const SearchModal = (props: Props) => {
                   <div className="grow-1 my-2 w-full max-w-2xl overflow-y-auto">
                     {searchResults()}
                   </div>
+                  <XMarkIcon
+                    onClick={() => setIsOpen(false)}
+                    className="absolute right-4 top-4 hidden h-10 w-10 cursor-pointer rounded-full bg-slate-700 p-1 text-slate-400 md:block"
+                  />
                 </Dialog.Panel>
               </Transition.Child>
             </div>

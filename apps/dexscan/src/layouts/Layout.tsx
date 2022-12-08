@@ -34,7 +34,7 @@ const Layout = (props: Props) => {
 
   useEffect(() => {
     function handleShortcut(e: KeyboardEvent) {
-      if (e.ctrlKey && e.key.toLowerCase() == "k") {
+      if (e.key.toLowerCase() == "/") {
         e.preventDefault();
         setIsSearchModalOpen(true);
       }
@@ -210,9 +210,10 @@ const Layout = (props: Props) => {
         <MagnifyingGlassIcon className="mr-2 h-6 w-6" />
         <div>Search pair by symbol, token</div>
       </div>
-      <kbd className="hidden items-center rounded border border-slate-500 px-2 font-sans text-sm font-medium text-slate-500 md:inline-flex">
-        CTRL + K
-      </kbd>
+      <div className="hidden items-center font-sans text-sm font-medium text-slate-500 md:inline-flex">
+        Press
+        <kbd className="ml-1 rounded bg-slate-800 px-2 text-slate-400">/</kbd>
+      </div>
     </div>
   );
 
