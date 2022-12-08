@@ -11,7 +11,7 @@ import { LogoImg, NumberUtil } from "ui";
 import { TradingPairInfo } from "../types/TradingPairTable.type";
 import { RouteUtil } from ".";
 
-export const getPercChangeDisplay = (percent: number) => {
+export const getPriceChangeDisplay = (percent: number) => {
   let icon = null;
   let color = "text-slate-500";
 
@@ -31,57 +31,56 @@ export const getPercChangeDisplay = (percent: number) => {
   );
 };
 
-export const getTradingPairRowComponents = (
-  router: NextRouter,
-  dataResponse: TradingPairInfo[]
-) => {
-  return dataResponse.map((data) => {
-    const cells = [];
+export const renderTokenPair = (dataItem: TradingPairInfo) => {
+  const { token0, token1, exchange } = dataItem;
 
-    const {
-      id,
-      token0,
-      token1,
-      exchange,
-      price,
-      pricePercChange24h,
-      pricePercChange7d,
-      volume24h,
-    } = data;
-
-    cells.push(
+  return (
+    <div className="flex items-center gap-2">
+      <LogoImg src={token0.img} size="sm" />
       <div className="flex items-center gap-2">
-        <LogoImg src={token0.img} size="sm" />
-        <div className="flex items-center gap-2">
-          <div className="items-left flex flex-col">
-            <div>
-              <span>{token0.name}</span>
-              <span className="text-slate-500">{` / ${token1.name}`}</span>
-            </div>
-            <div className="text-xs text-[10px] text-slate-500">
-              {exchange.name}
-            </div>
+        <div className="items-left flex flex-col">
+          <div>
+            <span>{token0.name}</span>
+            <span className="text-slate-500">{` / ${token1.name}`}</span>
+          </div>
+          <div className="text-xs text-[10px] text-slate-500">
+            {exchange.name}
           </div>
         </div>
       </div>
-    );
-    cells.push(<div>{NumberUtil.formatPrice(price)}</div>);
-    cells.push(getPercChangeDisplay(pricePercChange24h));
-    cells.push(getPercChangeDisplay(pricePercChange7d));
-    cells.push(<div>${numeral(round(volume24h, 0)).format("0,0")}</div>);
+    </div>
+  );
+};
 
-    const onRowClick = () => {
-      router.push({
-        pathname: RouteUtil.getTradingPairPath(id, exchange.name),
-      });
-    };
+export const renderTokenPrice = (dataItem: TradingPairInfo) => {
+  return <div>{NumberUtil.formatPrice(dataItem.price)}</div>;
+};
 
-    return {
-      cells,
-      rowKey: `${id}-${exchange.name}`,
-      onRowClick,
-    };
-  });
+export const render24hPriceChange = (dataItem: TradingPairInfo) => {
+  return getPriceChangeDisplay(dataItem.pricePercChange24h);
+};
+
+export const render7dPriceChange = (dataItem: TradingPairInfo) => {
+  return getPriceChangeDisplay(dataItem.pricePercChange7d);
+};
+
+export const render24hVolume = (dataItem: TradingPairInfo) => {
+  return <div>${numeral(round(dataItem.volume24h, 0)).format("0,0")}</div>;
+};
+
+export const getRowKey = (dataItem: TradingPairInfo) => {
+  return `${dataItem.id}-${dataItem.exchange.name}`;
+};
+
+export const getRowClick = (router: NextRouter) => {
+  return (dataItem: TradingPairInfo) => {
+    router.push({
+      pathname: RouteUtil.getTradingPairPath(
+        dataItem.id,
+        dataItem.exchange.name
+      ),
+    });
+  };
 };
 
 export const getLinkToExchange = (

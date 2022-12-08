@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Value = object | any[];
 type JSONValue =
   | string

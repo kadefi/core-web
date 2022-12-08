@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, ReactElement, ReactNode, useEffect, useState } from "react";
 
-import DexScanLogo from "../assets/svgs/dexscan-logo.svg";
+import DexScanLogo from "../assets/svgs/logos/dexscan-logo.svg";
 import { SearchModal } from "../components/SearchModal";
 
 const navigation = [
@@ -158,7 +158,7 @@ const Layout = (props: Props) => {
         <div className="mt-4 flex flex-grow flex-col">
           <nav className="flex-1 space-y-1 px-2 pb-4">
             {navigation.map((item) => (
-              <Link key={item.name} href={item.href} prefetch={true}>
+              <Link key={item.name} href={item.href}>
                 <div
                   className={clsx(
                     router.pathname === item.href

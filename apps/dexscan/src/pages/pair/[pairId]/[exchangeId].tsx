@@ -16,13 +16,14 @@ import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import {
   DataTable,
   DehydratedStateProps,
-  LoadingSpinner,
   LogoImg,
   NextPageWithLayout,
   NumberUtil,
   Tooltip,
 } from "ui";
+import { ColumnDef, RowDef } from "ui/components/DataTable/DataTable.type";
 import { Breakpoint } from "ui/constants";
+import { SortDirection } from "ui/enums";
 import { useMinWidth } from "ui/hooks";
 
 import {
@@ -32,11 +33,11 @@ import {
 import { useGetTradingPairInfo } from "../../../api/TradingPair.queries";
 import { getTransactions } from "../../../api/Transaction.api";
 import { useGetTransactions } from "../../../api/Transaction.queries";
-import DiscordLogo from "../../../assets/svgs/discord.svg";
-import GithubLogo from "../../../assets/svgs/github.svg";
-import TelegramLogo from "../../../assets/svgs/telegram.svg";
-import TwitterLogo from "../../../assets/svgs/twitter.svg";
-import WebsiteLogo from "../../../assets/svgs/website.svg";
+import DiscordLogo from "../../../assets/svgs/socials/discord.svg";
+import GithubLogo from "../../../assets/svgs/socials/github.svg";
+import TelegramLogo from "../../../assets/svgs/socials/telegram.svg";
+import TwitterLogo from "../../../assets/svgs/socials/twitter.svg";
+import WebsiteLogo from "../../../assets/svgs/socials/website.svg";
 import {
   PATH_FALLBACK,
   REFETCH_INTERVAL_IN_MS,
@@ -68,6 +69,72 @@ const SocialLogos = {
   discord: <DiscordLogo />,
   telegram: <TelegramLogo />,
   github: <GithubLogo className="text-slate-200" />,
+};
+
+enum ColumnKey {
+  Date = "date",
+  Type = "type",
+  Price = "price",
+  Token0 = "token-0",
+  Token1 = "token-1",
+  Value = "value",
+  Address = "address",
+  Explorer = "explorer",
+}
+
+const transactionColumnDefs: ColumnDef<TransactionInfo>[] = [
+  {
+    name: "Date",
+    columnKey: ColumnKey.Date,
+    renderCell: TransactionInfoUtil.renderDate,
+    getCompareValue: (item: TransactionInfo) => item.timestamp,
+  },
+  {
+    name: "Type",
+    columnKey: ColumnKey.Type,
+    renderCell: TransactionInfoUtil.renderType,
+    getCompareValue: (item: TransactionInfo) => item.type,
+  },
+  {
+    name: "Price",
+    columnKey: ColumnKey.Price,
+    renderCell: TransactionInfoUtil.renderPrice,
+    getCompareValue: (item: TransactionInfo) => item.price,
+  },
+  {
+    name: "Token 0",
+    renderCustomName: TransactionInfoUtil.renderToken0ColumnName,
+    columnKey: ColumnKey.Token0,
+    renderCell: TransactionInfoUtil.renderToken0,
+    getCompareValue: (item: TransactionInfo) => item.token0.amount,
+  },
+  {
+    name: "Token 1",
+    renderCustomName: TransactionInfoUtil.renderToken1ColumnName,
+    columnKey: ColumnKey.Token1,
+    renderCell: TransactionInfoUtil.renderToken1,
+    getCompareValue: (item: TransactionInfo) => item.token1.amount,
+  },
+  {
+    name: "Value",
+    columnKey: ColumnKey.Value,
+    renderCell: TransactionInfoUtil.renderValue,
+    getCompareValue: (item: TransactionInfo) => item.amount,
+  },
+  {
+    name: "Address",
+    columnKey: ColumnKey.Address,
+    renderCell: TransactionInfoUtil.renderWalletLink,
+  },
+  {
+    name: "Explorer",
+    columnKey: ColumnKey.Explorer,
+    renderCell: TransactionInfoUtil.renderExplorerLink,
+  },
+];
+
+const transactionRowDef: RowDef<TransactionInfo> = {
+  getRowKey: TransactionInfoUtil.getRowKey,
 };
 
 interface IParams extends ParsedUrlQuery {
@@ -311,11 +378,11 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
         <div className="flex items-center gap-1 rounded-md bg-slate-800/70 py-1 px-2 text-xs lg:w-full lg:px-4 lg:py-2 lg:text-sm">
           <span className="text-slate-500">24h</span>
           <span>
-            {TradingPairInfoUtil.getPercChangeDisplay(pricePercChange24h)}
+            {TradingPairInfoUtil.getPriceChangeDisplay(pricePercChange24h)}
           </span>
           <span className="ml-2 text-slate-500">7d</span>
           <span>
-            {TradingPairInfoUtil.getPercChangeDisplay(pricePercChange7d)}
+            {TradingPairInfoUtil.getPriceChangeDisplay(pricePercChange7d)}
           </span>
         </div>
       </div>
@@ -347,13 +414,16 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
   const tokenTransactions = (
     <div className="relative h-full overflow-hidden">
       <DataTable
-        headers={TransactionInfoUtil.getTransactionHeaders(transactions)}
-        rows={TransactionInfoUtil.getTransactionRowComponents(transactions)}
+        dataSource={transactions}
+        columnDefs={transactionColumnDefs}
+        rowDef={transactionRowDef}
+        defaultSortedColumn={ColumnKey.Date}
+        defaultSortedDirection={SortDirection.Desc}
         tableBottomRef={tableBottomRef}
+        isTableBottomInView={inView}
       />
       {inView && (
         <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-slate-800 px-4 py-2 text-center text-slate-50">
-          <LoadingSpinner />
           Loading more transactions...
         </div>
       )}

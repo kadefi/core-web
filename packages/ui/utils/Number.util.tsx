@@ -22,7 +22,7 @@ export const roundToDecimalStr = (num: number, decimalDigits: number) => {
   return numeral(round(num, decimalDigits)).format(format);
 };
 
-export const formatFiatValue = (num: number, decimals: number = 2) => {
+export const formatFiatValue = (num: number, decimals = 2) => {
   return `$${roundToDecimalStr(num, decimals)}`;
 };
 

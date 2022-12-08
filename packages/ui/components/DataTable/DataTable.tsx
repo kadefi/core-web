@@ -1,26 +1,107 @@
 import { Transition } from "@headlessui/react";
+import {
+  ChevronDownIcon,
+  ChevronUpDownIcon,
+  ChevronUpIcon,
+} from "@heroicons/react/20/solid";
 import clsx from "clsx";
+import { useEffect, useState } from "react";
 
-import { DataTableRows } from "./DataTable.type";
+import { SortDirection } from "../../enums";
+import { ColumnDef, RowDef } from "./DataTable.type";
+import { getNewSortDirection, sortSourceData } from "./DataTable.util";
 
-type Props = {
-  headers: string[];
-  rows: DataTableRows;
-  size?: "sm" | "lg";
-  rounded?: boolean;
-  tableBottomRef?: (_node?: Element | null) => void | null;
+type Props<T> = {
+  dataSource: T[]; // Generic type T refers to the type of each item in dataSource
+  columnDefs: ColumnDef<T>[]; // Column definitions
+  rowDef: RowDef<T>; // Row definitions
+  size?: "sm" | "lg"; // Indicate the padding surrounding content of table
+  rounded?: boolean; // Flag to indicate the style of the table
+  tableBottomRef?: (_node?: Element | null) => void | null; // Use to detect when the bottom of the table is in view
+  isTableBottomInView?: boolean; // Flag to indicate the table bottom is in view
+  defaultSortedColumn?: string; // Default column for sorting
+  defaultSortedDirection?: SortDirection; // Default sort direction
 };
 
-const DataTable = (props: Props) => {
+const DataTable = <T,>(props: Props<T>) => {
   const {
-    headers,
-    rows,
+    columnDefs,
+    rowDef,
+    dataSource,
     size = "sm",
     rounded = false,
     tableBottomRef = null,
+    defaultSortedColumn = "",
+    defaultSortedDirection = SortDirection.Desc,
+    isTableBottomInView,
   } = props;
 
+  const [sortedData, setSortedData] = useState<T[]>(dataSource);
+  const [sortedColumn, setSortedColumn] = useState<string>(defaultSortedColumn);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(
+    defaultSortedDirection
+  );
+
+  useEffect(() => {
+    // Reset to default sorting whenever the bottom of the table is in view
+    if (tableBottomRef && isTableBottomInView) {
+      setSortedColumn(defaultSortedColumn);
+      setSortDirection(defaultSortedDirection);
+    }
+  }, [
+    defaultSortedColumn,
+    defaultSortedDirection,
+    isTableBottomInView,
+    tableBottomRef,
+  ]);
+
+  useEffect(() => {
+    const sortedArray = sortSourceData(
+      dataSource,
+      columnDefs,
+      sortedColumn,
+      sortDirection
+    );
+
+    setSortedData(sortedArray);
+  }, [columnDefs, dataSource, sortedColumn, sortDirection]);
+
+  const handleColumnCellClick = (columnKey?: string) => {
+    if (columnKey !== sortedColumn) {
+      setSortedColumn(columnKey ?? "");
+      setSortDirection(SortDirection.Desc);
+      return;
+    }
+
+    setSortDirection(getNewSortDirection(sortDirection));
+  };
+
+  const { getRowKey, getRowClick } = rowDef;
+
   const padding = size === "sm" ? "px-1 py-2" : "px-3 py-4";
+
+  if (!sortedData) {
+    return null;
+  }
+
+  const getChevronIcon = (column: ColumnDef<T>) => {
+    if (!column.getCompareValue) {
+      return null;
+    }
+
+    if (column.columnKey === sortedColumn) {
+      const icon = {
+        [SortDirection.Asc]: <ChevronUpIcon className="h-4 w-4 text-sky-400" />,
+        [SortDirection.Desc]: (
+          <ChevronDownIcon className="h-4 w-4 text-sky-400" />
+        ),
+      };
+
+      return icon[sortDirection];
+    }
+
+    return <ChevronUpDownIcon className="h-4 w-4" />;
+  };
 
   return (
     <div className="flex h-full flex-col overflow-auto">
@@ -30,52 +111,64 @@ const DataTable = (props: Props) => {
             <table className="min-w-full">
               <thead className="bg-slate-800 text-slate-50">
                 <tr>
-                  {headers.map((header, index) => (
+                  {columnDefs.map((column, index) => (
                     <th
-                      key={`header-${index}`}
+                      key={`header-${column.columnKey}`}
                       scope="col"
                       className={clsx(
                         "sticky top-0 z-10 bg-slate-800 text-left text-sm font-semibold text-slate-50 ",
                         padding,
                         index === 0 &&
                           clsx("pl-4 pr-3 sm:pl-6", rounded && "rounded-l-lg"),
-                        index === headers.length - 1 &&
-                          clsx("pl-3 pr-4 sm:pr-6", rounded && "rounded-r-lg")
+                        index === columnDefs.length - 1 &&
+                          clsx("pl-3 pr-4 sm:pr-6", rounded && "rounded-r-lg"),
+                        column.getCompareValue && "cursor-pointer"
                       )}
+                      onClick={() =>
+                        column.getCompareValue &&
+                        handleColumnCellClick(column.columnKey)
+                      }
                     >
-                      <div className="group inline-flex">
-                        <span className="whitespace-nowrap">{header}</span>
+                      <div className="group inline-flex items-center gap-1">
+                        <span className="whitespace-nowrap">
+                          {column.renderCustomName
+                            ? column.renderCustomName(dataSource)
+                            : column.name}
+                        </span>
+                        {getChevronIcon(column)}
                       </div>
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800 text-slate-50">
-                {rows.map((row, rowIndex) => {
-                  const { cells, rowKey, onRowClick } = row;
+                {sortedData.map((dataSourceItem, dataSourceItemIndex) => {
+                  const rowKey = getRowKey(dataSourceItem);
 
                   const ref =
-                    rowIndex === rows.length - 3 ? tableBottomRef : null;
+                    dataSourceItemIndex === sortedData.length - 3
+                      ? tableBottomRef
+                      : null;
 
                   return (
                     <tr
                       key={`row-${rowKey}`}
                       className={clsx(
                         "transition hover:bg-slate-800/20",
-                        onRowClick && "cursor-pointer"
+                        getRowClick && "cursor-pointer"
                       )}
-                      onClick={() => onRowClick && onRowClick()}
+                      onClick={() => getRowClick && getRowClick(dataSourceItem)}
                       ref={ref}
                     >
-                      {cells.map((cell, j) => {
+                      {columnDefs.map((column, j) => {
                         return (
                           <td
-                            key={`row-cell-${j}-${rowKey}`}
+                            key={`row-cell-${rowKey}-${column.columnKey}`}
                             className={clsx(
                               "whitespace-nowrap pr-4 text-sm",
                               padding,
                               j === 0 && "pl-4 pr-3 sm:pl-6",
-                              j === cells.length - 1 && "pl-3 pr-4 sm:pr-6"
+                              j === columnDefs.length - 1 && "pl-3 pr-4 sm:pr-6"
                             )}
                           >
                             <Transition.Child
@@ -83,7 +176,7 @@ const DataTable = (props: Props) => {
                               enterFrom="opacity-0"
                               enterTo="opacity-100"
                             >
-                              {cell}
+                              {column.renderCell(dataSourceItem)}
                             </Transition.Child>
                           </td>
                         );

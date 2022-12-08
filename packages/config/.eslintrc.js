@@ -1,5 +1,10 @@
 module.exports = {
-  extends: ["next", "prettier", "next/core-web-vitals"],
+  extends: [
+    "next",
+    "prettier",
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+  ],
   plugins: ["simple-import-sort", "prettier"],
   settings: {
     next: {
@@ -11,10 +16,6 @@ module.exports = {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "prettier/prettier": ["error"],
-    "no-unused-vars": [
-      "error",
-      { argsIgnorePattern: "^_", destructuredArrayIgnorePattern: "^_" },
-    ],
     "prefer-const": "error",
     "no-irregular-whitespace": "error",
     "no-trailing-spaces": "error",
@@ -22,5 +23,8 @@ module.exports = {
     "no-empty-function": "error",
     "no-duplicate-imports": "error",
     "newline-after-var": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { args: "none" }],
+    "@typescript-eslint/ban-ts-comment": "off",
   },
 };
