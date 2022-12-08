@@ -1,5 +1,6 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
+import { format } from "date-fns/fp";
 import { LogoImg, NumberUtil, StringUtil } from "ui";
 
 import KadenaExplorerLogo from "../assets/pngs/logos/kadena-block-explorer.png";
@@ -16,7 +17,7 @@ const getColor = (dataItem: TransactionInfo) => {
 export const renderDate = (dataItem: TransactionInfo) => {
   return (
     <div className={getColor(dataItem)}>
-      {new Date(dataItem.timestamp).toLocaleString()}
+      {format("yyyy-MM-dd HH:mm:ss", new Date(dataItem.timestamp))}
     </div>
   );
 };
