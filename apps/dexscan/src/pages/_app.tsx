@@ -17,9 +17,9 @@ import Head from "next/head";
 import { useState } from "react";
 import { LayoutFn } from "ui";
 
-const TITLE = "Kadefi Money DexScan | DeFi Dashboard for Kadena";
+const TITLE = "DEXSCAN by Kadefi.Money | DeFi Dashboard for Kadena";
 const DESCRIPTION =
-  "DexScan by Kadefi Money. Track all tokens performance across all Kadena's exchanges";
+  "Track all tokens prices and performance across all Kadena's exchanges";
 const IMAGE_URL = "https://kadefi.money/assets/logo.png";
 const TWITTER_USERNAME = "@kadefi_money";
 
