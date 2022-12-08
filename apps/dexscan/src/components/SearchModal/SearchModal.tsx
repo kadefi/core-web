@@ -60,6 +60,7 @@ const SearchModal = (props: Props) => {
 
   useEffect(() => {
     setCurrentIdx(0);
+    setInputValue("");
 
     if (inputRef && inputRef.current) {
       inputRef.current.focus();
