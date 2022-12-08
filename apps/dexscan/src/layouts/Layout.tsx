@@ -9,7 +9,14 @@ import {
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Fragment, ReactElement, ReactNode, useEffect, useState } from "react";
+import {
+  Fragment,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { LogoImg } from "ui";
 
 import DexScanLogo from "../assets/pngs/logos/dex-scan-logo.png";
@@ -29,6 +36,7 @@ const Layout = (props: Props) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>();
 
   const router = useRouter();
 
@@ -201,10 +209,14 @@ const Layout = (props: Props) => {
     </div>
   );
 
+  const handleSearchBarClick = () => {
+    setIsSearchModalOpen(true);
+  };
+
   const searchBar = (
     <div
       className="flex flex-1 cursor-text items-center justify-between text-slate-500"
-      onClick={() => setIsSearchModalOpen(true)}
+      onClick={handleSearchBarClick}
     >
       <div className="flex items-center">
         <MagnifyingGlassIcon className="mr-2 h-6 w-6" />

@@ -18,6 +18,7 @@ import {
   useRef,
   useState,
 } from "react";
+import FocusLock, { AutoFocusInside } from "react-focus-lock";
 import { LogoImg, NumberUtil } from "ui";
 
 import { useGetTradingPairs } from "../../api/TradingPair.queries";
@@ -41,10 +42,11 @@ const SearchModal = (props: Props) => {
   const router = useRouter();
 
   const [inputValue, setInputValue] = useState("");
-  const inputRef = useRef<HTMLInputElement>();
 
   const [currentIdx, setCurrentIdx] = useState(0);
   const selectionRefs = useRef([]);
+
+  const inputRef = useRef<HTMLInputElement>();
 
   const { data: tradingPairs } = useGetTradingPairs();
 
@@ -62,15 +64,6 @@ const SearchModal = (props: Props) => {
     if (isOpen) {
       setCurrentIdx(0);
       setInputValue("");
-      const inputFocusInterval = setInterval(() => {
-        if (inputRef.current) {
-          if (document.activeElement != inputRef.current) {
-            inputRef.current.focus();
-          } else {
-            clearInterval(inputFocusInterval);
-          }
-        }
-      }, 300);
     }
   }, [isOpen]);
 
@@ -162,17 +155,21 @@ const SearchModal = (props: Props) => {
   const searchBar = (
     <div className="relative flex w-full max-w-2xl items-center justify-center">
       <MagnifyingGlassIcon className="absolute left-2 h-4 w-4 text-slate-500" />
-      <input
-        placeholder="Search trading pair"
-        type="text"
-        name="search"
-        id="search"
-        className="block w-full rounded-md border-slate-700 bg-slate-900 pr-12 pl-8 text-slate-50 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
-        value={inputValue}
-        onChange={handleInputChange}
-        ref={inputRef}
-        autoFocus={true}
-      />
+      <FocusLock className="w-full">
+        <AutoFocusInside className="w-full">
+          <input
+            placeholder="Search trading pair"
+            type="text"
+            name="search"
+            id="search"
+            className="block w-full rounded-md border-slate-700 bg-slate-900 pr-12 pl-8 text-slate-50 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm"
+            value={inputValue}
+            onChange={handleInputChange}
+            ref={inputRef}
+            autoFocus={true}
+          />
+        </AutoFocusInside>
+      </FocusLock>
       <div className="absolute inset-y-0 right-0 flex hidden py-1.5 pr-2 md:block">
         <div className="hidden items-center font-sans text-sm font-medium text-slate-500 md:inline-flex">
           <kbd className="ml-1 rounded bg-slate-800 px-2 text-slate-400">/</kbd>
