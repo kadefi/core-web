@@ -72,8 +72,8 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
     <div className="flex h-full flex-1 flex-col">
       <div className="flex-initial sm:px-6">
         <div className="py-4 px-2 sm:px-0">
-          <h1 className="text-2xl font-semibold text-sky-400">
-            DEXScan Dashboard
+          <h1 className="text-2xl font-bold text-slate-50">
+            DEXSCAN Dashboard
           </h1>
         </div>
       </div>

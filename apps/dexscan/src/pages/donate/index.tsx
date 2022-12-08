@@ -24,7 +24,7 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
   const getStatDisplay = (value: number, title: string) => {
     return (
       <div className="flex items-center gap-2">
-        <div className="text-2xl font-bold text-sky-400">{value}</div>
+        <div className="text-2xl font-bold text-teal-400">{value}</div>
         <div>{title}</div>
       </div>
     );
@@ -37,7 +37,7 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
 
   const wallet = (
     <div
-      className="hover:ring-inset-2 flex w-full cursor-pointer items-center justify-between rounded-md bg-sky-600 py-2 px-4 font-semibold text-sky-100 transition transition duration-300 hover:ring-2 hover:ring-sky-400 hover:ring-offset-4 hover:ring-offset-slate-900"
+      className="hover:ring-inset-2 flex w-full cursor-pointer items-center justify-between rounded-md bg-teal-600 py-2 px-4 font-semibold text-teal-50 transition transition duration-300 hover:ring-2 hover:ring-teal-400 hover:ring-offset-4 hover:ring-offset-slate-900"
       onClick={handleWalletClick}
     >
       <div className="truncate">{DONATION_WALLET}</div>
@@ -49,7 +49,7 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
 
   return (
     <div className="flex h-full w-full flex-col items-center justify-start overflow-auto p-8 text-slate-300">
-      <div className="w-full max-w-2xl text-3xl font-bold text-sky-400">
+      <div className="w-full max-w-2xl text-3xl font-bold text-teal-400">
         A Message From Kadefi.Money Founders
       </div>
       <div className="mt-4 flex w-full max-w-2xl flex-col items-start gap-4 text-sm">

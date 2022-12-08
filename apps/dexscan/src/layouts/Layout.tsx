@@ -10,8 +10,9 @@ import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment, ReactElement, ReactNode, useEffect, useState } from "react";
+import { LogoImg } from "ui";
 
-import DexScanLogo from "../assets/svgs/logos/dexscan-logo.svg";
+import DexScanLogo from "../assets/pngs/logos/dex-scan-logo.png";
 import { SearchModal } from "../components/SearchModal";
 
 const navigation = [
@@ -45,6 +46,20 @@ const Layout = (props: Props) => {
       document.removeEventListener("keydown", handleShortcut);
     };
   }, []);
+
+  const logo = (
+    <div className="flex w-full items-center justify-between">
+      <LogoImg src={DexScanLogo} size="xl" className="md:ml-1 md:h-9 md:w-9" />
+      <div className="flex flex-col items-start md:mr-1">
+        <div className="text-3xl font-bold text-teal-400 md:text-2xl">
+          DEXSCAN
+        </div>
+        <div className="self-end whitespace-nowrap text-sm md:text-xs">
+          by Kadefi.Money
+        </div>
+      </div>
+    </div>
+  );
 
   const mobileSideBar = (
     <Transition.Root show={sidebarOpen} as={Fragment}>
@@ -99,8 +114,8 @@ const Layout = (props: Props) => {
                   </button>
                 </div>
               </Transition.Child>
-              <div className="flex w-52 flex-shrink-0 items-center px-4 text-slate-50">
-                <DexScanLogo />
+              <div className="flex w-full flex-shrink-0 items-center px-4 text-slate-50">
+                {logo}
               </div>
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="space-y-1 px-2">
@@ -151,9 +166,9 @@ const Layout = (props: Props) => {
 
   const desktopSideBar = (
     <div className="z-20 hidden transition-all md:fixed md:absolute md:inset-y-0 md:flex md:w-14 md:flex-col hover:md:w-52">
-      <div className="flex flex-grow flex-col overflow-y-auto border-r border-slate-800 bg-slate-900 pt-3 md:overflow-x-hidden">
-        <div className="flex w-40 flex-shrink-0 items-center px-2 text-slate-50">
-          <DexScanLogo className="h-full w-full" />
+      <div className="flex flex-grow flex-col overflow-y-auto border-r border-slate-800 bg-slate-900 pt-3 md:overflow-x-hidden md:pt-2">
+        <div className="flex w-52 flex-shrink-0 items-center px-2 text-slate-50">
+          {logo}
         </div>
         <div className="mt-4 flex flex-grow flex-col">
           <nav className="flex-1 space-y-1 px-2 pb-4">

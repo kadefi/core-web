@@ -91,9 +91,11 @@ const DataTable = <T,>(props: Props<T>) => {
 
     if (column.columnKey === sortedColumn) {
       const icon = {
-        [SortDirection.Asc]: <ChevronUpIcon className="h-4 w-4 text-sky-400" />,
+        [SortDirection.Asc]: (
+          <ChevronUpIcon className="h-4 w-4 text-teal-400" />
+        ),
         [SortDirection.Desc]: (
-          <ChevronDownIcon className="h-4 w-4 text-sky-400" />
+          <ChevronDownIcon className="h-4 w-4 text-teal-400" />
         ),
       };
 
