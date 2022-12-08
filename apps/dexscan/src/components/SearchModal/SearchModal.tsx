@@ -62,8 +62,14 @@ const SearchModal = (props: Props) => {
     if (isOpen) {
       setCurrentIdx(0);
       setInputValue("");
-      setTimeout(() => {
-        inputRef.current?.focus();
+      const inputFocusInterval = setInterval(() => {
+        if (inputRef.current) {
+          if (document.activeElement != inputRef.current) {
+            inputRef.current.focus();
+          } else {
+            clearInterval(inputFocusInterval);
+          }
+        }
       }, 300);
     }
   }, [isOpen]);
