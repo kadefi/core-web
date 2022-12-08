@@ -40,6 +40,9 @@ const TVChartContainer = (props) => {
       return;
     }
 
+    const dateTimeFormat = new Intl.DateTimeFormat();
+    const timezone = dateTimeFormat.resolvedOptions().timeZone;
+
     const enabledFeatures = [];
 
     if (!smAndAbove) {
@@ -68,10 +71,7 @@ const TVChartContainer = (props) => {
         "popup_hints",
       ],
       enabled_features: enabledFeatures,
-      charts_storage_url: "https://saveload.tradingview.com",
-      charts_storage_api_version: "1.1",
       client_id: "tradingview.com",
-      user_id: "public_user_id",
       fullscreen: false,
       autosize: true,
       studies_overrides: {},
@@ -79,7 +79,9 @@ const TVChartContainer = (props) => {
       overrides: {
         "paneProperties.background": "#0f172a",
         "paneProperties.backgroundType": "solid",
+        timezone: timezone,
       },
+      timezone,
     };
 
     const tvWidget = new widget(widgetOptions);
