@@ -2,13 +2,13 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
+import { DateUtil } from "ui";
 
 import { TRANSACTIONS_QUERY_KEY } from "../constants";
 import {
   TransactionInfo,
   TransactionParams,
 } from "../types/TransactionsTable.type";
-import { DateUtil } from "../utils";
 import { getTransactions } from "./Transaction.api";
 
 export const useGetTransactions = (

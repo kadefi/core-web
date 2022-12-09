@@ -15,6 +15,7 @@ import { useInView } from "react-intersection-observer";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import {
   DataTable,
+  DateUtil,
   DehydratedStateProps,
   LogoImg,
   NextPageWithLayout,
@@ -48,11 +49,7 @@ import {
 import { getPageLayout } from "../../../layouts/Layout";
 import { TradingPairInfo } from "../../../types/TradingPairTable.type";
 import { TransactionInfo } from "../../../types/TransactionsTable.type";
-import {
-  DateUtil,
-  TradingPairInfoUtil,
-  TransactionInfoUtil,
-} from "../../../utils";
+import { TradingPairInfoUtil, TransactionInfoUtil } from "../../../utils";
 
 const TVChartContainer = dynamic(
   // @ts-ignore

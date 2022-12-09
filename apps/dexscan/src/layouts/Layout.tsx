@@ -17,7 +17,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { LogoImg } from "ui";
+import { BrowserUtil, LogoImg } from "ui";
 
 import DexScanLogo from "../assets/pngs/logos/dex-scan-logo.png";
 import { SearchModal } from "../components/SearchModal";
@@ -212,22 +212,7 @@ const Layout = (props: Props) => {
 
   const handleSearchBarClick = () => {
     setIsSearchModalOpen(true);
-
-    const fakeInput = document.createElement("input");
-
-    fakeInput.setAttribute("type", "text");
-    fakeInput.style.position = "absolute";
-    fakeInput.style.opacity = "0";
-    fakeInput.style.height = "0";
-    fakeInput.style.fontSize = "16px"; // disable auto zoom
-    document.body.prepend(fakeInput);
-
-    fakeInput.focus();
-
-    setTimeout(() => {
-      inputRef.current?.focus();
-      fakeInput.remove();
-    }, 1000);
+    BrowserUtil.focusInput(inputRef);
   };
 
   const searchBar = (

@@ -2,12 +2,11 @@ import { DocumentDuplicateIcon } from "@heroicons/react/20/solid";
 import { Alert, Snackbar } from "@mui/material";
 import { GetStaticProps } from "next";
 import { useState } from "react";
-import { NextPageWithLayout } from "ui";
+import { BrowserUtil, NextPageWithLayout } from "ui";
 
 import { getIntegrationInfo } from "../../api/Integration.api";
 import { getPageLayout } from "../../layouts/Layout";
 import { IntegrationInfo } from "../../types/Integration.type";
-import { BrowserUtil } from "../../utils";
 
 const DONATION_WALLET =
   "k:9d46e06675aaaea9803c8baadf0d26b9f933ed85f58f086d2bb700266bad6a65";

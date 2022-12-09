@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { LoadingSpinner } from "ui";
+import { LoadingSpinner, LocalStorageUtil } from "ui";
 import Breakpoint from "ui/constants/Breakpoint.constant";
 import { useMinWidth } from "ui/hooks";
 
 import { widget } from "../../../public/static/charting_library";
 import { CHART_STATE_LS_KEY } from "../../constants";
-import { LocalStorage } from "../../utils";
 
 function getLanguageFromURL() {
   const regex = new RegExp("[\\?&]lang=([^&#]*)");
@@ -93,11 +92,11 @@ const TVChartContainer = (props) => {
 
       tvWidget.subscribe("drawing_event", function () {
         tvWidget.save(function (state) {
-          LocalStorage.set(CHART_STATE_LS_KEY, { [symbol]: state });
+          LocalStorageUtil.set(CHART_STATE_LS_KEY, { [symbol]: state });
         });
       });
 
-      const state = LocalStorage.get(CHART_STATE_LS_KEY);
+      const state = LocalStorageUtil.get(CHART_STATE_LS_KEY);
 
       // restore the chart to its saved state
       if (state && symbol in state) {
