@@ -43,9 +43,12 @@ const TVChartContainer = (props) => {
     const timezone = dateTimeFormat.resolvedOptions().timeZone;
 
     const enabledFeatures = [];
+    let defaultInterval = "60";
 
+    // below sm
     if (!smAndAbove) {
       enabledFeatures.push("hide_left_toolbar_by_default");
+      defaultInterval = "1D";
     }
 
     const widgetOptions = {
@@ -54,7 +57,7 @@ const TVChartContainer = (props) => {
       datafeed: new window.Datafeeds.UDFCompatibleDatafeed(
         process.env.NEXT_PUBLIC_API_URL
       ),
-      interval: "1h",
+      interval: defaultInterval,
       container: ref.current,
       library_path: "/static/charting_library/",
       locale: getLanguageFromURL() || "en",

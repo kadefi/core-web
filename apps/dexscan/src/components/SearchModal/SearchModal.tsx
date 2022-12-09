@@ -253,7 +253,7 @@ const SearchModal = (props: Props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-slate-800 bg-opacity-75 transition-opacity" />
+            <div className="fixed inset-0 bg-slate-800 bg-opacity-75 backdrop-blur transition-opacity" />
           </Transition.Child>
           <div className="fixed inset-0 z-30 overflow-y-auto">
             <div className="flex h-full min-h-full items-start">

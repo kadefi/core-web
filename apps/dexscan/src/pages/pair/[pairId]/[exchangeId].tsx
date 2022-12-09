@@ -80,6 +80,13 @@ enum ColumnKey {
   Explorer = "explorer",
 }
 
+enum MobileTab {
+  Chart = "Chart",
+  Txns = "Txns",
+  Details = "Details",
+  Swap = "Swap",
+}
+
 const transactionColumnDefs: ColumnDef<TransactionInfo>[] = [
   {
     name: "Date",
@@ -223,7 +230,11 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
   // Mobile UI Responsiveness Config
   const lgAndAbove = useMinWidth(Breakpoint.lg);
 
-  const [currentTab, setCurrentTab] = useState("Chart");
+  const [currentTab, setCurrentTab] = useState(MobileTab.Chart);
+
+  useEffect(() => {
+    setCurrentTab(MobileTab.Chart);
+  }, [pairId, exchangeId]);
 
   if (!tradingPairInfo) {
     return null;
@@ -491,10 +502,10 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
   );
 
   const tabs = [
-    { name: "Chart", component: tokenChart },
-    { name: "Txns", component: tokenTransactions },
-    { name: "Details", component: tokenStats },
-    { name: "Swap", component: tokenSwapMobile },
+    { name: MobileTab.Chart, component: tokenChart },
+    { name: MobileTab.Txns, component: tokenTransactions },
+    { name: MobileTab.Details, component: tokenStats },
+    { name: MobileTab.Swap, component: tokenSwapMobile },
   ];
 
   const getTabsContent = () => {
