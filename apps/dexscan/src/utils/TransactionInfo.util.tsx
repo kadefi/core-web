@@ -64,7 +64,7 @@ export const renderToken1 = (dataItem: TransactionInfo) => {
 export const renderValue = (dataItem: TransactionInfo) => {
   return (
     <div className={clsx(getColor(dataItem))}>
-      {NumberUtil.formatNumber(dataItem.amount)}
+      {NumberUtil.formatNumber(dataItem.amount, "$")}
     </div>
   );
 };
