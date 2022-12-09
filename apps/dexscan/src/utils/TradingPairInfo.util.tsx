@@ -104,8 +104,8 @@ export const getTradingNotice = (className?: string) => {
   return (
     <div className={clsx("mt-1 text-xs text-slate-400 md:text-sm", className)}>
       <InformationCircleIcon className="relative -top-[1px] mr-1 inline h-4 w-4" />
-      Prices are last executed transaction price. Depending on liquidity &
-      slippage, you may / may not get the same price
+      Prices are based on last executed transaction. You may not get the same
+      price due to liquidity & slippage
     </div>
   );
 };

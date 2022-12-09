@@ -78,7 +78,8 @@ const DataTable = <T,>(props: Props<T>) => {
 
   const { getRowKey, getRowClick } = rowDef;
 
-  const padding = size === "sm" ? "px-1 py-2" : "px-3 py-4";
+  const sizeClasses =
+    size === "sm" ? "px-1 py-2 text-xs lg:text-sm" : "px-3 py-4";
 
   if (!sortedData) {
     return null;
@@ -119,7 +120,7 @@ const DataTable = <T,>(props: Props<T>) => {
                       scope="col"
                       className={clsx(
                         "sticky top-0 z-10 bg-slate-800 text-left text-sm font-semibold text-slate-50 ",
-                        padding,
+                        sizeClasses,
                         index === 0 &&
                           clsx("pl-4 pr-3 sm:pl-6", rounded && "rounded-l-lg"),
                         index === columnDefs.length - 1 &&
@@ -168,7 +169,7 @@ const DataTable = <T,>(props: Props<T>) => {
                             key={`row-cell-${rowKey}-${column.columnKey}`}
                             className={clsx(
                               "whitespace-nowrap pr-4 text-sm",
-                              padding,
+                              sizeClasses,
                               j === 0 && "pl-4 pr-3 sm:pl-6",
                               j === columnDefs.length - 1 && "pl-3 pr-4 sm:pr-6"
                             )}

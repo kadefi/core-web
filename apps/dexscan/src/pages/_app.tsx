@@ -20,7 +20,7 @@ import { LayoutFn } from "ui";
 const TITLE = "DEXSCAN by Kadefi.Money | DeFi Dashboard for Kadena";
 const DESCRIPTION =
   "Track all tokens prices and performance across all Kadena's exchanges";
-const IMAGE_URL = "https://kadefi.money/assets/logo.png";
+const IMAGE_URL = "https://dexscan.kadefi.money/assets/logo.png";
 const TWITTER_USERNAME = "@kadefi_money";
 
 interface MyAppProps extends AppProps<{ dehydratedState: DehydratedState }> {

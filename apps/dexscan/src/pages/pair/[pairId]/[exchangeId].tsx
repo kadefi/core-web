@@ -1,4 +1,5 @@
 import {
+  ArrowsUpDownIcon,
   ArrowTopRightOnSquareIcon,
   InformationCircleIcon,
 } from "@heroicons/react/20/solid";
@@ -299,8 +300,13 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
     </div>
   );
 
-  const tokenStats = (
-    <div className="mx-4 flex flex-col gap-3 overflow-auto rounded-md bg-slate-800/70 p-4 shadow lg:mx-0 lg:w-full">
+  const tokenStats = (className?: string) => (
+    <div
+      className={clsx(
+        "mx-4 flex flex-col gap-3 overflow-auto rounded-md bg-slate-800/70 p-4 shadow lg:mx-0 lg:w-full",
+        className
+      )}
+    >
       {formatStatsInfo(
         "24h Volume",
         <div>${numeral(round(volume24h, 0)).format("0,0")}</div>
@@ -353,6 +359,27 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
     </div>
   );
 
+  const navigateToSwapButton = (className?: string) => (
+    <a
+      className={clsx(
+        "flex w-full cursor-pointer items-center justify-center gap-1 rounded-md bg-teal-600 py-2 px-4" +
+          " text-sm font-semibold text-slate-50 transition hover:bg-teal-600",
+        className
+      )}
+      target="_blank"
+      rel="noopener noreferrer"
+      href={TradingPairInfoUtil.getLinkToExchange(
+        exchange.name,
+        token0.name,
+        token1.name
+      )}
+    >
+      <span>Swap on </span>
+      <span className="capitalize">{exchange.name.toLowerCase()}</span>
+      <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
+    </a>
+  );
+
   const tokenInformation = (
     <div className="flex h-full w-full items-center justify-between px-3 py-2 lg:flex-col lg:items-start lg:justify-start lg:gap-2 lg:overflow-auto lg:px-6 lg:py-4">
       <div className="flex items-center gap-2">
@@ -394,33 +421,20 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
         </div>
       </div>
       <div className="hidden lg:block">{socialInfo}</div>
-      <div className="hidden lg:block lg:w-full">{tokenStats}</div>
-      <a
-        className="mt-1 hidden w-full cursor-pointer items-center justify-center gap-1 rounded-md bg-teal-600 py-2 px-4 text-sm font-semibold text-slate-50 transition hover:bg-teal-600 lg:flex"
-        target="_blank"
-        rel="noopener noreferrer"
-        href={TradingPairInfoUtil.getLinkToExchange(
-          exchange.name,
-          token0.name,
-          token1.name
-        )}
-      >
-        <span>Swap on </span>
-        <span className="capitalize">{exchange.name.toLowerCase()}</span>
-        <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
-      </a>
+      <div className="hidden lg:block lg:w-full">{tokenStats()}</div>
+      {navigateToSwapButton("hidden lg:flex")}
       {TradingPairInfoUtil.getTradingNotice("hidden lg:block lg:text-xs")}
     </div>
   );
 
-  const tokenChart = (
-    <div className="relative h-full w-full">
+  const tokenChart = (className?: string) => (
+    <div className={clsx("relative h-full w-full", className)}>
       <TVChartContainer symbol={tradingPairInfo.symbol} />
     </div>
   );
 
-  const tokenTransactions = (
-    <div className="relative h-full overflow-hidden">
+  const tokenTransactions = (className?: string) => (
+    <div className={clsx("relative h-full overflow-hidden", className)}>
       <DataTable
         dataSource={transactions}
         columnDefs={transactionColumnDefs}
@@ -429,9 +443,10 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
         defaultSortedDirection={SortDirection.Desc}
         tableBottomRef={tableBottomRef}
         isTableBottomInView={inView}
+        size={"sm"}
       />
       {inView && (
-        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-slate-800 px-4 py-2 text-center text-slate-50">
+        <div className="absolute bottom-0 left-0 right-0 flex items-center justify-center bg-slate-800 px-4 py-2 text-center text-xs text-slate-50 lg:text-sm">
           Loading more transactions...
         </div>
       )}
@@ -444,7 +459,7 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
       className="hidden md:flex md:grow md:text-slate-50"
     >
       <ReflexElement className="left-pane overflow-hidden" flex={0.7}>
-        <div className="h-full">{tokenChart}</div>
+        <div className="h-full">{tokenChart()}</div>
       </ReflexElement>
       <ReflexSplitter className="z-0 border-2 border-slate-700" />
       <ReflexElement
@@ -452,32 +467,52 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
         flex={0.3}
       >
         <div className="pane-content relative h-full overflow-hidden">
-          {tokenTransactions}
+          {tokenTransactions()}
         </div>
       </ReflexElement>
     </ReflexContainer>
   );
 
+  const tokenSwapMobile = (className?: string) => (
+    <div
+      className={clsx(
+        "m-auto w-full  max-w-md items-center space-y-4 px-4",
+        className
+      )}
+    >
+      <div className="my-8 flex w-full items-center justify-center gap-2">
+        <LogoImg src={token1.img} size={"lg"} />
+        <ArrowsUpDownIcon className={"h-5 w-5 rotate-90 text-slate-400"} />
+        <LogoImg src={token0.img} size={"lg"} />
+      </div>
+      {navigateToSwapButton("mt-4")}
+      {TradingPairInfoUtil.getTradingNotice("text-sm lg:hidden")}
+    </div>
+  );
+
   const tabs = [
     { name: "Chart", component: tokenChart },
-    { name: "Transactions", component: tokenTransactions },
-    { name: "Statistics", component: tokenStats },
+    { name: "Txns", component: tokenTransactions },
+    { name: "Details", component: tokenStats },
+    { name: "Swap", component: tokenSwapMobile },
   ];
 
-  const getCurrentTabComponent = () => {
-    for (const tab of tabs) {
-      if (tab.name === currentTab) {
-        return tab.component;
+  const getTabsContent = () => {
+    const shouldDisplay = (tabName: string) => {
+      if (currentTab === tabName) {
+        return "block";
+      } else {
+        return "hidden";
       }
-    }
+    };
 
-    return null;
+    return <>{tabs.map((tab) => tab.component(shouldDisplay(tab.name)))}</>;
   };
 
   const mobileDisplay = (
     <div className="flex h-full flex-col">
       <nav
-        className="my-2 flex w-full flex-initial justify-center px-4 text-xs"
+        className="my-2 flex w-full flex-initial justify-center px-1 text-xs"
         aria-label="Tabs"
       >
         <div className="flex w-full gap-1 rounded-md border border-slate-800">
@@ -496,24 +531,9 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
               {tab.name}
             </div>
           ))}
-          <a
-            className="flex flex-1 cursor-pointer items-center justify-center gap-1 rounded-md py-2 font-medium text-slate-500"
-            target="_blank"
-            rel="noopener noreferrer"
-            href={TradingPairInfoUtil.getLinkToExchange(
-              exchange.name,
-              token0.name,
-              token1.name
-            )}
-          >
-            Swap
-            <ArrowTopRightOnSquareIcon className="h-4 w-4" />
-          </a>
         </div>
       </nav>
-      <div className="flex-1 basis-0 overflow-hidden">
-        {getCurrentTabComponent()}
-      </div>
+      <div className="flex-1 basis-0 overflow-hidden">{getTabsContent()}</div>
     </div>
   );
 
