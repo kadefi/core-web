@@ -104,7 +104,7 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
           severity="success"
           sx={{ width: "100%" }}
         >
-          Copied address to Clipboard
+          Copied Address to Clipboard
         </Alert>
       </Snackbar>
     </div>
