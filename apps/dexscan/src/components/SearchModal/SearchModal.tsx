@@ -156,7 +156,7 @@ const SearchModal = (props: Props) => {
     <div className="relative flex w-full max-w-2xl items-center justify-center">
       <MagnifyingGlassIcon className="absolute left-2 h-4 w-4 text-slate-500" />
       <input
-        placeholder="Search trading pair"
+        placeholder="Search token pair"
         type="text"
         name="search"
         id="search"

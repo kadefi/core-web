@@ -1,11 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import {
   Bars3BottomLeftIcon,
-  HeartIcon,
-  HomeIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+  MagnifyingGlassIcon,
+} from "@heroicons/react/20/solid";
+import { HeartIcon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -60,7 +58,7 @@ const Layout = (props: Props) => {
     <div className="flex w-full items-center justify-between md:justify-start">
       <LogoImg src={DexScanLogo} size="xl" className="md:ml-1 md:h-9 md:w-9" />
       <div className="flex flex-col items-start md:ml-2">
-        <div className="text-3xl font-bold text-teal-400 md:text-2xl">
+        <div className="text-3xl font-bold text-teal-500 md:text-2xl">
           DEXSCAN
         </div>
         <div className="self-end whitespace-nowrap text-sm md:self-start md:text-xs">
@@ -112,7 +110,7 @@ const Layout = (props: Props) => {
                 <div className="absolute top-0 right-0 -mr-12 pt-2">
                   <button
                     type="button"
-                    className="ml-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-700 shadow"
+                    className="ml-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-700 shadow focus:outline-none focus:ring-1 focus:ring-inset focus:ring-white"
                     onClick={() => setSidebarOpen(false)}
                   >
                     <span className="sr-only">Close sidebar</span>
@@ -165,7 +163,7 @@ const Layout = (props: Props) => {
   const mobileSideBarToggle = (
     <button
       type="button"
-      className="border border-slate-800 px-2 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden md:px-4"
+      className="border border-slate-800 px-3 text-gray-500 focus:outline-none focus:ring-1 focus:ring-inset focus:ring-white md:hidden md:px-4"
       onClick={() => setSidebarOpen(true)}
     >
       <span className="sr-only">Open sidebar</span>
@@ -223,8 +221,7 @@ const Layout = (props: Props) => {
       <div className="flex items-center">
         <MagnifyingGlassIcon className="mr-2 h-5 w-5 md:h-6 md:w-6" />
         <div>
-          Search trading pair{" "}
-          <span className="hidden sm:inline">by symbol, token</span>
+          Search token pair <span className="hidden sm:inline">by symbol</span>
         </div>
       </div>
       <div className="hidden items-center font-sans text-sm font-medium text-slate-500 md:inline-flex">
@@ -239,8 +236,8 @@ const Layout = (props: Props) => {
       {mobileSideBar}
       {desktopSideBar}
       <div className="flex h-full flex-1 flex-col md:pl-14">
-        <div className="sticky top-0 z-10 flex h-10 flex-shrink-0 bg-slate-900 shadow md:h-14">
-          <div className="flex flex-1 justify-between border-y border-slate-800 px-2 text-sm md:px-6">
+        <div className="sticky top-0 z-10 flex h-11 flex-shrink-0 bg-slate-900 shadow md:h-14">
+          <div className="flex flex-1 justify-between border-y border-slate-800 px-3 text-sm md:px-6">
             {searchBar}
           </div>
           {mobileSideBarToggle}

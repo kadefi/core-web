@@ -1,13 +1,14 @@
 import { dehydrate, QueryClient } from "@tanstack/react-query";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { DehydratedStateProps, NextPageWithLayout } from "ui";
+import { DehydratedStateProps, LogoImg, NextPageWithLayout } from "ui";
 import { DataTable } from "ui/components/DataTable";
 import { ColumnDef, RowDef } from "ui/components/DataTable/DataTable.type";
 import { SortDirection } from "ui/enums";
 
 import { getTradingPairs } from "../api/TradingPair.api";
 import { useGetTradingPairs } from "../api/TradingPair.queries";
+import DexScanLogo from "../assets/pngs/logos/dex-scan-logo.png";
 import { REVALIDATE_DURATION_IN_S, TRADING_PAIR_QUERY_KEY } from "../constants";
 import { getPageLayout } from "../layouts/Layout";
 import { TradingPairInfo } from "../types/TradingPairTable.type";
@@ -71,8 +72,13 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
   return (
     <div className="flex h-full flex-1 flex-col">
       <div className="flex-initial sm:px-6">
-        <div className="py-4 px-2 sm:px-0">
-          <h1 className="text-2xl font-bold text-slate-50">
+        <div className="mb-1 py-3 px-4 sm:px-0 md:py-4">
+          <h1 className="mb-2 flex gap-2 text-xl font-bold text-teal-500 md:text-2xl">
+            <LogoImg
+              src={DexScanLogo}
+              size="sm"
+              className="-top-[3px] md:hidden"
+            />
             DEXSCAN Dashboard
           </h1>
           {TradingPairInfoUtil.getTradingNotice()}
