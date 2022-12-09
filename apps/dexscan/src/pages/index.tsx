@@ -77,7 +77,7 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
           </h1>
         </div>
       </div>
-      <div className="flex-auto overflow-hidden px-2 sm:px-6">
+      <div className="flex-auto overflow-hidden px-2 pb-4 sm:px-6">
         <DataTable
           dataSource={tradingPairs}
           columnDefs={tradingPairColumnDefs}

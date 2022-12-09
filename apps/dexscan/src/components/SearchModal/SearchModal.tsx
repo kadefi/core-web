@@ -22,6 +22,7 @@ import {
 import { LogoImg, NumberUtil } from "ui";
 
 import { useGetTradingPairs } from "../../api/TradingPair.queries";
+import DogImage from "../../assets/svgs/illustrations/dog.svg";
 import { TradingPairInfo } from "../../types/TradingPairTable.type";
 import { RouteUtil } from "../../utils";
 
@@ -178,6 +179,15 @@ const SearchModal = (props: Props) => {
       return null;
     }
 
+    if (filteredPairs.length === 0) {
+      return (
+        <div className="relative -top-8 flex h-full w-full flex-col items-center justify-center overflow-y-auto text-sm text-slate-300">
+          <DogImage className="w-24" />
+          <div className="mt-2">Oof! No result found</div>
+        </div>
+      );
+    }
+
     return (
       <div className="flex w-full flex-col items-center overflow-y-auto text-sm text-slate-300">
         {filteredPairs.map((pair, i) => {
@@ -267,7 +277,7 @@ const SearchModal = (props: Props) => {
                   <div className="mt-2 w-full max-w-2xl grow-0">
                     {keyboardShortcutsHelper}
                   </div>
-                  <div className="grow-1 my-2 w-full max-w-2xl overflow-y-auto">
+                  <div className="grow-1 my-2 h-full w-full max-w-2xl overflow-y-auto">
                     {searchResults()}
                   </div>
                   <XMarkIcon
