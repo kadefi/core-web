@@ -548,10 +548,12 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
   return (
     <div className="h-full">
       <div className="flex h-full w-full flex-col lg:flex-row">
-        <div className="flex-initial border-b border-slate-800 lg:h-full lg:w-80 lg:border-r lg:border-b-0">
+        <div className="flex-none border-b border-slate-800 lg:h-full lg:w-80 lg:border-r lg:border-b-0">
           {tokenInformation}
         </div>
-        <div className="flex-auto">{getDisplayBasedOnScreenSize()}</div>
+        <div className="flex-1 overflow-hidden">
+          {getDisplayBasedOnScreenSize()}
+        </div>
       </div>
     </div>
   );
