@@ -269,7 +269,7 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
             </Tooltip>
           )}
         </div>
-        <div className="text-sm text-slate-300">{value}</div>
+        <div className="text-sm text-slate-300 lg:text-xs">{value}</div>
       </div>
     );
   };
@@ -396,7 +396,7 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
       <div className="hidden lg:block">{socialInfo}</div>
       <div className="hidden lg:block lg:w-full">{tokenStats}</div>
       <a
-        className="hidden w-full cursor-pointer items-center justify-center gap-1 rounded-md bg-teal-600 py-2 px-4 text-sm font-semibold text-slate-50 transition hover:bg-teal-600 lg:flex"
+        className="mt-1 hidden w-full cursor-pointer items-center justify-center gap-1 rounded-md bg-teal-600 py-2 px-4 text-sm font-semibold text-slate-50 transition hover:bg-teal-600 lg:flex"
         target="_blank"
         rel="noopener noreferrer"
         href={TradingPairInfoUtil.getLinkToExchange(
@@ -409,6 +409,7 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
         <span className="capitalize">{exchange.name.toLowerCase()}</span>
         <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
       </a>
+      {TradingPairInfoUtil.getTradingNotice("hidden lg:block lg:text-xs")}
     </div>
   );
 

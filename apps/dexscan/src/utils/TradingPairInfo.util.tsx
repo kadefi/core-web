@@ -1,6 +1,7 @@
 import {
   ArrowDownRightIcon,
   ArrowUpRightIcon,
+  InformationCircleIcon,
 } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import round from "lodash/round";
@@ -97,4 +98,14 @@ export const getLinkToExchange = (
   }
 
   return "";
+};
+
+export const getTradingNotice = (className?: string) => {
+  return (
+    <div className={clsx("mt-1 text-xs text-slate-400 md:text-sm", className)}>
+      <InformationCircleIcon className="relative -top-[1px] mr-1 inline h-4 w-4" />
+      Prices are last executed transaction price. Depending on liquidity &
+      slippage, you may / may not get the same price
+    </div>
+  );
 };

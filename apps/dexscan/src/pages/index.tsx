@@ -75,6 +75,7 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
           <h1 className="text-2xl font-bold text-slate-50">
             DEXSCAN Dashboard
           </h1>
+          {TradingPairInfoUtil.getTradingNotice()}
         </div>
       </div>
       <div className="flex-auto overflow-hidden px-2 pb-4 sm:px-6">
