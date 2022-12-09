@@ -1,30 +1,7 @@
-import round from "lodash/round";
 import numeral from "numeral";
 import { ReactNode } from "react";
 
 import { Tooltip } from "../components";
-
-export const roundToDecimalStr = (num: number, decimalDigits: number) => {
-  const minValue = Number(Math.pow(10, -decimalDigits).toPrecision(1));
-
-  let optionalDigits = "";
-
-  for (let i = 0; i < decimalDigits - 2; i++) {
-    optionalDigits += "0";
-  }
-
-  const format = `0,0.00[${optionalDigits}]`;
-
-  if (num < minValue) {
-    return numeral(num).format(`0.00e+0`);
-  }
-
-  return numeral(round(num, decimalDigits)).format(format);
-};
-
-export const formatFiatValue = (num: number, decimals = 2) => {
-  return `$${roundToDecimalStr(num, decimals)}`;
-};
 
 export const formatPercentage = (num: number) => {
   return numeral(num).format(`0.00%`);
@@ -98,16 +75,21 @@ export const formatNumber = (
     return (
       <span>
         {prepend}
-        {num.toPrecision(4)}
+        {roundToSignificant(num, 4)}
       </span>
     );
   }
 };
 
-export const formatTokenAmount = (num: number) => {
-  if (num < 0.0000001) {
-    return numeral(num).format(`0.00e+0`);
+function roundToSignificant(num: number, sigFigs: number) {
+  if (num === 0) {
+    return 0;
   }
 
-  return numeral(num).format(`0,0.00[000000]`);
-};
+  const digits = Math.floor(Math.log10(num)) + 1;
+  const roundedNum =
+    Math.round(num * Math.pow(10, sigFigs - digits)) /
+    Math.pow(10, sigFigs - digits);
+
+  return roundedNum.toString().replace(/\.?0+$/, "");
+}
