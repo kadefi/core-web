@@ -73,13 +73,18 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
     <div className="flex h-full flex-1 flex-col">
       <div className="flex-initial sm:px-6">
         <div className="mb-1 py-3 px-4 sm:px-0 md:py-4">
-          <h1 className="mb-2 flex gap-2 text-xl font-bold text-teal-500 md:text-2xl">
+          <h1
+            className="mb-2 flex text-xl font-bold text-slate-300 md:text-2xl"
+            style={{ fontFamily: "Montserrat, sans-serif" }}
+          >
             <LogoImg
               src={DexScanLogo}
               size="sm"
               className="-top-[3px] md:hidden"
             />
-            DEXSCAN Dashboard
+            <span className="ml-2 md:ml-0">DEX</span>
+            <span className="text-teal-500">Scan</span>
+            <span className="ml-1">Dashboard</span>
           </h1>
           {TradingPairInfoUtil.getTradingNotice()}
         </div>

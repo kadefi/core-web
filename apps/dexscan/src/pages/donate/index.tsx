@@ -68,7 +68,7 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
         {getStatDisplay(nfts, "NFT Collections integrated with your wallet")}
         {getStatDisplay(
           32,
-          "Trading pairs with real-time price chart on DexScan"
+          "Trading pairs with real-time price chart on DEXScan"
         )}
         <div>
           We are extremely proud and happy hearing people talk about our
@@ -80,7 +80,7 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
         </div>
         <div>
           If you are feeling generous, a donation (no matter the amount) would
-          be of great help to us to keep Kadefi.Money and DexScan running and
+          be of great help to us to keep Kadefi.Money and DEXScan running and
           new integrations going. As a token of appreciation, we would give you
           a big virtual hug 🤗 (not the real one though, we are not that kind of
           platform 😉) You can find our wallet address here:

@@ -55,14 +55,18 @@ const Layout = (props: Props) => {
   }, []);
 
   const logo = (
-    <div className="flex w-full items-center justify-between md:justify-start">
+    <div className="flex w-full items-center justify-between md:justify-start md:gap-1">
       <LogoImg src={DexScanLogo} size="xl" className="md:ml-1 md:h-9 md:w-9" />
-      <div className="flex flex-col items-start md:ml-2">
-        <div className="text-3xl font-bold text-teal-500 md:text-2xl">
-          DEXSCAN
+      <div
+        className="flex flex-col items-start md:ml-2"
+        style={{ fontFamily: "Montserrat, sans-serif" }}
+      >
+        <div className="text-3xl font-bold md:text-2xl">
+          <span className="text-slate-300">DEX</span>
+          <span className="text-teal-500">Scan</span>
         </div>
-        <div className="self-end whitespace-nowrap text-sm md:self-start md:text-xs">
-          by Kadefi.Money
+        <div className="self-end whitespace-nowrap text-sm text-slate-400 md:self-start md:text-xs">
+          by kadefi.money
         </div>
       </div>
     </div>

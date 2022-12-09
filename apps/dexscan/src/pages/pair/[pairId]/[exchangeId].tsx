@@ -396,7 +396,11 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-start">
           <div className="flex items-center gap-1 text-lg sm:text-xl lg:gap-2 lg:text-2xl">
-            <LogoImg src={token0.img} size="md" />
+            <LogoImg
+              src={token0.img}
+              size="md"
+              className="relative -top-[2px]"
+            />
             <div className="flex flex-col items-start">
               <div className="leading-4 lg:leading-6">
                 <span className="text-slate-200">{token0.name}</span>
