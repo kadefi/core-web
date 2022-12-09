@@ -181,7 +181,7 @@ const SearchModal = (props: Props) => {
 
     if (filteredPairs.length === 0) {
       return (
-        <div className="relative -top-8 flex h-full w-full flex-col items-center justify-center overflow-y-auto text-sm text-slate-300">
+        <div className="relative top-[10%] flex w-full flex-col items-center justify-start overflow-hidden text-sm text-slate-300 md:top-[30%] md:justify-center">
           <DogImage className="w-24" />
           <div className="mt-2">Oof! No result found</div>
         </div>
