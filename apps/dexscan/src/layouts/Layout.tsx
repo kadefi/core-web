@@ -86,7 +86,7 @@ const Layout = (props: Props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-gray-600 bg-opacity-20" />
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-20 backdrop-blur" />
         </Transition.Child>
 
         <div className="fixed inset-0 z-40 flex">
@@ -112,7 +112,7 @@ const Layout = (props: Props) => {
                 <div className="absolute top-0 right-0 -mr-12 pt-2">
                   <button
                     type="button"
-                    className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                    className="ml-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-700 shadow"
                     onClick={() => setSidebarOpen(false)}
                   >
                     <span className="sr-only">Close sidebar</span>
@@ -156,7 +156,7 @@ const Layout = (props: Props) => {
               </div>
             </Dialog.Panel>
           </Transition.Child>
-          <div className="w-14 flex-shrink-0" aria-hidden="true" />
+          <div className="w-14 flex-shrink-0 transition" aria-hidden="true" />
         </div>
       </Dialog>
     </Transition.Root>
@@ -165,11 +165,11 @@ const Layout = (props: Props) => {
   const mobileSideBarToggle = (
     <button
       type="button"
-      className="border border-slate-800 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
+      className="border border-slate-800 px-2 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden md:px-4"
       onClick={() => setSidebarOpen(true)}
     >
       <span className="sr-only">Open sidebar</span>
-      <Bars3BottomLeftIcon className="h-6 w-6" aria-hidden="true" />
+      <Bars3BottomLeftIcon className="h-5 md:w-5" aria-hidden="true" />
     </button>
   );
 
@@ -221,7 +221,7 @@ const Layout = (props: Props) => {
       onClick={handleSearchBarClick}
     >
       <div className="flex items-center">
-        <MagnifyingGlassIcon className="mr-2 h-6 w-6" />
+        <MagnifyingGlassIcon className="mr-2 h-5 w-5 md:h-6 md:w-6" />
         <div>
           Search trading pair{" "}
           <span className="hidden sm:inline">by symbol, token</span>
@@ -239,11 +239,11 @@ const Layout = (props: Props) => {
       {mobileSideBar}
       {desktopSideBar}
       <div className="flex h-full flex-1 flex-col md:pl-14">
-        <div className="sticky top-0 z-10 flex h-14 flex-shrink-0 bg-slate-900 shadow">
-          {mobileSideBarToggle}
-          <div className="flex flex-1 justify-between border-y border-slate-800 px-6">
+        <div className="sticky top-0 z-10 flex h-10 flex-shrink-0 bg-slate-900 shadow md:h-14">
+          <div className="flex flex-1 justify-between border-y border-slate-800 px-2 text-sm md:px-6">
             {searchBar}
           </div>
+          {mobileSideBarToggle}
         </div>
         <main className="flex-1 overflow-hidden">{children}</main>
       </div>
