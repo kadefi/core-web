@@ -38,19 +38,30 @@ export const formatNumber = (
   if (num < 0.00001) {
     const roundedNum = num.toFixed(20);
 
+    console.log(roundedNum);
+
     const firstHalf = "0.0";
     let numZeros = 0;
     let secondHalf = "";
+    let index = 2;
 
-    for (let i = 2; i < roundedNum.length; i++) {
-      if (roundedNum.charAt(i) === "0") {
+    while (index < roundedNum.length) {
+      if (roundedNum.charAt(index) === "0") {
         numZeros += 1;
       } else {
-        secondHalf += roundedNum.charAt(i);
+        break;
       }
+
+      index++;
+    }
+
+    while (index < roundedNum.length) {
       if (secondHalf.length === 4) {
         break;
       }
+
+      secondHalf += roundedNum.charAt(index);
+      index++;
     }
 
     return (
