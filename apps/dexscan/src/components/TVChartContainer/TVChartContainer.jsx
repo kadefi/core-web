@@ -35,6 +35,10 @@ const TVChartContainer = (props) => {
   );
 
   useEffect(() => {
+    setIsLoading(true);
+  }, [symbol]);
+
+  useEffect(() => {
     if (!symbol) {
       return;
     }
