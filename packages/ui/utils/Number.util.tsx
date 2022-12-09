@@ -30,7 +30,11 @@ export const formatPercentage = (num: number) => {
   return numeral(num).format(`0.00%`);
 };
 
-export const formatPrice = (num: number, subscriptSize?: number): ReactNode => {
+export const formatNumber = (
+  num: number,
+  prepend = "",
+  subscriptSize?: number
+): ReactNode => {
   if (num < 0.00001) {
     const roundedNum = num.toFixed(20);
 
@@ -50,28 +54,43 @@ export const formatPrice = (num: number, subscriptSize?: number): ReactNode => {
     }
 
     return (
-      <Tooltip content={`$0.${Array(numZeros).fill(0).join("")}${secondHalf}`}>
-        <span>
-          ${firstHalf}
-          <sub
-            className="relative -bottom-[6px]"
-            style={{ fontSize: subscriptSize || "8px" }}
-          >
-            {numZeros}
-          </sub>
-          {secondHalf}
-        </span>
-      </Tooltip>
+      <span>
+        <Tooltip
+          content={`$0.${Array(numZeros).fill(0).join("")}${secondHalf}`}
+        >
+          <>
+            {prepend}
+            {firstHalf}
+            <sub
+              className="relative -bottom-[6px]"
+              style={{ fontSize: subscriptSize || "8px" }}
+            >
+              {numZeros}
+            </sub>
+            {secondHalf}
+          </>
+        </Tooltip>
+      </span>
     );
   }
 
-  let precision = 2;
-
-  if (num < 1) {
-    precision = 4;
+  if (num >= 1) {
+    return (
+      <span>
+        {prepend}
+        {numeral(num).format("0,0.00")}
+      </span>
+    );
   }
 
-  return `$${numeral(num.toPrecision(precision)).format("0,0.00[0000000]")}`;
+  if (num < 1) {
+    return (
+      <span>
+        {prepend}
+        {num.toPrecision(4)}
+      </span>
+    );
+  }
 };
 
 export const formatTokenAmount = (num: number) => {
@@ -79,5 +98,5 @@ export const formatTokenAmount = (num: number) => {
     return numeral(num).format(`0.00e+0`);
   }
 
-  return numeral(num.toPrecision(2)).format(`0,0.[000000]`);
+  return numeral(num).format(`0,0.00[000000]`);
 };

@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import numeral from "numeral";
 import { ParsedUrlQuery } from "querystring";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, ReactNode, useEffect, useRef, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { ReflexContainer, ReflexElement, ReflexSplitter } from "react-reflex";
 import {
@@ -361,11 +361,13 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
       )}
       {formatStatsInfo(
         "All-Time Low",
-        <div>{allTimeLow ? NumberUtil.formatPrice(allTimeLow) : "-"}</div>
+        <div>{allTimeLow ? NumberUtil.formatNumber(allTimeLow, "$") : "-"}</div>
       )}
       {formatStatsInfo(
         "All-Time High",
-        <div>{allTimeHigh ? NumberUtil.formatPrice(allTimeHigh) : "-"}</div>
+        <div>
+          {allTimeHigh ? NumberUtil.formatNumber(allTimeHigh, "$") : "-"}
+        </div>
       )}
     </div>
   );
@@ -422,7 +424,7 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
       </div>
       <div className="flex flex-col items-end lg:w-full lg:items-start lg:gap-2">
         <div className="mb-1 text-xl font-bold text-slate-200 lg:text-3xl">
-          {NumberUtil.formatPrice(price, 12)}
+          {NumberUtil.formatNumber(price, "$", 12)}
         </div>
         <div className="flex items-center gap-1 rounded-md bg-slate-800/70 py-1 px-2 text-xs lg:w-full lg:px-4 lg:py-2 lg:text-sm">
           <span className="text-slate-500">24h</span>
@@ -521,7 +523,15 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
       }
     };
 
-    return <>{tabs.map((tab) => tab.component(shouldDisplay(tab.name)))}</>;
+    return (
+      <>
+        {tabs.map((tab) => (
+          <Fragment key={tab.name}>
+            {tab.component(shouldDisplay(tab.name))}
+          </Fragment>
+        ))}
+      </>
+    );
   };
 
   const mobileDisplay = (

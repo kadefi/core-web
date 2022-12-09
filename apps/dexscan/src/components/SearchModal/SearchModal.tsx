@@ -215,7 +215,9 @@ const SearchModal = (props: Props) => {
                 <span className="ml-1 text-slate-500">{`/ ${token1.name}`}</span>
                 <span className="ml-1 text-slate-500"> - {exchange.name}</span>
               </div>
-              <div>{NumberUtil.formatPrice(price)}</div>
+              <div className="whitespace-nowrap">
+                {NumberUtil.formatNumber(price, "$")}
+              </div>
             </button>
           );
         })}

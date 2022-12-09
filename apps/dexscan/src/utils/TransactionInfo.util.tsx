@@ -30,8 +30,8 @@ export const renderType = (dataItem: TransactionInfo) => {
 
 export const renderPrice = (dataItem: TransactionInfo) => {
   return (
-    <div className={clsx(getColor(dataItem))}>
-      {NumberUtil.formatPrice(dataItem.price)}
+    <div className={clsx(getColor(dataItem), "whitespace-nowrap")}>
+      {NumberUtil.formatNumber(dataItem.price, "$")}
     </div>
   );
 };
@@ -40,7 +40,7 @@ const renderToken = (token: TransactionTokenInfo, color: string) => {
   return (
     <div className={clsx("flex items-center gap-2", color)}>
       <LogoImg src={token.img} size={"xs"} />
-      {NumberUtil.formatTokenAmount(token.amount)}
+      {NumberUtil.formatNumber(token.amount)}
     </div>
   );
 };
@@ -64,7 +64,7 @@ export const renderToken1 = (dataItem: TransactionInfo) => {
 export const renderValue = (dataItem: TransactionInfo) => {
   return (
     <div className={clsx(getColor(dataItem))}>
-      {NumberUtil.formatPrice(dataItem.amount)}
+      {NumberUtil.formatNumber(dataItem.amount)}
     </div>
   );
 };

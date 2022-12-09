@@ -54,7 +54,7 @@ export const renderTokenPair = (dataItem: TradingPairInfo) => {
 };
 
 export const renderTokenPrice = (dataItem: TradingPairInfo) => {
-  return <div>{NumberUtil.formatPrice(dataItem.price)}</div>;
+  return <div>{NumberUtil.formatNumber(dataItem.price, "$")}</div>;
 };
 
 export const render24hPriceChange = (dataItem: TradingPairInfo) => {
