@@ -1,15 +1,14 @@
-import { dehydrate, QueryClient } from "@tanstack/react-query";
-import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { DehydratedStateProps, LogoImg, NextPageWithLayout } from "ui";
 import { DataTable } from "ui/components/DataTable";
 import { ColumnDef, RowDef } from "ui/components/DataTable/DataTable.type";
 import { SortDirection } from "ui/enums";
 
-import { getTradingPairs } from "../api/TradingPair.api";
+import { trackEvent } from "../analytics/Analytics.util";
 import { useGetTradingPairs } from "../api/TradingPair.queries";
 import DexScanLogo from "../assets/pngs/logos/dex-scan-logo.png";
-import { REVALIDATE_DURATION_IN_S, TRADING_PAIR_QUERY_KEY } from "../constants";
+import { AmplitudeEvent } from "../enums";
 import { getPageLayout } from "../layouts/Layout";
 import { TradingPairInfo } from "../types/TradingPairTable.type";
 import { TradingPairInfoUtil } from "../utils";
@@ -58,6 +57,13 @@ const tradingPairColumnDefs: ColumnDef<TradingPairInfo>[] = [
 const Home: NextPageWithLayout<DehydratedStateProps> = () => {
   const router = useRouter();
 
+  // Amplitude
+  useEffect(() => {
+    trackEvent(AmplitudeEvent.PageVisit, {
+      pathname: router.asPath,
+    });
+  }, [router.asPath]);
+
   const { data: tradingPairs } = useGetTradingPairs();
 
   if (!tradingPairs) {
@@ -103,23 +109,23 @@ const Home: NextPageWithLayout<DehydratedStateProps> = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps<
-  DehydratedStateProps
-> = async () => {
-  const queryClient = new QueryClient();
-
-  await queryClient.prefetchQuery({
-    queryKey: [TRADING_PAIR_QUERY_KEY],
-    queryFn: () => getTradingPairs(),
-  });
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-    revalidate: REVALIDATE_DURATION_IN_S,
-  };
-};
+// export const getStaticProps: GetStaticProps<
+//   DehydratedStateProps
+// > = async () => {
+//   const queryClient = new QueryClient();
+//
+//   await queryClient.prefetchQuery({
+//     queryKey: [TRADING_PAIR_QUERY_KEY],
+//     queryFn: () => getTradingPairs(),
+//   });
+//
+//   return {
+//     props: {
+//       dehydratedState: dehydrate(queryClient),
+//     },
+//     revalidate: REVALIDATE_DURATION_IN_S,
+//   };
+// };
 
 Home.getLayout = getPageLayout;
 

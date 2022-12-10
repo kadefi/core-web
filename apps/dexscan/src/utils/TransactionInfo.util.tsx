@@ -3,8 +3,10 @@ import clsx from "clsx";
 import { format } from "date-fns/fp";
 import { LogoImg, NumberUtil, StringUtil } from "ui";
 
+import { trackEvent } from "../analytics/Analytics.util";
 import KadenaExplorerLogo from "../assets/pngs/logos/kadena-block-explorer.png";
 import UnmarshalLogo from "../assets/svgs/logos/unmarshal.svg";
+import { AmplitudeEvent } from "../enums";
 import {
   TransactionInfo,
   TransactionTokenInfo,
@@ -70,12 +72,21 @@ export const renderValue = (dataItem: TransactionInfo) => {
 };
 
 export const renderWalletLink = (dataItem: TransactionInfo) => {
+  const kadefiUrl = `https://kadefi.money/dashboard/${dataItem.address}`;
+  const trackWalletAddressClick = () => {
+    trackEvent(AmplitudeEvent.TransactionAddressNavigate, {
+      address: dataItem.address,
+      url: kadefiUrl,
+    });
+  };
+
   return (
     <a
-      href={`https://kadefi.money/dashboard/${dataItem.address}`}
+      href={kadefiUrl}
       target="_blank"
       className={clsx(getColor(dataItem), "flex items-center gap-1")}
       rel="noreferrer"
+      onClick={trackWalletAddressClick}
     >
       <ArrowTopRightOnSquareIcon className="h-4 w-4 text-slate-100" />
       {StringUtil.shortenAddress(dataItem.address, 4, 2)}
@@ -84,12 +95,18 @@ export const renderWalletLink = (dataItem: TransactionInfo) => {
 };
 
 export const renderExplorerLink = (dataItem: TransactionInfo) => {
+  const unmarshalUrl = `https://xscan.io/transactions/${dataItem.requestkey}?chain=kadena`;
+  const kadenaExplorerUrl = `https://explorer.chainweb.com/mainnet/tx/${dataItem.requestkey}`;
+
   const unmarshalLink = (
     <a
-      href={`https://xscan.io/transactions/${dataItem.requestkey}?chain=kadena`}
+      href={unmarshalUrl}
       target="_blank"
       className={clsx(getColor(dataItem), "flex items-center gap-1")}
       rel="noreferrer"
+      onClick={() =>
+        trackEvent(AmplitudeEvent.UnmarshalNavigate, { url: unmarshalUrl })
+      }
     >
       <UnmarshalLogo className="h-5 w-5" />
     </a>
@@ -97,10 +114,15 @@ export const renderExplorerLink = (dataItem: TransactionInfo) => {
 
   const kadenaExplorerLink = (
     <a
-      href={`https://explorer.chainweb.com/mainnet/tx/${dataItem.requestkey}`}
+      href={kadenaExplorerUrl}
       target="_blank"
       className={clsx(getColor(dataItem), "flex items-center gap-1")}
       rel="noreferrer"
+      onClick={() =>
+        trackEvent(AmplitudeEvent.KadenaExplorerNavigate, {
+          url: kadenaExplorerUrl,
+        })
+      }
     >
       <LogoImg src={KadenaExplorerLogo} size={"xs"} />
     </a>

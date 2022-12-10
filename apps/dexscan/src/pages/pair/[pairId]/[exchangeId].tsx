@@ -28,6 +28,7 @@ import { Breakpoint } from "ui/constants";
 import { SortDirection } from "ui/enums";
 import { useMinWidth } from "ui/hooks";
 
+import { trackEvent } from "../../../analytics/Analytics.util";
 import {
   getTradingPairInfo,
   getTradingPairs,
@@ -47,6 +48,7 @@ import {
   TRADING_PAIR_INFO_QUERY_KEY,
   TRANSACTIONS_FETCH_LIMIT,
 } from "../../../constants";
+import { AmplitudeEvent } from "../../../enums";
 import { getPageLayout } from "../../../layouts/Layout";
 import { TradingPairInfo } from "../../../types/TradingPairTable.type";
 import { TransactionInfo } from "../../../types/TransactionsTable.type";
@@ -157,6 +159,15 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
   // Router info
   const router = useRouter();
   const { pairId, exchangeId } = router.query as IParams;
+
+  // Amplitude
+  useEffect(() => {
+    trackEvent(AmplitudeEvent.PageVisit, {
+      pathname: router.asPath,
+      pairId,
+      exchangeId,
+    });
+  }, [router.asPath, pairId, exchangeId]);
 
   // Trading Pair Info
   const { data: tradingPairInfo } = useGetTradingPairInfo(pairId, exchangeId);
@@ -372,26 +383,39 @@ const TradingPairPage: NextPageWithLayout<Props> = (props: Props) => {
     </div>
   );
 
-  const navigateToSwapButton = (className?: string) => (
-    <a
-      className={clsx(
-        "flex w-full cursor-pointer items-center justify-center gap-1 rounded-md bg-teal-600 py-2 px-4" +
-          " text-sm font-semibold text-slate-50 transition hover:bg-teal-600",
-        className
-      )}
-      target="_blank"
-      rel="noopener noreferrer"
-      href={TradingPairInfoUtil.getLinkToExchange(
-        exchange.name,
-        token0.name,
-        token1.name
-      )}
-    >
-      <span>Swap on </span>
-      <span className="capitalize">{exchange.name.toLowerCase()}</span>
-      <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
-    </a>
-  );
+  const navigateToSwapButton = (className?: string) => {
+    const url = TradingPairInfoUtil.getLinkToExchange(
+      exchange.name,
+      token0.name,
+      token1.name
+    );
+    const trackNavigation = () => {
+      trackEvent(AmplitudeEvent.ExchangeSwapNavigate, {
+        exchange: exchange.name,
+        token0: token0.name,
+        token1: token1.name,
+        url,
+      });
+    };
+
+    return (
+      <a
+        className={clsx(
+          "flex w-full cursor-pointer items-center justify-center gap-1 rounded-md bg-teal-600 py-2 px-4" +
+            " text-sm font-semibold text-slate-50 transition hover:bg-teal-600",
+          className
+        )}
+        target="_blank"
+        rel="noopener noreferrer"
+        href={url}
+        onClick={trackNavigation}
+      >
+        <span>Swap on </span>
+        <span className="capitalize">{exchange.name.toLowerCase()}</span>
+        <ArrowTopRightOnSquareIcon className="ml-1 h-4 w-4" />
+      </a>
+    );
+  };
 
   const tokenInformation = (
     <div className="flex h-full w-full items-center justify-between px-3 py-2 lg:flex-col lg:items-start lg:justify-start lg:gap-2 lg:overflow-auto lg:px-6 lg:py-4">

@@ -19,8 +19,10 @@ import {
 } from "react";
 import { BrowserUtil, LogoImg } from "ui";
 
+import { trackEvent } from "../analytics/Analytics.util";
 import DexScanLogo from "../assets/pngs/logos/dex-scan-logo.png";
 import { SearchModal } from "../components/SearchModal";
+import { AmplitudeEvent } from "../enums";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
@@ -30,6 +32,9 @@ const navigation = [
     href: "https://kadefi.money",
     icon: WalletIcon,
     isExternalLink: true,
+    track: () => {
+      trackEvent(AmplitudeEvent.KadefiMoneyNavigate);
+    },
   },
 ];
 
@@ -109,7 +114,13 @@ const Layout = (props: Props) => {
 
       if (item.isExternalLink) {
         return (
-          <a key={item.name} href={item.href} target="_blank" rel="noreferrer">
+          <a
+            key={item.name}
+            href={item.href}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => item.track && item.track()}
+          >
             {navMenu}
           </a>
         );

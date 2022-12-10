@@ -15,7 +15,7 @@ import {
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { useState } from "react";
-import { LayoutFn } from "ui";
+import { initializeAmplitude, LayoutFn } from "ui";
 
 const TITLE = "DEXScan by Kadefi.Money | DeFi Dashboard for Kadena";
 const DESCRIPTION =
@@ -32,6 +32,8 @@ const darkTheme = createTheme({
     mode: "dark",
   },
 });
+
+initializeAmplitude();
 
 function MyApp({ Component, pageProps }: MyAppProps) {
   const [queryClient] = useState(

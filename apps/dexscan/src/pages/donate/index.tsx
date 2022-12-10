@@ -1,10 +1,13 @@
 import { DocumentDuplicateIcon } from "@heroicons/react/20/solid";
 import { Alert, Snackbar } from "@mui/material";
 import { GetStaticProps } from "next";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { BrowserUtil, NextPageWithLayout } from "ui";
 
+import { trackEvent } from "../../analytics/Analytics.util";
 import { getIntegrationInfo } from "../../api/Integration.api";
+import { AmplitudeEvent } from "../../enums";
 import { getPageLayout } from "../../layouts/Layout";
 import { IntegrationInfo } from "../../types/Integration.type";
 
@@ -18,6 +21,15 @@ type Props = {
 const Donate: NextPageWithLayout<Props> = (props: Props) => {
   const { integrations } = props;
 
+  const router = useRouter();
+
+  // Amplitude
+  useEffect(() => {
+    trackEvent(AmplitudeEvent.PageVisit, {
+      pathname: router.asPath,
+    });
+  }, [router.asPath]);
+
   const [open, setOpen] = useState(false);
 
   const getStatDisplay = (value: number, title: string) => {
@@ -30,6 +42,7 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
   };
 
   const handleWalletClick = () => {
+    trackEvent(AmplitudeEvent.DonationAddressCopy);
     BrowserUtil.copyToClipboard(DONATION_WALLET);
     setOpen(true);
   };
@@ -49,9 +62,10 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
   return (
     <div className="flex h-full w-full flex-col items-center justify-start overflow-auto p-8 text-slate-300">
       <div className="w-full max-w-3xl text-3xl font-bold text-teal-400 lg:text-4xl">
-        A Message From Kadefi.Money Founders
+        Donate to keep Kadefi.Money running
       </div>
       <div className="text mt-4 flex w-full max-w-3xl flex-col items-start gap-4">
+        {wallet}
         <div className="flex items-center gap-2">
           <span className="text-lg">👋</span>
           <span>Hey there,</span>
@@ -83,9 +97,8 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
           be of great help to us to keep Kadefi.Money and DEXScan running and
           new integrations going. As a token of appreciation, we would give you
           a big virtual hug 🤗 (not the real one though, we are not that kind of
-          platform 😉) You can find our wallet address here:
+          platform 😉)
         </div>
-        {wallet}
         <div>
           From the bottom of our hearts, we truly appreciate your support and we
           look forward to continuing serving you and the Kadena community in the
