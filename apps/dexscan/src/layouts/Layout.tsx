@@ -95,6 +95,7 @@ const Layout = (props: Props) => {
               : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
             "group mb-3 flex cursor-pointer items-center rounded-md px-2 py-2 text-sm font-medium transition"
           )}
+          onClick={() => setSidebarOpen(false)}
         >
           <item.icon
             className={clsx(
