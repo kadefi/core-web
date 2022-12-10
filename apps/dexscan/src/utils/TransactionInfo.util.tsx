@@ -80,18 +80,31 @@ export const renderWalletLink = (dataItem: TransactionInfo) => {
     });
   };
 
-  return (
-    <a
-      href={kadefiUrl}
-      target="_blank"
-      className={clsx(getColor(dataItem), "flex items-center gap-1")}
-      rel="noreferrer"
-      onClick={trackWalletAddressClick}
-    >
-      <ArrowTopRightOnSquareIcon className="h-4 w-4 text-slate-100" />
+  const walletDisplay = (
+    <div className={getColor(dataItem)}>
       {StringUtil.shortenAddress(dataItem.address, 4, 2)}
-    </a>
+    </div>
   );
+
+  if (dataItem.address.startsWith("k:")) {
+    return (
+      <a
+        href={kadefiUrl}
+        target="_blank"
+        rel="noreferrer"
+        className={clsx(
+          getColor(dataItem),
+          "flex w-full items-center justify-between gap-1"
+        )}
+        onClick={trackWalletAddressClick}
+      >
+        {walletDisplay}
+        <ArrowTopRightOnSquareIcon className="h-4 w-4 text-sky-400" />
+      </a>
+    );
+  } else {
+    return walletDisplay;
+  }
 };
 
 export const renderExplorerLink = (dataItem: TransactionInfo) => {
