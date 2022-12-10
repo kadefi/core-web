@@ -92,10 +92,7 @@ export const renderWalletLink = (dataItem: TransactionInfo) => {
         href={kadefiUrl}
         target="_blank"
         rel="noreferrer"
-        className={clsx(
-          getColor(dataItem),
-          "flex w-full items-center justify-between gap-1"
-        )}
+        className={clsx(getColor(dataItem), "flex w-full items-center gap-1")}
         onClick={trackWalletAddressClick}
       >
         {walletDisplay}
