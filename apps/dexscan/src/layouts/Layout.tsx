@@ -102,7 +102,7 @@ const Layout = (props: Props) => {
               router.pathname === item.href
                 ? "text-slate-500"
                 : "text-slate-400 group-hover:text-slate-500",
-              "mr-4 h-6 w-6 flex-shrink-0"
+              "mr-4 h-6 w-6 flex-shrink-0 "
             )}
             aria-hidden="true"
           />
