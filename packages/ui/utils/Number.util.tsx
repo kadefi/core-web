@@ -12,6 +12,10 @@ export const formatNumber = (
   prepend = "",
   subscriptSize?: number
 ): ReactNode => {
+  if (!num) {
+    return "-";
+  }
+
   if (num < 0.00001) {
     const roundedNum = num.toFixed(20);
 
