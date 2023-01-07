@@ -6,7 +6,7 @@
     },
     "lint:fix": {},
     "dev": {
-      "cache": false
+      "cache": true
     },
     "build": {
       "outputs": ["dist/**", ".next/**"],

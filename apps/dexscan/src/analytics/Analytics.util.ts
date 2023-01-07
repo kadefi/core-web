@@ -1,5 +1,5 @@
 import { track } from "@amplitude/analytics-browser";
-import { debugEvent } from "ui";
+import { debugEvent } from "analytics";
 
 import { AmplitudeEvent } from "../enums";
 

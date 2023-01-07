@@ -4,10 +4,10 @@ import {
   ChevronUpDownIcon,
   ChevronUpIcon,
 } from "@heroicons/react/20/solid";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { useEffect, useState } from "react";
+import { ArrayUtil } from "utils";
 
-import { SortDirection } from "../../enums";
 import { ColumnDef, RowDef } from "./DataTable.type";
 import { getNewSortDirection, sortSourceData } from "./DataTable.util";
 
@@ -20,7 +20,7 @@ type Props<T> = {
   tableBottomRef?: (_node?: Element | null) => void | null; // Use to detect when the bottom of the table is in view
   isTableBottomInView?: boolean; // Flag to indicate the table bottom is in view
   defaultSortedColumn?: string; // Default column for sorting
-  defaultSortedDirection?: SortDirection; // Default sort direction
+  defaultSortedDirection?: ArrayUtil.SortDirection; // Default sort direction
 };
 
 const DataTable = <T,>(props: Props<T>) => {
@@ -32,13 +32,13 @@ const DataTable = <T,>(props: Props<T>) => {
     rounded = false,
     tableBottomRef = null,
     defaultSortedColumn = "",
-    defaultSortedDirection = SortDirection.Desc,
+    defaultSortedDirection = ArrayUtil.SortDirection.Desc,
     isTableBottomInView,
   } = props;
 
   const [sortedData, setSortedData] = useState<T[]>(dataSource);
   const [sortedColumn, setSortedColumn] = useState<string>(defaultSortedColumn);
-  const [sortDirection, setSortDirection] = useState<SortDirection>(
+  const [sortDirection, setSortDirection] = useState<ArrayUtil.SortDirection>(
     defaultSortedDirection
   );
 
@@ -69,7 +69,7 @@ const DataTable = <T,>(props: Props<T>) => {
   const handleColumnCellClick = (columnKey?: string) => {
     if (columnKey !== sortedColumn) {
       setSortedColumn(columnKey ?? "");
-      setSortDirection(SortDirection.Desc);
+      setSortDirection(ArrayUtil.SortDirection.Desc);
       return;
     }
 
@@ -92,10 +92,10 @@ const DataTable = <T,>(props: Props<T>) => {
 
     if (column.columnKey === sortedColumn) {
       const icon = {
-        [SortDirection.Asc]: (
+        [ArrayUtil.SortDirection.Asc]: (
           <ChevronUpIcon className="h-4 w-4 text-teal-400" />
         ),
-        [SortDirection.Desc]: (
+        [ArrayUtil.SortDirection.Desc]: (
           <ChevronDownIcon className="h-4 w-4 text-teal-400" />
         ),
       };

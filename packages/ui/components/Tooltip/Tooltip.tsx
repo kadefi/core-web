@@ -1,9 +1,9 @@
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import MuiTooltip from "@mui/material/Tooltip";
-import clsx from "clsx";
+import { clsx } from "clsx";
+import { Breakpoint } from "constant";
 import { ReactElement, useState } from "react";
 
-import { Breakpoint } from "../../constants";
 import { useMinWidth } from "../../hooks";
 
 type Props = {

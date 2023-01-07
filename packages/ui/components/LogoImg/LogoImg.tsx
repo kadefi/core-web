@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { clsx } from "clsx";
 import Image, { ImageProps } from "next/image";
 
 type Props = {

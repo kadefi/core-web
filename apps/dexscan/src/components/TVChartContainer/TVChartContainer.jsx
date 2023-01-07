@@ -1,7 +1,7 @@
+import { Breakpoint } from "constant";
 import { useEffect, useRef, useState } from "react";
-import { LoadingSpinner, LocalStorageUtil } from "ui";
-import Breakpoint from "ui/constants/Breakpoint.constant";
-import { useMinWidth } from "ui/hooks";
+import { LoadingSpinner, useMinWidth } from "ui";
+import { LocalStorageUtil } from "utils";
 
 import { widget } from "../../../public/static/charting_library";
 import { CHART_STATE_LS_KEY } from "../../constants";

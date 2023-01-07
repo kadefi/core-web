@@ -1,12 +1,12 @@
-import { SortDirection } from "../../enums";
-import { sortArray } from "../../utils/Array.util";
+import { ArrayUtil } from "utils";
+
 import { ColumnDef } from "./DataTable.type";
 
 export function sortSourceData<T>(
   dataSource: T[],
   columnDefs: ColumnDef<T>[],
   sortedColumn: string,
-  sortDirection: SortDirection
+  sortDirection: ArrayUtil.SortDirection
 ) {
   if (!dataSource?.length) {
     return dataSource;
@@ -27,7 +27,7 @@ export function sortSourceData<T>(
     };
   });
 
-  return sortArray(
+  return ArrayUtil.sortArray(
     dataSourceWithComparisonValue,
     "compareValue",
     sortDirection
@@ -35,13 +35,13 @@ export function sortSourceData<T>(
 }
 
 export function getNewSortDirection(
-  currentDirection: SortDirection
-): SortDirection {
+  currentDirection: ArrayUtil.SortDirection
+): ArrayUtil.SortDirection {
   switch (currentDirection) {
-    case SortDirection.Desc:
-      return SortDirection.Asc;
+    case ArrayUtil.SortDirection.Desc:
+      return ArrayUtil.SortDirection.Asc;
 
-    case SortDirection.Asc:
-      return SortDirection.Desc;
+    case ArrayUtil.SortDirection.Asc:
+      return ArrayUtil.SortDirection.Desc;
   }
 }

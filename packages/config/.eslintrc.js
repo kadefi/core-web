@@ -4,11 +4,17 @@ module.exports = {
     "prettier",
     "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
   ],
-  plugins: ["simple-import-sort", "prettier"],
+  plugins: ["simple-import-sort", "prettier", "import"],
   settings: {
     next: {
       rootDir: ["apps/*/", "packages/*/"],
+    },
+    "import/resolver": {
+      typescript: true,
+      node: true,
     },
   },
   rules: {
@@ -26,5 +32,11 @@ module.exports = {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["error", { args: "none" }],
     "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "react/jsx-curly-brace-presence": ["error", { props: "never" }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { packageDir: ["../..", "."] },
+    ],
   },
 };

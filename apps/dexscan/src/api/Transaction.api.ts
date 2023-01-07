@@ -1,4 +1,4 @@
-import { ApiClient } from "ui";
+import { ApiClient } from "api-client";
 
 import {
   TransactionInfo,

@@ -1,7 +1,8 @@
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { format } from "date-fns/fp";
-import { LogoImg, NumberUtil, StringUtil } from "ui";
+import { LogoImg } from "ui";
+import { NumberUtil, StringUtil } from "utils";
 
 import { trackEvent } from "../analytics/Analytics.util";
 import KadenaExplorerLogo from "../assets/pngs/logos/kadena-block-explorer.png";
@@ -41,7 +42,7 @@ export const renderPrice = (dataItem: TransactionInfo) => {
 const renderToken = (token: TransactionTokenInfo, color: string) => {
   return (
     <div className={clsx("flex items-center gap-2", color)}>
-      <LogoImg src={token.img} size={"xs"} />
+      <LogoImg alt="Token Logo" src={token.img} size="xs" />
       {NumberUtil.formatNumber(token.amount)}
     </div>
   );
@@ -134,7 +135,7 @@ export const renderExplorerLink = (dataItem: TransactionInfo) => {
         })
       }
     >
-      <LogoImg src={KadenaExplorerLogo} size={"xs"} />
+      <LogoImg alt="Kadena Explorer Logo" src={KadenaExplorerLogo} size="xs" />
     </a>
   );
 

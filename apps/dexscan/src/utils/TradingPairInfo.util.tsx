@@ -3,11 +3,12 @@ import {
   ArrowUpRightIcon,
   InformationCircleIcon,
 } from "@heroicons/react/20/solid";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import round from "lodash/round";
 import { NextRouter } from "next/router";
 import numeral from "numeral";
-import { LogoImg, NumberUtil } from "ui";
+import { LogoImg } from "ui";
+import { NumberUtil } from "utils";
 
 import { TradingPairInfo } from "../types/TradingPairTable.type";
 import { RouteUtil } from ".";
@@ -37,7 +38,7 @@ export const renderTokenPair = (dataItem: TradingPairInfo) => {
 
   return (
     <div className="flex items-center gap-2">
-      <LogoImg src={token0.img} size="sm" />
+      <LogoImg alt="Token0 logo" src={token0.img} size="sm" />
       <div className="flex items-center gap-2">
         <div className="items-left flex flex-col">
           <div>

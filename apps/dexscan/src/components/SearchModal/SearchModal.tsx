@@ -5,7 +5,7 @@ import {
   MagnifyingGlassIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import { useRouter } from "next/router";
 import {
   ChangeEvent,
@@ -19,7 +19,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { LogoImg, NumberUtil } from "ui";
+import { LogoImg } from "ui";
+import { NumberUtil } from "utils";
 
 import { useGetTradingPairs } from "../../api/TradingPair.queries";
 import DogImage from "../../assets/svgs/illustrations/dog.svg";
@@ -81,7 +82,7 @@ const SearchModal = (props: Props) => {
     return () => {
       document.removeEventListener("keydown", handleShortcut);
     };
-  }, []);
+  }, [inputRef]);
 
   const filteredPairs = useMemo(
     () =>
@@ -210,7 +211,7 @@ const SearchModal = (props: Props) => {
               onClick={() => handleSearchResultMouseClick(pair, i)}
             >
               <div className="flex items-center">
-                <LogoImg src={token0.img} size="xs" />
+                <LogoImg alt="Token0 logo" src={token0.img} size="xs" />
                 <span className="ml-2 font-bold">{token0.name}</span>
                 <span className="ml-1 text-slate-500">{`/ ${token1.name}`}</span>
                 <span className="ml-1 text-slate-500"> - {exchange.name}</span>

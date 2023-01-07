@@ -6,7 +6,7 @@ import {
   WalletIcon,
 } from "@heroicons/react/20/solid";
 import { HeartIcon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import clsx from "clsx";
+import { clsx } from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import {
@@ -17,7 +17,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { BrowserUtil, LogoImg } from "ui";
+import { LogoImg } from "ui";
+import { BrowserUtil } from "utils";
 
 import { trackEvent } from "../analytics/Analytics.util";
 import DexScanLogo from "../assets/pngs/logos/dex-scan-logo.png";
@@ -69,7 +70,12 @@ const Layout = (props: Props) => {
 
   const logo = (
     <div className="flex w-full items-center justify-between md:justify-start md:gap-1">
-      <LogoImg src={DexScanLogo} size="xl" className="md:ml-1 md:h-9 md:w-9" />
+      <LogoImg
+        alt="DexScan Logo"
+        src={DexScanLogo}
+        size="xl"
+        className="md:ml-1 md:h-9 md:w-9"
+      />
       <div
         className="flex flex-col items-start md:ml-2"
         style={{ fontFamily: "Montserrat, sans-serif" }}

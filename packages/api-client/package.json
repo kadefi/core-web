@@ -1,0 +1,12 @@
+{
+  "name": "api-client",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "devDependencies": {
+    "analytics": "*",
+    "tsconfig": "*",
+    "config": "*"
+  }
+}

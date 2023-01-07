@@ -1,4 +1,10 @@
-const withTM = require("next-transpile-modules")(["ui"]);
+const withTM = require("next-transpile-modules")([
+  "ui",
+  "analytics",
+  "utils",
+  "api-client",
+  "constant",
+]);
 
 const withBundleStats = require("next-plugin-bundle-stats");
 
