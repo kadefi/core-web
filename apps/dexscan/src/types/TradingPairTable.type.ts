@@ -12,7 +12,7 @@ export type TradingPairInfo = {
     img: string;
   };
   exchange: {
-    name: "KADDEX" | "KDSWAP";
+    name: "ECKODEX" | "KDSWAP";
     img: string;
   };
   pair: string;

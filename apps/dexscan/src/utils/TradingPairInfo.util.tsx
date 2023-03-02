@@ -85,12 +85,12 @@ export const getRowClick = (router: NextRouter) => {
 };
 
 export const getLinkToExchange = (
-  exchange: "KADDEX" | "KDSWAP",
+  exchange: "ECKODEX" | "KDSWAP",
   token0: string,
   token1: string
 ): string => {
-  if (exchange === "KADDEX") {
-    return `https://swap.kaddex.com/?token0=${token1}&token1=${token0}`;
+  if (exchange === "ECKODEX") {
+    return `https://swap.ecko.finance/?token0=${token1}&token1=${token0}`;
   }
 
   if (exchange === "KDSWAP") {
