@@ -12,6 +12,9 @@ module.exports = withBundleStats()(
         "cdn2.kadefi.money",
         "ipfs.io",
         "firebasestorage.googleapis.com",
+        "swap.ecko.finance",
+        "swap.kaddex.com",
+        "api.dexscan.ecko.finance",
       ],
     },
     webpack(config) {

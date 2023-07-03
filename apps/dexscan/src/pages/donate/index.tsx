@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { BrowserUtil, NextPageWithLayout } from "ui";
 
 import { trackEvent } from "../../analytics/Analytics.util";
-import { getIntegrationInfo } from "../../api/Integration.api";
 import { AmplitudeEvent } from "../../enums";
 import { getPageLayout } from "../../layouts/Layout";
 import { IntegrationInfo } from "../../types/Integration.type";
@@ -125,11 +124,13 @@ const Donate: NextPageWithLayout<Props> = (props: Props) => {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const integrations = await getIntegrationInfo();
-
   return {
     props: {
-      integrations,
+      integrations: {
+        nfts: 50,
+        tokens: 20,
+        projects: 10,
+      },
     },
   };
 };
